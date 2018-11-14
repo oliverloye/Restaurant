@@ -61,7 +61,7 @@ public class Facade {
     public int getNumberOfUsers() {
         EntityManager em = getEntityManager(emf);
         try {
-            Query q = em.createQuery("select count(u) from User u", Integer.class);
+            Query q = em.createQuery("SELECT COUNT(u) FROM User u");
             int count = (int) q.getSingleResult();
             return count;
         } finally {

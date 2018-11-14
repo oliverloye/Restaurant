@@ -101,7 +101,7 @@ class App extends Component {
     return (
       <div>
         {!this.state.loggedIn ? (<LogIn login={this.login} addNew={this.addNew} />) :
-          (<div>
+          (<div> 
             <LoggedIn logout={this.logout}/>
             {/* <Link to="/" onClick={this.logout}>Logout</Link> */}
             {/* <button onClick={this.logout}>Logout</button> */}

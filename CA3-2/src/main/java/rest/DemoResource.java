@@ -49,19 +49,20 @@ public class DemoResource {
     @RolesAllowed("user")
     public String getFromUser() {
         Long numberOfUsers = facade.getNumberOfUsers();
-//        String user = securityContext.getUserPrincipal().getName();
-//        return "" + numberOfUsers;
         return "\"" + numberOfUsers.toString() + "\"";
-//        return "\"" + user + " is logged in \"";
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("admin")
     @RolesAllowed("admin")
-    public List<User> getFromAdmin() {
+    public List<String> getFromAdmin() {
         List<User> allUsers = facade.getAllUsers();
-        return allUsers;
+        List<String> result = new ArrayList<>();
+        for (User u : allUsers) {
+            result.add(gson.toJson(u));
+        }
+        return result;
     }
 
     @GET

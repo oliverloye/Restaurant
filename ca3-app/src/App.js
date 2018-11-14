@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import facade from "./apiFacade";
-import { BrowserRouter as Router, Route, Switch, NavLink } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, NavLink, Link } from "react-router-dom";
 
 class LogIn extends Component {
   constructor(props) {
@@ -103,38 +103,13 @@ class App extends Component {
         {!this.state.loggedIn ? (<LogIn login={this.login} addNew={this.addNew} />) :
           (<div>
             <LoggedIn />
-            <button onClick={this.logout}>Logout</button>
+            <Link to="/" onClick={this.logout}>Logout</Link>
+            {/* <button onClick={this.logout}>Logout</button> */}
           </div>)}
       </div>
     )
   }
 }
-
-function Luke() {
-  return (
-    <div>
-      <h4>Luke</h4>
-    </div>
-  );
-}
-
-function Test() {
-  return (
-    <div>
-      <h4>Test</h4>
-    </div>
-  );
-}
-
-/* function User() {
-  const usernum = facade.getNumberOfUsers();
-  console.log(usernum); 
-  return (
-    <div>
-      <h4>Number of users: </h4>
-    </div>
-  );
-} */
 
 class User extends Component {
   constructor(props) {
@@ -148,7 +123,7 @@ class User extends Component {
   render() {
     return (
       <div>
-        {this.state.usernum}
+        {this.state.usernum} 
       </div>
     )
   }
@@ -182,6 +157,22 @@ function Header(props) {
       </div>
     </ Router>
   )
+}
+
+function Luke() {
+  return (
+    <div>
+      <h4>Luke</h4>
+    </div>
+  );
+}
+
+function Test() {
+  return (
+    <div>
+      <h4>Test</h4>
+    </div>
+  );
 }
 
 export default App;

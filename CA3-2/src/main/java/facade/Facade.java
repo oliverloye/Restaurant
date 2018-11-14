@@ -58,11 +58,11 @@ public class Facade {
         return user;
     }
 
-    public int getNumberOfUsers() {
+    public Long getNumberOfUsers() {
         EntityManager em = getEntityManager(emf);
         try {
-            Query q = em.createQuery("SELECT COUNT(u) FROM User u");
-            int count = (int) q.getSingleResult();
+            Query q = em.createQuery("select count(u) from User u");
+            Long count = (Long) q.getSingleResult();
             return count;
         } finally {
             em.close();

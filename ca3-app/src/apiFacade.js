@@ -23,6 +23,7 @@ class ApiFacade {
 
     logout = () => {
         localStorage.removeItem("jwtToken");
+        
     }
 
     fetchData = () => {

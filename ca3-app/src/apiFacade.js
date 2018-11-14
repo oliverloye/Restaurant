@@ -1,4 +1,4 @@
-const URL = "http://localhost:8084/CA3-2";
+const URL = "http://localhost:8080/CA3-2";
 
 function handleHttpErrors(res) {
     if (!res.ok) {
@@ -27,7 +27,7 @@ class ApiFacade {
 
     fetchData = () => {
         const options = this.makeOptions("GET", true); //True add's the token
-        return fetch(URL + "/api/info/user", options).then(handleHttpErrors);
+        return fetch(URL + "/api/info/getname", options).then(handleHttpErrors);
     }
 
     login = (user, pass) => {

@@ -27,32 +27,40 @@ public class DemoResource {
 
     private Facade facade = new Facade(Persistence.createEntityManagerFactory("pu"));
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    
+
     @Context
     private UriInfo context;
-    
+
     @Context
     SecurityContext securityContext;
 
-    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("getname")
+    @RolesAllowed({"user", "admin"})
+    public String getName() {
+        String user = securityContext.getUserPrincipal().getName();
+        return "\"" + user + " is logged in \"";
+    }
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("user")
     @RolesAllowed("user")
-    public String getFromUser(){
+    public String getFromUser() {
         String user = securityContext.getUserPrincipal().getName();
         return "\"" + user + " is logged in \"";
     }
-    
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("admin")
     @RolesAllowed("admin")
     public String getFromAdmin() {
         String user = securityContext.getUserPrincipal().getName();
-        return "\"Hello from ADMIN"+ user+"\"";
+        return "\"Hello from ADMIN" + user + "\"";
     }
-    
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("swapi")

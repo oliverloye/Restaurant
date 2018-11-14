@@ -1,4 +1,4 @@
-const URL = "http://localhost:8080/CA3-2";
+const URL = "http://localhost:8084/CA3-2";
 
 function handleHttpErrors(res) {
     if (!res.ok) {
@@ -52,7 +52,7 @@ class ApiFacade {
 
     getAllUsers = () =>{
         const options = this.makeOptions("GET", true);
-        return fetch(URL + "api/info/admin", options).then(handleHttpErrors);
+        return fetch(URL + "/api/info/admin", options).then(handleHttpErrors);
     }
 
     makeOptions(method, addToken, body) {

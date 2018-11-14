@@ -57,12 +57,12 @@ public class DemoResource {
     @Path("admin")
     @RolesAllowed("admin")
     public List<String> getFromAdmin() {
-        List<User> allUsers = facade.getAllUsers();
-        List<String> result = new ArrayList<>();
-        for (User u : allUsers) {
-            result.add(gson.toJson(u));
-        }
-        return result;
+        List<String> allUsers = facade.getAllUsers();
+//        List<String> result = new ArrayList<>();
+//        for (User u : allUsers) {
+//            result.add(gson.toJson(u));
+//        }
+        return allUsers;
     }
 
     @GET

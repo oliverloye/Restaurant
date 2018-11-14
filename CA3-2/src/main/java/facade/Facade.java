@@ -69,11 +69,11 @@ public class Facade {
         }
     }
     
-    public List<User> getAllUsers() {
-        List<User> allUsers = new ArrayList<>();
+    public List<String> getAllUsers() {
+        List<String> allUsers = new ArrayList<>();
         EntityManager em = getEntityManager(emf);
         try {
-            Query q = em.createQuery("select u from User u");
+            Query q = em.createQuery("select u.userName from User u");
             allUsers = q.getResultList();
             return allUsers;
         } finally {

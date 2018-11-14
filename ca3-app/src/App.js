@@ -123,18 +123,29 @@ class User extends Component {
   render() {
     return (
       <div>
-        {this.state.usernum} 
+        {this.state.usernum}
       </div>
     )
   }
 }
 
-function Admin() {
-  return (
-    <div>
-      <h4>Admin page</h4>
-    </div>
-  );
+class Admin extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { allUsers: "Fetching allUsers..." };
+  }
+
+  componentDidMount() {
+    facade.getAllUsers().then(res => this.setState({ allUsers: res }));
+  }
+  render() {
+    return (
+      <div>
+        <h4>Admin page</h4>
+        {this.state.allUsers}
+      </div>
+    );
+  }
 }
 
 function Header(props) {

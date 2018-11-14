@@ -55,21 +55,23 @@ public class DemoResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("admin")
-    @RolesAllowed("admin")
-    public List<String> getFromAdmin() {
-        List<String> allUsers = facade.getAllUsers();
-//        List<String> result = new ArrayList<>();
+//    @RolesAllowed("admin")
+    public String getFromAdmin() {
+        List<User> allUsers = facade.getAllUsers();
+        List<String> result = new ArrayList<>();
 //        for (User u : allUsers) {
-//            result.add(gson.toJson(u));
+//            String user = gson.toJson(u);
+//            result.add(user);
 //        }
-        return allUsers;
+        return "\" test \"";
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("swapi")
-    public List<String> getSwapi() throws IOException {
-        List<String> swapitest = facade.getSwapiDataNew(1);
+    public String getSwapi() throws IOException {
+//        List<String> swapitest = facade.getSwapiDataNew(1);
+        String swapitest = facade.getSwapiDataNew(1);
 //        List<JsonObject> returnlist = facade.getSwapiDataNew(1);
         return swapitest;
     }

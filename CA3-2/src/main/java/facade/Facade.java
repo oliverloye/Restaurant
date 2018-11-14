@@ -68,6 +68,18 @@ public class Facade {
             em.close();
         }
     }
+    
+    public List<User> getAllUsers() {
+        List<User> allUsers = new ArrayList<>();
+        EntityManager em = getEntityManager(emf);
+        try {
+            Query q = em.createQuery("select u from User u");
+            allUsers = q.getResultList();
+            return allUsers;
+        } finally {
+            em.close();
+        }
+    }
 
     public String getSwapiData(int id) throws MalformedURLException, IOException {
         URL url = new URL("https://swapi.co/api/people/" + id);

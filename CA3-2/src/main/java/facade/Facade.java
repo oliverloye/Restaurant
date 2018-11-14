@@ -18,6 +18,7 @@ import java.util.concurrent.Future;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 public class Facade {
 
@@ -55,6 +56,17 @@ public class Facade {
             em.close();
         }
         return user;
+    }
+
+    public int getNumberOfUsers() {
+        EntityManager em = getEntityManager(emf);
+        try {
+            Query q = em.createQuery("select count(u) from User u", Integer.class);
+            int count = (int) q.getSingleResult();
+            return count;
+        } finally {
+            em.close();
+        }
     }
 
     public String getSwapiData(int id) throws MalformedURLException, IOException {

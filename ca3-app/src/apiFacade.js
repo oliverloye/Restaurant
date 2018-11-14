@@ -44,6 +44,11 @@ class ApiFacade {
             .then(res => { this.setToken(res.token) })
     }
 
+    getNumberOfUsers = () =>{
+        const options = this.makeOptions("GET", true); //True add's the token
+        return fetch(URL + "/api/info/user", options).then(handleHttpErrors);
+    }
+
     makeOptions(method, addToken, body) {
         var opts = {
             method: method,

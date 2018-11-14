@@ -126,12 +126,32 @@ function Test() {
   );
 }
 
-function User() {
+/* function User() {
+  const usernum = facade.getNumberOfUsers();
+  console.log(usernum); 
   return (
     <div>
-      <h4>User page</h4>
+      <h4>Number of users: </h4>
     </div>
   );
+} */
+
+class User extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { usernum: "Fetching usernum..." };
+  }
+
+  componentDidMount() {
+    facade.getNumberOfUsers().then(res => this.setState({ usernum: res }));
+  }
+  render() {
+    return (
+      <div>
+        {this.state.usernum}
+      </div>
+    )
+  }
 }
 
 function Admin() {

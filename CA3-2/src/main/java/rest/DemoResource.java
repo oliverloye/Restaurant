@@ -48,8 +48,10 @@ public class DemoResource {
     @Path("user")
     @RolesAllowed("user")
     public String getFromUser() {
-        String user = securityContext.getUserPrincipal().getName();
-        return "\"" + user + " is logged in \"";
+        int numberOfUsers = facade.getNumberOfUsers();
+//        String user = securityContext.getUserPrincipal().getName();
+        return "" + numberOfUsers;
+//        return "\"" + user + " is logged in \"";
     }
 
     @GET

@@ -52,7 +52,7 @@ class ApiFacade {
 
     getAllUsers = () =>{
         const options = this.makeOptions("GET", true);
-        return fetch(URL + "api/info/admin", options).then(handleHttpErrors);
+        return fetch(URL + "/api/info/admin", options).then(handleHttpErrors);
     }
 
     makeOptions(method, addToken, body) {

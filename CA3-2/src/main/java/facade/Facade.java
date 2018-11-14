@@ -68,7 +68,7 @@ public class Facade {
             em.close();
         }
     }
-    
+
     public List<User> getAllUsers() {
         List<User> allUsers = new ArrayList<>();
         EntityManager em = getEntityManager(emf);
@@ -97,7 +97,7 @@ public class Facade {
         return jsonStr;
     }
 
-    public List<String> getSwapiDataNew(int id) throws MalformedURLException, IOException {
+    public String getSwapiDataNew(int id) throws MalformedURLException, IOException {
         String hostURL = "https://swapi.co/api/people/";
         int numberOfServerCalls = 5;
 
@@ -119,7 +119,14 @@ public class Facade {
             }
         }
         executor.shutdown();
-        return returnList;
+        String returnstring = "[";
+        for (int i = 0; i < numberOfServerCalls; i++) {
+            returnstring += returnList.get(i);
+            returnstring += ",";
+        }
+        returnstring += "]";
+        return returnstring;
+//        return returnList.get(0);
     }
 
     class SwapiHelper implements Callable {

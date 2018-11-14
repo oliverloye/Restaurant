@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import facade from "./apiFacade";
-import { BrowserRouter as Router, Route, Switch, NavLink, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, NavLink } from "react-router-dom";
 
 class LogIn extends Component {
   constructor(props) {
@@ -70,7 +70,7 @@ class LoggedIn extends Component {
   render() {
     return (
       <div>
-        <Header user={this.state.dataFromServer} />
+        <Header user={this.state.dataFromServer} logout={this.props.logout}/>
       </div>
     )
   }
@@ -102,8 +102,8 @@ class App extends Component {
       <div>
         {!this.state.loggedIn ? (<LogIn login={this.login} addNew={this.addNew} />) :
           (<div>
-            <LoggedIn />
-            <Link to="/" onClick={this.logout}>Logout</Link>
+            <LoggedIn logout={this.logout}/>
+            {/* <Link to="/" onClick={this.logout}>Logout</Link> */}
             {/* <button onClick={this.logout}>Logout</button> */}
           </div>)}
       </div>
@@ -146,6 +146,7 @@ function Header(props) {
           <li><NavLink activeClassName="active" to="/luke">Luke</NavLink></li>
           <li><NavLink activeClassName="active" to="/user">User</NavLink></li>
           <li><NavLink activeClassName="active" to="/admin">Admin</NavLink></li>
+          <li><NavLink activeClassName="active" to="/logout" onClick={props.logout}>Logout</NavLink></li>
           <div className="nav-right"><li><p>{props.user}</p></li></div>
         </ul>
         <Switch>

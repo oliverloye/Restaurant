@@ -2,6 +2,72 @@ import React, { Component } from "react"
 import facade from "./apiFacade";
 import { BrowserRouter as Router, Route, Switch, NavLink } from "react-router-dom";
 
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { loggedIn: false }
+  }
+
+  logout = () => {
+    facade.logout();
+    this.setState({ loggedIn: false });
+  } //TODO
+
+  login = (user, pass) => {
+    facade.login(user, pass)
+      .then(res => this.setState({ loggedIn: true }));
+  } //TODO
+
+  addNew = (user, pass) => {
+    facade.addNew(user, pass) // SKAL MÅSKE ÆNDRES HERUNDER?
+      .then(res => this.setState({ loggedIn: true }));
+  } //TODO
+
+  render() {
+    return (
+      <div>
+        {!this.state.loggedIn ? (<Initial login={this.login} addNew={this.addNew} />) :
+          (<div>
+            <LoggedIn logout={this.logout} />
+            {/* <Link to="/" onClick={this.logout}>Logout</Link> */}
+            {/* <button onClick={this.logout}>Logout</button> */}
+          </div>)}
+      </div>
+    )
+  }
+
+  /* render() {
+    return (
+      <div>
+        {!this.state.loggedIn ? (<LogIn login={this.login} addNew={this.addNew} />) :
+          (<div> 
+            <LoggedIn logout={this.logout}/>
+          </div>)}
+      </div>
+    )
+  } */
+}
+
+class Initial extends Component {
+  render() {
+    return (
+      <Router>
+        <div>
+          <ul className="header">
+            <li><NavLink exact activeClassName="active" to="/">Home</NavLink></li>
+            <li><NavLink activeClassName="active" to="/login">Login</NavLink></li>
+          </ul>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/login" render={() =>
+              <LogIn login={this.props.login} addNew={this.props.addNew} />} />
+          </Switch>
+        </div>
+      </ Router>
+    )
+  }
+}
+
 class LogIn extends Component {
   constructor(props) {
     super(props);
@@ -70,46 +136,13 @@ class LoggedIn extends Component {
   render() {
     return (
       <div>
-        <Header user={this.state.dataFromServer} logout={this.props.logout}/>
+        <Header user={this.state.dataFromServer} logout={this.props.logout} />
       </div>
     )
   }
 }
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { loggedIn: false }
-  }
 
-  logout = () => {
-    facade.logout();
-    this.setState({ loggedIn: false });
-  } //TODO
-
-  login = (user, pass) => {
-    facade.login(user, pass)
-      .then(res => this.setState({ loggedIn: true }));
-  } //TODO
-
-  addNew = (user, pass) => {
-    facade.addNew(user, pass) // SKAL MÅSKE ÆNDRES HERUNDER?
-      .then(res => this.setState({ loggedIn: true }));
-  } //TODO
-
-  render() {
-    return (
-      <div>
-        {!this.state.loggedIn ? (<LogIn login={this.login} addNew={this.addNew} />) :
-          (<div> 
-            <LoggedIn logout={this.logout}/>
-            {/* <Link to="/" onClick={this.logout}>Logout</Link> */}
-            {/* <button onClick={this.logout}>Logout</button> */}
-          </div>)}
-      </div>
-    )
-  }
-}
 
 class User extends Component {
   constructor(props) {
@@ -161,7 +194,7 @@ function Header(props) {
           <div className="nav-right"><li><p>{props.user}</p></li></div>
         </ul>
         <Switch>
-          <Route exact path="/" component={Test} />
+          <Route exact path="/" component={Home} />
           <Route path="/luke" component={Luke} />
           <Route path="/user" component={User} />
           <Route path="/admin" component={Admin} />
@@ -179,10 +212,10 @@ function Luke() {
   );
 }
 
-function Test() {
+function Home() {
   return (
     <div>
-      <h4>Test</h4>
+      <h4>Welcome.</h4>
     </div>
   );
 }

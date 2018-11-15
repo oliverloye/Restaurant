@@ -55,6 +55,11 @@ class ApiFacade {
         return fetch(URL + "/api/info/admin", options).then(handleHttpErrors);
     }
 
+    getPaginationData = () =>{
+        const options = this.makeOptions("GET", true);
+        return fetch(URL + "/api/info/luke", options).then(handleHttpErrors);
+    }
+
     makeOptions(method, addToken, body) {
         var opts = {
             method: method,

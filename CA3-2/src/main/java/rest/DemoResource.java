@@ -17,11 +17,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 
-/**
- * REST Web Service
- *
- * @author lam@cphbusiness.dk
- */
 @Path("info")
 public class DemoResource {
 
@@ -55,14 +50,10 @@ public class DemoResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("admin")
-//    @RolesAllowed("admin")
+    @RolesAllowed("admin")
     public String getFromAdmin() {
         List<User> allUsers = facade.getAllUsers();
         List<String> result = new ArrayList<>();
-//        for (User u : allUsers) {
-//            String user = gson.toJson(u);
-//            result.add(user);
-//        }
         return "\" test \"";
     }
 
@@ -74,5 +65,17 @@ public class DemoResource {
         String swapitest = facade.getSwapiDataNew(1);
 //        List<JsonObject> returnlist = facade.getSwapiDataNew(1);
         return swapitest;
+    }
+    
+    
+    //Returnerer bare en string indtil videre. 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("luke")
+    @RolesAllowed({"user", "admin"})
+    public String getPaginationData() throws IOException {
+        //String paginationData = facade.getPaginationData(1);
+        //return paginationData;
+        return "\" pagination test \"";
     }
 }

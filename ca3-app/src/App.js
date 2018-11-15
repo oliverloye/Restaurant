@@ -1,5 +1,13 @@
+
+//Har lagt de forskellige komponenter i klasser
+//for sig selv, og importeret til App.js
+
 import React, { Component } from "react"
 import facade from "./apiFacade";
+import Luke from './Luke.js';
+import Admin from './Admin.js';
+import User from './User.js';
+import Home from './Home.js';
 import { BrowserRouter as Router, Route, Switch, NavLink } from "react-router-dom";
 
 class LogIn extends Component {
@@ -30,8 +38,10 @@ class LogIn extends Component {
   render() {
     return (
       <div>
-        <h2>Welcome to CA3</h2>
-        <br></br>
+        <Header user={this.state.dataFromServer} logout={this.props.logout} />
+        <br/>
+        <br/>
+        <br/>
         <form onSubmit={this.login} onChange={this.onChange} >
           <fieldset>
             <legend>Login:</legend>
@@ -70,7 +80,7 @@ class LoggedIn extends Component {
   render() {
     return (
       <div>
-        <Header user={this.state.dataFromServer} logout={this.props.logout}/>
+        <Header user={this.state.dataFromServer} logout={this.props.logout} />
       </div>
     )
   }
@@ -85,24 +95,24 @@ class App extends Component {
   logout = () => {
     facade.logout();
     this.setState({ loggedIn: false });
-  } //TODO
+  } 
 
   login = (user, pass) => {
     facade.login(user, pass)
       .then(res => this.setState({ loggedIn: true }));
-  } //TODO
+  } 
 
   addNew = (user, pass) => {
-    facade.addNew(user, pass) // SKAL MÅSKE ÆNDRES HERUNDER?
+    facade.addNew(user, pass)
       .then(res => this.setState({ loggedIn: true }));
-  } //TODO
+  } 
 
   render() {
     return (
       <div>
         {!this.state.loggedIn ? (<LogIn login={this.login} addNew={this.addNew} />) :
-          (<div> 
-            <LoggedIn logout={this.logout}/>
+          (<div>
+            <LoggedIn logout={this.logout} />
             {/* <Link to="/" onClick={this.logout}>Logout</Link> */}
             {/* <button onClick={this.logout}>Logout</button> */}
           </div>)}
@@ -111,44 +121,26 @@ class App extends Component {
   }
 }
 
-class User extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { usernum: "Fetching usernum..." };
-  }
+export function Header(props) {
+  
+  /* 
+  Nedenstående var bare for at se hvordan jeg fik fat i rollen gemmen token
+  -kan ikke få det til at virke. 
+  
+  let jwt = localStorage.jwtToken;
+  console.log(localStorage.jwtToken);
+  let jwtData = jwt.split('.')[1]
+  let decodedJwtJsonData = window.atob(jwtData)
+  let decodedJwtData = JSON.parse(decodedJwtJsonData)
+  let isAdmin = decodedJwtData.admin
+  
+  
+  console.log('jwtData: ' + jwtData)
+  console.log('decodedJwtJsonData: ' + decodedJwtJsonData)
+  console.log('decodedJwtData: ' + decodedJwtData)
+  console.log('Is admin: ' + isAdmin) //siger undefined
+ */
 
-  componentDidMount() {
-    facade.getNumberOfUsers().then(res => this.setState({ usernum: res }));
-  }
-  render() {
-    return (
-      <div>
-        {this.state.usernum}
-      </div>
-    )
-  }
-}
-
-class Admin extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { allUsers: "Fetching allUsers..." };
-  }
-
-  componentDidMount() {
-    facade.getAllUsers().then(res => this.setState({ allUsers: res }));
-  }
-  render() {
-    return (
-      <div>
-        <h4>Admin page</h4>
-        {this.state.allUsers}
-      </div>
-    );
-  }
-}
-
-function Header(props) {
   return (
     <Router>
       <div>
@@ -161,7 +153,7 @@ function Header(props) {
           <div className="nav-right"><li><p>{props.user}</p></li></div>
         </ul>
         <Switch>
-          <Route exact path="/" component={Test} />
+          <Route exact path="/" component={Home} />
           <Route path="/luke" component={Luke} />
           <Route path="/user" component={User} />
           <Route path="/admin" component={Admin} />
@@ -169,22 +161,6 @@ function Header(props) {
       </div>
     </ Router>
   )
-}
-
-function Luke() {
-  return (
-    <div>
-      <h4>Luke</h4>
-    </div>
-  );
-}
-
-function Test() {
-  return (
-    <div>
-      <h4>Test</h4>
-    </div>
-  );
 }
 
 export default App;

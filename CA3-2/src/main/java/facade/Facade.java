@@ -1,7 +1,5 @@
 package facade;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import entity.User;
 import exceptions.AuthenticationException;
 import java.io.IOException;
@@ -68,7 +66,6 @@ public class Facade {
             em.close();
         }
     }
-    
 
     public List<User> getAllUsers() {
         List<User> allUsers = new ArrayList<>();
@@ -82,13 +79,17 @@ public class Facade {
         }
     }
 
+//Dummy metode indtil videre
+    public String getPaginationData(int id) throws IOException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public String getSwapiData(int id) throws MalformedURLException, IOException {
         URL url = new URL("https://swapi.co/api/people/" + id);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
         con.setRequestProperty("Accept", "application/json;charset=UTF-8");
         con.setRequestProperty("User-Agent", "server");
-//        con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36");
         Scanner scan = new Scanner(con.getInputStream());
         String jsonStr = null;
         if (scan.hasNext()) {
@@ -125,6 +126,8 @@ public class Facade {
             returnstring += returnList.get(i);
             returnstring += ",";
         }
+
+        returnstring = returnstring.substring(0, returnstring.length() - 1);
         returnstring += "]";
         return returnstring;
 //        return returnList.get(0);

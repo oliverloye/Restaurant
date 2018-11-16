@@ -21,12 +21,19 @@ I settings.js skal du ændre URL'en til den passende URL fra din backend, som du
 Du skal også sørge for at installere nogle forskellige ting gennem din terminal i roden af dit app-projekt:
 
   npm install 
+  
   npm install react-router-dom
+  
   npm install react-navigation (evt. npm install bagefter igen)
+  
   npm install react-bootstrap-table-next
+  
   npm install bootstrap@4.0.0
+  
   npm install react-bootstrap-table2-filter
+  
   npm install react-bootstrap-table2-paginator
+  
 
 Native app:
 Du skal gå ind i klassen FetchSite.js og ændre URL'en til en ny ngrok URL. Denne URL finder du ved at gå ind i den mappe/folder, som din ngrok-fil ligger i. Når du er inde i mappen skriver du kommandoen './ngrok http 8084' eller './ngrok http 8080' alt efter hvilken port du kører på. Du skal herefter vælge den øverste URL der hedder forwarding og indsæt i din browser og tilføje dine endpoints - i dette filfælde /api/info/swapi. 
@@ -42,4 +49,5 @@ Du skal gå ind i klassen FetchSite.js og ændre URL'en til en ny ngrok URL. Den
 
 
 Du kan downloade vores app gennem dette link: https://expo.io/@pernillelorup/ca3-native-app
+
 Den kan godt være lidt langsom til at hente data, så bare giv den et par sekunder. 

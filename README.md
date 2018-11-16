@@ -42,3 +42,4 @@ Du skal gå ind i klassen FetchSite.js og ændre URL'en til en ny ngrok URL. Den
 
 
 Du kan downloade vores app gennem dette link: https://expo.io/@pernillelorup/ca3-native-app
+Den kan godt være lidt langsom til at hente data, så bare giv den et par sekunder. 

@@ -1,9 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, ScrollView, Alert } from 'react-native';
 
-//const URL = "http://ac3bed1c.ngrok.io/CA3-2/api/info/swapi";
 const URL = "http://ba98380c.ngrok.io/CA3-2/api/info/swapi";
-//Du skal nok lave en ny ngrok, nu hvor vi har lavet nyt project. 
 
 export default class FetchSite extends React.Component {
     constructor(props) {
@@ -22,9 +20,6 @@ export default class FetchSite extends React.Component {
         }
     }
 
-    //printer lidt forskelligt ud fra Luke. Tænker det må være fint nok :D
-    //Vær obs på at den godt kan være lidt lang tid om at hente dataen, så
-    //hvis der står undefined, så bare vent lidt. 
     render() {
         const person = this.state.person;
         return (
@@ -50,7 +45,6 @@ export default class FetchSite extends React.Component {
     }
 }
 
-//Style her kan også sagtens laves om. 
 const styles = StyleSheet.create({
     container: {
         paddingTop: 60,

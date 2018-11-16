@@ -1,5 +1,3 @@
-//Har lavet denne side om til velkomstside, og
-//har rykket al andet data ind i FetchSite.js
 
 import React from 'react';
 import { Text, View, Platform, TouchableOpacity, StyleSheet, Button, WebView, ScrollView } from 'react-native';
@@ -11,12 +9,7 @@ const Touchable = (props) => (
   <TouchableOpacity style={styles.button} onPress={props.onPress}>
     <Text style={styles.buttonText}>{props.title}</Text>
   </TouchableOpacity>)
-
-//De tomme Text-felter var bare for at give lidt mere plads.
-//Fikser det på en anden måde senere :D 
-//Har lavet en touchable som sender os videre til FetchSite.js
-//Der er tilføjet nagivation så vi kan komme tilbage hertil i toppen af
-//FetchSite siden :-) 
+ 
 class HomeScreen extends React.Component {
   static navigationOptions = { title: 'Welcome page' };
   render() {
@@ -46,7 +39,6 @@ const RouteStack = createStackNavigator({
   fetchsite: { screen: FetchSite },
 });
 
-//Indtil videre er style bare hvad jeg lige fandt på. Farver osv. kan vi bare lave om også :-)
 const styles = StyleSheet.create({
   container: {
     paddingTop: 60,

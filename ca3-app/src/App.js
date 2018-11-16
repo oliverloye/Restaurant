@@ -122,7 +122,7 @@ function Header(props) {
     let jwtData = jwt.split('.')[1]
     let decodedJwtJsonData = window.atob(jwtData)
     let decodedJwtData = JSON.parse(decodedJwtJsonData)
-    let role = decodedJwtData.roles
+    role = decodedJwtData.roles
   }
   console.log('role: ' + role)
   return (

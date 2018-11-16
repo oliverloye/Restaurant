@@ -24,6 +24,7 @@ class ApiFacade {
 
     logout = () => {
         localStorage.removeItem("jwtToken");
+        console.log("Hej");
 
     }
 

@@ -125,18 +125,18 @@ export function Header(props) {
   //Nedenstående var bare for at se hvordan jeg fik fat i rollen gemmen token
   //-kan ikke få det til at virke. 
   
-  let jwt = localStorage.jwtToken;
+  /* let jwt = localStorage.jwtToken;
   console.log(localStorage.jwtToken);
   let jwtData = jwt.split('.')[1]
   let decodedJwtJsonData = window.atob(jwtData)
   let decodedJwtData = JSON.parse(decodedJwtJsonData)
-  let role = decodedJwtData.roles
+  let role = decodedJwtData.roles */
   
   
-  console.log('jwtData: ' + jwtData)
+  /* console.log('jwtData: ' + jwtData)
   console.log('decodedJwtJsonData: ' + decodedJwtJsonData)
-  console.log('decodedJwtData: ' + decodedJwtData)
-  console.log('role: ' + role) //siger undefined
+  console.log('decodedJwtData: ' + decodedJwtData) */
+  //console.log('role: ' + role) //siger undefined
  
 
   return (

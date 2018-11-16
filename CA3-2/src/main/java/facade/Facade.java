@@ -1,5 +1,6 @@
 package facade;
 
+import entity.Persons;
 import entity.User;
 import exceptions.AuthenticationException;
 import java.io.IOException;
@@ -166,6 +167,30 @@ public class Facade {
                 result = "->Red<-";
             }
             return urlName + "---" + result;
+        }
+    }
+
+    public List<Persons> getByPage(int start, int end) {
+        EntityManager em = getEntityManager(emf);
+        try {
+            Query query = em.createQuery("SELECT p FROM Persons p");
+            query.setFirstResult(start);
+            query.setMaxResults(end);
+            List<Persons> persons = query.getResultList();
+
+            return persons;
+        } finally {
+            em.close();
+        }
+    }
+    
+    public List<Persons> getPersons() {
+        EntityManager em = getEntityManager(emf);
+        try {
+            Query tq = em.createQuery("Select p from Persons p");
+            return tq.getResultList();
+        } finally {
+            em.close();
         }
     }
 

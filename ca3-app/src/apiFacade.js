@@ -1,4 +1,4 @@
-const URL = "http://localhost:8084/CA3-2";
+const URL = "http://localhost:8080/CA3-2";
 
 function handleHttpErrors(res) {
     if (!res.ok) {
@@ -57,9 +57,9 @@ class ApiFacade {
 
     getPaginationData = () =>{
         const options = this.makeOptions("GET", true);
-        return fetch(URL + "/api/info/luke", options).then(handleHttpErrors);
+        return fetch(URL + "/api/info/list", options).then(handleHttpErrors);
     }
-
+// ?_start=0&_end=10
     makeOptions(method, addToken, body) {
         var opts = {
             method: method,

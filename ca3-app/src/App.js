@@ -1,7 +1,3 @@
-
-//Har lagt de forskellige komponenter i klasser
-//for sig selv, og importeret til App.js
-
 import React, { Component } from "react"
 import facade from "./apiFacade";
 import Data from './Data.js';
@@ -9,6 +5,42 @@ import Admin from './Admin.js';
 import User from './User.js';
 import Home from './Home.js';
 import { BrowserRouter as Router, Route, Switch, NavLink } from "react-router-dom";
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { loggedIn: false, role: "" }
+  }
+
+  logout = () => {
+    facade.logout();
+    this.setState({ loggedIn: false });
+  }
+
+  login = (user, pass) => {
+    console.log("Tester")
+    facade.login(user, pass)
+      .then(res => this.setState({ loggedIn: true }));
+  }
+
+  addNew = (user, pass) => {
+    facade.addNew(user, pass)
+      .then(res => this.setState({ loggedIn: true }));
+  }
+
+  render() {
+    return (
+      <Router>
+        <div>
+          {!this.state.loggedIn ? (<LogIn login={this.login} addNew={this.addNew} />) :
+            (<div>
+              <LoggedIn logout={this.logout} />
+            </div>)}
+        </div>
+      </Router>
+    )
+  }
+}
 
 class LogIn extends Component {
   constructor(props) {
@@ -39,7 +71,7 @@ class LogIn extends Component {
     return (
       <div>
         <Header user={this.state.dataFromServer} logout={this.props.logout} />
-        <br/>
+        <br />
         <form onSubmit={this.login} onChange={this.onChange} >
           <fieldset>
             <legend>Login:</legend>
@@ -59,7 +91,6 @@ class LogIn extends Component {
           </fieldset>
         </form>
         <p>{this.state.msg}</p>
-
       </div>
     )
   }
@@ -84,61 +115,16 @@ class LoggedIn extends Component {
   }
 }
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { loggedIn: false }
+function Header(props) {
+  let role = "";
+  if (localStorage.jwtToken) {
+    let jwt = localStorage.jwtToken;
+    let jwtData = jwt.split('.')[1]
+    let decodedJwtJsonData = window.atob(jwtData)
+    let decodedJwtData = JSON.parse(decodedJwtJsonData)
+    let role = decodedJwtData.roles
   }
-
-  logout = () => {
-    facade.logout();
-    this.setState({ loggedIn: false });
-  } 
-
-  login = (user, pass) => {
-    facade.login(user, pass)
-      .then(res => this.setState({ loggedIn: true }));
-  } 
-
-  addNew = (user, pass) => {
-    facade.addNew(user, pass)
-      .then(res => this.setState({ loggedIn: true }));
-  } 
-
-  render() {
-    return (
-      <div>
-        {!this.state.loggedIn ? (<LogIn login={this.login} addNew={this.addNew} />) :
-          (<div>
-            <LoggedIn logout={this.logout} />
-            {/* <Link to="/" onClick={this.logout}>Logout</Link> */}
-            {/* <button onClick={this.logout}>Logout</button> */}
-          </div>)}
-      </div>
-    )
-  }
-}
-
-export function Header(props) {
-  
-   
-  //Nedenstående var bare for at se hvordan jeg fik fat i rollen gemmen token
-  //-kan ikke få det til at virke. 
-  
-  /* let jwt = localStorage.jwtToken;
-  console.log(localStorage.jwtToken);
-  let jwtData = jwt.split('.')[1]
-  let decodedJwtJsonData = window.atob(jwtData)
-  let decodedJwtData = JSON.parse(decodedJwtJsonData)
-  let role = decodedJwtData.roles */
-  
-  
-  /* console.log('jwtData: ' + jwtData)
-  console.log('decodedJwtJsonData: ' + decodedJwtJsonData)
-  console.log('decodedJwtData: ' + decodedJwtData) */
-  //console.log('role: ' + role) //siger undefined
- 
-
+  console.log('role: ' + role)
   return (
     <Router>
       <div>

@@ -8,7 +8,7 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 
 const columns = [{
     dataField: 'id',
-    //text: 'ID',
+    text: 'ID',
     //sort: true
 }, {
     dataField: 'gender',

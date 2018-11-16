@@ -80,27 +80,7 @@ public class Facade {
         }
     }
 
-//Dummy metode indtil videre
-    public String getPaginationData(int id) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public String getSwapiData(int id) throws MalformedURLException, IOException {
-        URL url = new URL("https://swapi.co/api/people/" + id);
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("GET");
-        con.setRequestProperty("Accept", "application/json;charset=UTF-8");
-        con.setRequestProperty("User-Agent", "server");
-        Scanner scan = new Scanner(con.getInputStream());
-        String jsonStr = null;
-        if (scan.hasNext()) {
-            jsonStr = scan.nextLine();
-        }
-        scan.close();
-        return jsonStr;
-    }
-
-    public String getSwapiDataNew(int id) throws MalformedURLException, IOException {
+    public String getSwapiData() throws MalformedURLException, IOException {
         String hostURL = "https://swapi.co/api/people/";
         int numberOfServerCalls = 5;
 
@@ -113,10 +93,8 @@ public class Facade {
             list.add(future);
         }
         List<String> returnList = new ArrayList<>();
-//        List<JsonObject> returnList = new ArrayList<>();
         for (Future f : list) {
             try {
-//                returnList.add(new JsonParser().parse(f.get().toString()).getAsJsonObject());
                 returnList.add(f.get().toString());
             } catch (Exception e) {
             }
@@ -131,7 +109,6 @@ public class Facade {
         returnstring = returnstring.substring(0, returnstring.length() - 1);
         returnstring += "]";
         return returnstring;
-//        return returnList.get(0);
     }
 
     class SwapiHelper implements Callable {
@@ -170,6 +147,17 @@ public class Facade {
         }
     }
 
+    public List<Persons> getPersons() {
+        EntityManager em = getEntityManager(emf);
+        try {
+            Query tq = em.createQuery("Select p from Persons p");
+            return tq.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    // bruges ikke pt
     public List<Persons> getByPage(int start, int end) {
         EntityManager em = getEntityManager(emf);
         try {
@@ -177,18 +165,7 @@ public class Facade {
             query.setFirstResult(start);
             query.setMaxResults(end);
             List<Persons> persons = query.getResultList();
-
             return persons;
-        } finally {
-            em.close();
-        }
-    }
-    
-    public List<Persons> getPersons() {
-        EntityManager em = getEntityManager(emf);
-        try {
-            Query tq = em.createQuery("Select p from Persons p");
-            return tq.getResultList();
         } finally {
             em.close();
         }

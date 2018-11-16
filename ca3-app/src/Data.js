@@ -3,7 +3,7 @@ import facade from './apiFacade';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
+import filterFactory/* , { textFilter } */ from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 
 const columns = [{
@@ -33,7 +33,7 @@ const columns = [{
 
 
 //Printer bare en string ud fra DemoResource i metoden getPaginationData
-export default class Luke extends Component {
+export default class Data extends Component {
     constructor(props) {
         super(props);
         this.state = { persons: [], paginationData: "Fetching data..." };

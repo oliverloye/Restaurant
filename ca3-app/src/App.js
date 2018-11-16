@@ -4,7 +4,7 @@
 
 import React, { Component } from "react"
 import facade from "./apiFacade";
-import Luke from './Luke.js';
+import Data from './Data.js';
 import Admin from './Admin.js';
 import User from './User.js';
 import Home from './Home.js';
@@ -39,8 +39,6 @@ class LogIn extends Component {
     return (
       <div>
         <Header user={this.state.dataFromServer} logout={this.props.logout} />
-        <br/>
-        <br/>
         <br/>
         <form onSubmit={this.login} onChange={this.onChange} >
           <fieldset>
@@ -146,7 +144,7 @@ export function Header(props) {
       <div>
         <ul className="header">
           <li><NavLink exact activeClassName="active" to="/">Home</NavLink></li>
-          <li><NavLink activeClassName="active" to="/luke">Luke</NavLink></li>
+          <li><NavLink activeClassName="active" to="/data">Data</NavLink></li>
           <li><NavLink activeClassName="active" to="/user">User</NavLink></li>
           <li><NavLink activeClassName="active" to="/admin">Admin</NavLink></li>
           <li><NavLink activeClassName="active" to="/logout" onClick={props.logout}>Logout</NavLink></li>
@@ -154,7 +152,7 @@ export function Header(props) {
         </ul>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/luke" component={Luke} />
+          <Route path="/data" component={Data} />
           <Route path="/user" component={User} />
           <Route path="/admin" component={Admin} />
         </Switch>

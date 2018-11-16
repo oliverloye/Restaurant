@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, ScrollView, Alert } from 'react-native';
 
-const URL = "http://ac3bed1c.ngrok.io/CA3-2/api/info/swapi";
+//const URL = "http://ac3bed1c.ngrok.io/CA3-2/api/info/swapi";
+const URL = "http://ba98380c.ngrok.io/CA3-2/api/info/swapi";
 //Du skal nok lave en ny ngrok, nu hvor vi har lavet nyt project. 
 
 export default class FetchSite extends React.Component {

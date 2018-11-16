@@ -122,29 +122,66 @@ function Header(props) {
     let jwtData = jwt.split('.')[1]
     let decodedJwtJsonData = window.atob(jwtData)
     let decodedJwtData = JSON.parse(decodedJwtJsonData)
-    let role = decodedJwtData.roles
+    role = decodedJwtData.roles
   }
   console.log('role: ' + role)
-  return (
-    <Router>
-      <div>
-        <ul className="header">
-          <li><NavLink exact activeClassName="active" to="/">Home</NavLink></li>
-          <li><NavLink activeClassName="active" to="/data">Data</NavLink></li>
-          <li><NavLink activeClassName="active" to="/user">User</NavLink></li>
-          <li><NavLink activeClassName="active" to="/admin">Admin</NavLink></li>
-          <li><NavLink activeClassName="active" to="/logout" onClick={props.logout}>Logout</NavLink></li>
-          <div className="nav-right"><li><p>{props.user}</p></li></div>
-        </ul>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/data" component={Data} />
-          <Route path="/user" component={User} />
-          <Route path="/admin" component={Admin} />
-        </Switch>
-      </div>
-    </ Router>
-  )
+  if (role === "user") {
+    return (
+      <Router>
+        <div>
+          <ul className="header">
+            <li><NavLink exact activeClassName="active" to="/">Home</NavLink></li>
+            <li><NavLink activeClassName="active" to="/data">Data</NavLink></li>
+            <li><NavLink activeClassName="active" to="/user">User</NavLink></li>
+            <li><NavLink activeClassName="active" to="/logout" onClick={props.logout}>Logout</NavLink></li>
+            <div className="nav-right"><li><p>{props.user}</p></li></div>
+          </ul>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/data" component={Data} />
+            <Route path="/user" component={User} />
+          </Switch>
+        </div>
+      </ Router>
+    )
+  }
+  else if (role === "admin") {
+
+    return (
+      <Router>
+        <div>
+          <ul className="header">
+            <li><NavLink exact activeClassName="active" to="/">Home</NavLink></li>
+            <li><NavLink activeClassName="active" to="/data">Data</NavLink></li>
+            <li><NavLink activeClassName="active" to="/admin">Admin</NavLink></li>
+            <li><NavLink activeClassName="active" to="/logout" onClick={props.logout}>Logout</NavLink></li>
+            <div className="nav-right"><li><p>{props.user}</p></li></div>
+          </ul>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/data" component={Data} />
+            <Route path="/admin" component={Admin} />
+          </Switch>
+        </div>
+      </ Router>
+    )
+  }
+  else {
+    return (
+      <Router>
+        <div>
+          <ul className="header">
+            <li><NavLink exact activeClassName="active" to="/">Home</NavLink></li>
+            <div className="nav-right"><li><p>Not logged in</p></li></div>
+          </ul>
+          <Switch>
+            <Route exact path="/" component={Home} />
+          </Switch>
+        </div>
+      </ Router>
+    )
+
+  }
 }
 
 export default App;

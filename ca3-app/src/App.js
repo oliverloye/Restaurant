@@ -121,23 +121,23 @@ class App extends Component {
 
 export function Header(props) {
   
-  /* 
-  Nedenstående var bare for at se hvordan jeg fik fat i rollen gemmen token
-  -kan ikke få det til at virke. 
+   
+  //Nedenstående var bare for at se hvordan jeg fik fat i rollen gemmen token
+  //-kan ikke få det til at virke. 
   
   let jwt = localStorage.jwtToken;
   console.log(localStorage.jwtToken);
   let jwtData = jwt.split('.')[1]
   let decodedJwtJsonData = window.atob(jwtData)
   let decodedJwtData = JSON.parse(decodedJwtJsonData)
-  let isAdmin = decodedJwtData.admin
+  let role = decodedJwtData.roles
   
   
   console.log('jwtData: ' + jwtData)
   console.log('decodedJwtJsonData: ' + decodedJwtJsonData)
   console.log('decodedJwtData: ' + decodedJwtData)
-  console.log('Is admin: ' + isAdmin) //siger undefined
- */
+  console.log('role: ' + role) //siger undefined
+ 
 
   return (
     <Router>

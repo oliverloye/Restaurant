@@ -1,12 +1,29 @@
-CREATE TABLE if not exists Persons (
+CREATE TABLE if not exists contactinfo (
  id INT(6) PRIMARY KEY,
- gender VARCHAR(10) NOT NULL,
- firstName VARCHAR(40) NOT NULL,
- lastName VARCHAR(60) NOT NULL,
- email VARCHAR(60)
+ address VARCHAR(10) NOT NULL,
+ cityinfo VARCHAR(40) NOT NULL,
+ phone VARCHAR(60) NOT NULL,
 );
 
-INSERT INTO persons (id,gender,firstName,lastName,email) VALUES
+CREATE TABLE if not exists restaurant (
+ id INT(6) PRIMARY KEY,
+ name VARCHAR(10) NOT NULL,
+ contactinfo_id int(40) NOT NULL,
+ foodtype VARCHAR(60) NOT NULL,
+);
+
+CREATE TABLE if not exists cityinfo (
+ zip INT(6) PRIMARY KEY,
+ city VARCHAR(10) NOT NULL,
+);
+
+CREATE TABLE if not exists menuitem (
+ id INT(6) PRIMARY KEY,
+ foodtype_id VARCHAR(10) NOT NULL,
+ contactinfo_id VARCHAR(40) NOT NULL,
+);
+
+INSERT INTO restaurant (id,name,contactinfo,foodtype) VALUES
 (0,'male','Chrisbjørn','Munch','chrisbjørn85@somewhere.dk'),
 (1,'male','Mannfred','Thygesen','mannfred58@somewhere.dk'),
 (2,'female','Pheline','Petersen','pheline84@somewhere.dk'),

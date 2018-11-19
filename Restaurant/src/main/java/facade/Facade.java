@@ -1,7 +1,5 @@
 package facade;
 
-import entity.Persons;
-import entity.User;
 import exceptions.AuthenticationException;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -31,32 +29,31 @@ public class Facade {
         return emf.createEntityManager();
     }
 
-    public User getVeryfiedUser(String username, String password) throws AuthenticationException {
-        EntityManager em = emf.createEntityManager();
-        User user;
-        try {
-            user = em.find(User.class, username);
-            if (user == null || !user.verifyPassword(password)) {
-                throw new AuthenticationException("Invalid user name or password");
-            }
-        } finally {
-            em.close();
-        }
-        return user;
-    }
-
-    public User addNewUser(User user) throws AuthenticationException {
-        EntityManager em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
-            em.persist(user);
-            em.getTransaction().commit();
-        } finally {
-            em.close();
-        }
-        return user;
-    }
-
+//    public User getVeryfiedUser(String username, String password) throws AuthenticationException {
+//        EntityManager em = emf.createEntityManager();
+//        User user;
+//        try {
+//            user = em.find(User.class, username);
+//            if (user == null || !user.verifyPassword(password)) {
+//                throw new AuthenticationException("Invalid user name or password");
+//            }
+//        } finally {
+//            em.close();
+//        }
+//        return user;
+//    }
+//
+//    public User addNewUser(User user) throws AuthenticationException {
+//        EntityManager em = emf.createEntityManager();
+//        try {
+//            em.getTransaction().begin();
+//            em.persist(user);
+//            em.getTransaction().commit();
+//        } finally {
+//            em.close();
+//        }
+//        return user;
+//    }
     public Long getNumberOfUsers() {
         EntityManager em = getEntityManager(emf);
         try {
@@ -68,18 +65,17 @@ public class Facade {
         }
     }
 
-    public List<User> getAllUsers() {
-        List<User> allUsers = new ArrayList<>();
-        EntityManager em = getEntityManager(emf);
-        try {
-            Query q = em.createQuery("select u.userName from User u");
-            allUsers = q.getResultList();
-            return allUsers;
-        } finally {
-            em.close();
-        }
-    }
-
+//    public List<User> getAllUsers() {
+//        List<User> allUsers = new ArrayList<>();
+//        EntityManager em = getEntityManager(emf);
+//        try {
+//            Query q = em.createQuery("select u.userName from User u");
+//            allUsers = q.getResultList();
+//            return allUsers;
+//        } finally {
+//            em.close();
+//        }
+//    }
     public String getSwapiData() throws MalformedURLException, IOException {
         String hostURL = "https://swapi.co/api/people/";
         int numberOfServerCalls = 5;
@@ -147,28 +143,27 @@ public class Facade {
         }
     }
 
-    public List<Persons> getPersons() {
-        EntityManager em = getEntityManager(emf);
-        try {
-            Query tq = em.createQuery("Select p from Persons p");
-            return tq.getResultList();
-        } finally {
-            em.close();
-        }
-    }
-
-    // bruges ikke pt
-    public List<Persons> getByPage(int start, int end) {
-        EntityManager em = getEntityManager(emf);
-        try {
-            Query query = em.createQuery("SELECT p FROM Persons p");
-            query.setFirstResult(start);
-            query.setMaxResults(end);
-            List<Persons> persons = query.getResultList();
-            return persons;
-        } finally {
-            em.close();
-        }
-    }
-
+//    public List<Persons> getPersons() {
+//        EntityManager em = getEntityManager(emf);
+//        try {
+//            Query tq = em.createQuery("Select p from Persons p");
+//            return tq.getResultList();
+//        } finally {
+//            em.close();
+//        }
+//    }
+//
+//    // bruges ikke pt
+//    public List<Persons> getByPage(int start, int end) {
+//        EntityManager em = getEntityManager(emf);
+//        try {
+//            Query query = em.createQuery("SELECT p FROM Persons p");
+//            query.setFirstResult(start);
+//            query.setMaxResults(end);
+//            List<Persons> persons = query.getResultList();
+//            return persons;
+//        } finally {
+//            em.close();
+//        }
+//    }
 }

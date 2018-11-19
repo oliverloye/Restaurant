@@ -10,7 +10,6 @@ import com.nimbusds.jose.JWSSigner;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-import entity.User;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -29,59 +28,59 @@ import javax.persistence.Persistence;
 @Path("login")
 public class LoginEndpoint {
 
-  public static final int TOKEN_EXPIRE_TIME = 1000 * 60 * 30; //30 min
+    public static final int TOKEN_EXPIRE_TIME = 1000 * 60 * 30; //30 min
 
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response login(String jsonString) throws AuthenticationException {
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+//  public Response login(String jsonString) throws AuthenticationException {
+//
+//    JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
+//    String username = json.get("username").getAsString();
+//    String password = json.get("password").getAsString();
+//    Facade facade = new Facade(Persistence.createEntityManagerFactory("pu"));
+//
+//    //Todo refactor into facade
+//    try {
+//      User user = facade.getVeryfiedUser(username, password);
+//      String token = createToken(username, user.getRolesAsStrings());
+//      JsonObject responseJson = new JsonObject();
+//      responseJson.addProperty("username", username);
+//      responseJson.addProperty("token", token);
+//      return Response.ok(new Gson().toJson(responseJson)).build();
+//
+//    } catch (Exception ex) {
+//      if (ex instanceof AuthenticationException) {
+//        throw (AuthenticationException) ex;
+//      }
+//      Logger.getLogger(GenericExceptionMapper.class.getName()).log(Level.SEVERE, null, ex);
+//    }
+//    throw new AuthenticationException("Invalid username or password! Please try again");
+//  }
 
-    JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
-    String username = json.get("username").getAsString();
-    String password = json.get("password").getAsString();
-    Facade facade = new Facade(Persistence.createEntityManagerFactory("pu"));
+    private String createToken(String userName, List<String> roles) throws JOSEException {
 
-    //Todo refactor into facade
-    try {
-      User user = facade.getVeryfiedUser(username, password);
-      String token = createToken(username, user.getRolesAsStrings());
-      JsonObject responseJson = new JsonObject();
-      responseJson.addProperty("username", username);
-      responseJson.addProperty("token", token);
-      return Response.ok(new Gson().toJson(responseJson)).build();
+        StringBuilder res = new StringBuilder();
+        for (String string : roles) {
+            res.append(string);
+            res.append(",");
+        }
+        String rolesAsString = res.length() > 0 ? res.substring(0, res.length() - 1) : "";
+        String issuer = "semesterdemo_security_course";
 
-    } catch (Exception ex) {
-      if (ex instanceof AuthenticationException) {
-        throw (AuthenticationException) ex;
-      }
-      Logger.getLogger(GenericExceptionMapper.class.getName()).log(Level.SEVERE, null, ex);
+        JWSSigner signer = new MACSigner(SharedSecret.getSharedKey());
+        Date date = new Date();
+        JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
+                .subject(userName)
+                .claim("username", userName)
+                .claim("roles", rolesAsString)
+                .claim("issuer", issuer)
+                .issueTime(date)
+                .expirationTime(new Date(date.getTime() + TOKEN_EXPIRE_TIME))
+                .build();
+        SignedJWT signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.HS256), claimsSet);
+        signedJWT.sign(signer);
+        return signedJWT.serialize();
+
     }
-    throw new AuthenticationException("Invalid username or password! Please try again");
-  }
-
-  private String createToken(String userName, List<String> roles) throws JOSEException {
-
-    StringBuilder res = new StringBuilder();
-    for (String string : roles) {
-      res.append(string);
-      res.append(",");
-    }
-    String rolesAsString = res.length() > 0 ? res.substring(0, res.length() - 1) : "";
-    String issuer = "semesterdemo_security_course";
-
-    JWSSigner signer = new MACSigner(SharedSecret.getSharedKey());
-    Date date = new Date();
-    JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-            .subject(userName)
-            .claim("username", userName)
-            .claim("roles", rolesAsString)
-            .claim("issuer", issuer)
-            .issueTime(date)
-            .expirationTime(new Date(date.getTime() + TOKEN_EXPIRE_TIME))
-            .build();
-    SignedJWT signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.HS256), claimsSet);
-    signedJWT.sign(signer);
-    return signedJWT.serialize();
-
-  }
 }

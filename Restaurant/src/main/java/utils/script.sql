@@ -10,6 +10,7 @@ ALTER TABLE user_roles ADD CONSTRAINT FK_user_roles_user_name FOREIGN KEY (user_
 ALTER TABLE user_roles ADD CONSTRAINT FK_user_roles_role_name FOREIGN KEY (role_name) REFERENCES role (role_name);
 
 INSERT INTO restaurant (id,foodtype,phone,restname,street, website,cityinfo_zip) VALUES
+<<<<<<< HEAD
 (15,'Vietnamese','72039472','Vietcong','Kongevejen 48','www.vietcong.dk','4600'),
 (16,'Vietnamese','75620485','Tonkin','Pilestræde 18','www.tonkin.dk','2800'),
 (17,'Vietnamese','92483283','Bahn Mi Temple','Engelsborgvej 53','www.bahnmitemple.dk','3540'),
@@ -25,3 +26,36 @@ INSERT INTO restaurant (id,foodtype,phone,restname,street, website,cityinfo_zip)
 (27,'Chinese','65718234','Beijing','Allegade 33','www.beijing.dk','4000'),
 (28,'Chinese','99823477','Five Spice','Roskildevej 18','www.fivespice.dk','3540'),
 (29,'Chinese','67829188','China Garden','Stationsvej 28','www.chinagarden.dk','3000');
+=======
+(0,'Indian','867564523','Dhaba','Brogade 45', 'www.dhaba.dk', '4600'),
+(1,'Indian','26374891','Kashmir','Viaduktvej 2', 'www.kashmir.dk', '3400'),
+(2,'Indian','73125364','Bindia', 'Strandvejen 76', 'www.bindia.dk', '2800'),
+(3,'Indian','85962849','Punjab','Jernbanegade 23', 'www.punjab.dk', '3000'),
+(4,'Indian','83917264','Golden Indian','Mosevej 2', 'www.goldenindian.dk', '3540'),
+(5,'Indian','74659182','Namaste', 'Strandboulevarden 5', 'www.namaste.dk', '4000'),
+(6,'American','8823910','Stacys Diner','Søndre havnevej 3', 'www.stacysdiner', '4600'),
+(7,'American','62730192','Bones', 'Åboulevard 75', 'www.bones.dk', '2800'),
+(8,'American','65648391','Jensens Bøfhus', 'Helsingørvej 33', 'www.jensensboefhus.dk', '3000'),
+(9,'American','87968571','Hard Rock Café','Rådhuspladsen 23', 'www.hardrockcafe.dk', '4000'),
+(10,'American','63814231','Burger Palace','Vesterbrogade 43', 'www.burgerpalace.dk', '3400'),
+(11,'American','99847112','Halifax','Frederikssundvej 97', 'www.halifax.dk', '3540'),
+(12,'Chinese','33844912','Zhou','Nørregade 108', 'www.zhou.dk', '4600'),
+(13,'Chinese','22738271','Xin Fu','Vestergade 47', 'www.xinfu.dk', '2800'),
+(14,'Chinese','74639200','Hai Long','Nørre boulevard 23', 'www.hailong.dk', '3400'),
+(15,'male','Jens-Peter','Bech','jens-peter96@somewhere.dk'),
+(16,'female','Fauna','Bisgaard','fauna88@somewhere.dk'),
+(17,'male','Arian','Sommer','arian25@somewhere.dk'),
+(18,'female','Djinvat','Johannsen','djinvat45@somewhere.dk'),
+(19,'female','Rifka','Danielsen','rifka34@somewhere.dk'),
+(20,'male','Fadi','Bach','fadi42@somewhere.dk'),
+(21,'male','Yousof','Toft','yousof31@somewhere.dk'),
+(22,'female','Hilan','Mathiasen','hilan32@somewhere.dk'),
+(23,'male','Aanis','Iversen','aanis24@somewhere.dk'),
+(24,'male','Lenus','Jørgensen','lenus97@somewhere.dk'),
+(25,'female','Kankolongo','Lind','kankolongo94@somewhere.dk'),
+(26,'female','Abigija','Frederiksen','abigija50@somewhere.dk'),
+(27,'male','Karim','Thomsen','karim36@somewhere.dk'),
+(28,'female','Dinne','Nørgård','dinne14@somewhere.dk'),
+(29,'female','Lareb','Carstensen','lareb52@somewhere.dk'),
+(30,'male','Nithilan','Ravn','nithilan21@somewhere.dk'),
+>>>>>>> 3e307d0b139ff97d1a2c12f068b8aaeadb0d8f1f

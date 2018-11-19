@@ -2,8 +2,10 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dto.RestaurantDTO;
 import facade.Facade;
 import java.io.IOException;
+import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.Persistence;
 import javax.ws.rs.core.Context;
@@ -12,6 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 @Path("info")
@@ -25,6 +28,17 @@ public class DemoResource {
 
     @Context
     SecurityContext securityContext;
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("getlist")
+    public Response getAllRestaurants() {
+        List<RestaurantDTO> restaurants = facade.getAllRestaurants();
+//        if (persons.isEmpty()) {
+//            throw new PersonNotFoundException("Ingen personer fundet.");
+//        }
+        return Response.ok(gson.toJson(restaurants)).build();
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -82,5 +96,4 @@ public class DemoResource {
 //        return Response.ok(persons).header("X-Total-Count", count)
 //                .header("Access-Control-Expose-Headers", "X-Total-Count").build();
 //    }
-
 }

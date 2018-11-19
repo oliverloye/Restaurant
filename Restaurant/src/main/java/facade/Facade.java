@@ -1,5 +1,6 @@
 package facade;
 
+import dto.RestaurantDTO;
 import exceptions.AuthenticationException;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -16,6 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 public class Facade {
 
@@ -25,9 +27,23 @@ public class Facade {
         this.emf = emf;
     }
 
-    private EntityManager getEntityManager(EntityManagerFactory emf) {
+    private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
+    
+    public List<RestaurantDTO> getAllRestaurants(){
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            TypedQuery<RestaurantDTO> tq = em.createQuery("Select new dto.RestaurantDTO(r) from Restaurant r", RestaurantDTO.class);
+            List<RestaurantDTO> restaurants = tq.getResultList();
+            em.getTransaction().commit();
+            return restaurants;
+        } finally {
+            em.close();
+        }
+    }
+    
 
 //    public User getVeryfiedUser(String username, String password) throws AuthenticationException {
 //        EntityManager em = emf.createEntityManager();
@@ -55,7 +71,7 @@ public class Facade {
 //        return user;
 //    }
     public Long getNumberOfUsers() {
-        EntityManager em = getEntityManager(emf);
+        EntityManager em = getEntityManager();
         try {
             Query q = em.createQuery("select count(u) from User u");
             Long count = (Long) q.getSingleResult();

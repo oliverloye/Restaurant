@@ -17,9 +17,8 @@ INSERT INTO CITYINFO (ZIP, CITY) VALUES ('4600', 'Køge');
 INSERT INTO CITYINFO (ZIP, CITY) VALUES ('3400', 'Hillerød');
 
 INSERT INTO restaurant (id,foodtype,phone,restname,street, website,cityinfo_zip) VALUES
-(0,'Indian','867564523','Dhaba','Brogade 45', 'www.dhaba.dk', '4600'),
-(1,'Indian','26374891','Kashmir','Viaduktvej 2', 'www.kashmir.dk', '3400'),
-(2,'Indian','73125364','Bindia', 'Strandvejen 76', 'www.bindia.dk', '2800'),
+(1,'Indian','867564523','Dhaba','Brogade 45', 'www.dhaba.dk', '4600'),
+(2,'Indian','26374891','Kashmir','Viaduktvej 2', 'www.kashmir.dk', '3400'),
 (3,'Indian','85962849','Punjab','Jernbanegade 23', 'www.punjab.dk', '3000'),
 (4,'Indian','83917264','Golden Indian','Mosevej 2', 'www.goldenindian.dk', '3540'),
 (5,'Indian','74659182','Namaste', 'Strandboulevarden 5', 'www.namaste.dk', '4000'),
@@ -46,4 +45,5 @@ INSERT INTO restaurant (id,foodtype,phone,restname,street, website,cityinfo_zip)
 (26,'Italian','82345510','Roma','Torvet 6','www.roma.dk','4000'),
 (27,'Chinese','65718234','Beijing','Allegade 33','www.beijing.dk','4000'),
 (28,'Chinese','99823477','Five Spice','Roskildevej 18','www.fivespice.dk','3540'),
-(29,'Chinese','67829188','China Garden','Stationsvej 28','www.chinagarden.dk','3000');
+(29,'Chinese','67829188','China Garden','Stationsvej 28','www.chinagarden.dk','3000'),
+(30,'Indian','73125364','Bindia', 'Strandvejen 76', 'www.bindia.dk', '2800');

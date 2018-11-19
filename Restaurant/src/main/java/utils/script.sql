@@ -9,6 +9,13 @@ ALTER TABLE MENUITEM ADD CONSTRAINT FK_MENUITEM_RESTAURANT_ID FOREIGN KEY (RESTA
 ALTER TABLE user_roles ADD CONSTRAINT FK_user_roles_user_name FOREIGN KEY (user_name) REFERENCES user (user_name);
 ALTER TABLE user_roles ADD CONSTRAINT FK_user_roles_role_name FOREIGN KEY (role_name) REFERENCES role (role_name);
 
+INSERT INTO CITYINFO (ZIP, CITY) VALUES ('3000', 'Helsingør');
+INSERT INTO CITYINFO (ZIP, CITY) VALUES ('4000', 'Roskilde');
+INSERT INTO CITYINFO (ZIP, CITY) VALUES ('3540', 'Lynge');
+INSERT INTO CITYINFO (ZIP, CITY) VALUES ('2800', 'Lyngby');
+INSERT INTO CITYINFO (ZIP, CITY) VALUES ('4600', 'Køge');
+INSERT INTO CITYINFO (ZIP, CITY) VALUES ('3400', 'Hillerød');
+
 INSERT INTO restaurant (id,foodtype,phone,restname,street, website,cityinfo_zip) VALUES
 (0,'Indian','867564523','Dhaba','Brogade 45', 'www.dhaba.dk', '4600'),
 (1,'Indian','26374891','Kashmir','Viaduktvej 2', 'www.kashmir.dk', '3400'),

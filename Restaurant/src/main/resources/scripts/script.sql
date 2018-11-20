@@ -1,8 +1,8 @@
-CREATE TABLE MENUITEM (ID INTEGER AUTO_INCREMENT NOT NULL, DESCRIPTION VARCHAR(255), ITEMNAME VARCHAR(255), PRICE INTEGER, RESTAURANT_ID INTEGER, PRIMARY KEY (ID));
 CREATE TABLE CITYINFO (ZIP VARCHAR(255) NOT NULL, CITY VARCHAR(255), PRIMARY KEY (ZIP));
-CREATE TABLE role (role_name VARCHAR(20) NOT NULL, PRIMARY KEY (role_name));
-CREATE TABLE user (user_name VARCHAR(25) NOT NULL, user_pass VARCHAR(255), PRIMARY KEY (user_name));
 CREATE TABLE RESTAURANT (ID INTEGER AUTO_INCREMENT NOT NULL, FOODTYPE VARCHAR(255), PHONE VARCHAR(255), RESTNAME VARCHAR(255), STREET VARCHAR(255), WEBSITE VARCHAR(255), CITYINFO_ZIP VARCHAR(255), PRIMARY KEY (ID));
+CREATE TABLE MENUITEM (ID INTEGER AUTO_INCREMENT NOT NULL, DESCRIPTION VARCHAR(255), ITEMNAME VARCHAR(255), PRICE INTEGER, RESTAURANT_ID INTEGER, PRIMARY KEY (ID));
+CREATE TABLE user (user_name VARCHAR(25) NOT NULL, user_pass VARCHAR(255), PRIMARY KEY (user_name));
+CREATE TABLE role (role_name VARCHAR(20) NOT NULL, PRIMARY KEY (role_name));
 CREATE TABLE user_roles (role_name VARCHAR(20) NOT NULL, user_name VARCHAR(25) NOT NULL, PRIMARY KEY (role_name, user_name));
 ALTER TABLE MENUITEM ADD CONSTRAINT FK_MENUITEM_RESTAURANT_ID FOREIGN KEY (RESTAURANT_ID) REFERENCES RESTAURANT (ID);
 ALTER TABLE RESTAURANT ADD CONSTRAINT FK_RESTAURANT_CITYINFO_ZIP FOREIGN KEY (CITYINFO_ZIP) REFERENCES CITYINFO (ZIP);
@@ -17,14 +17,14 @@ INSERT INTO CITYINFO (ZIP, CITY) VALUES ('4600', 'Køge');
 INSERT INTO CITYINFO (ZIP, CITY) VALUES ('3400', 'Hillerød');
 
 INSERT INTO RESTAURANT (foodtype,phone,restname,street, website,cityinfo_zip) VALUES
-('Indian','867564523','Dhaba','Brogade 45', 'www.dhaba.dk', '4600'),
+('Indian','86756452','Dhaba','Brogade 45', 'www.dhaba.dk', '4600'),
 ('Indian','26374891','Kashmir','Viaduktvej 2', 'www.kashmir.dk', '3400'),
 ('Indian','85962849','Punjab','Jernbanegade 23', 'www.punjab.dk', '3000'),
 ('Indian','83917264','Golden Indian','Mosevej 2', 'www.goldenindian.dk', '3540'),
 ('Indian','74659182','Namaste', 'Strandboulevarden 5', 'www.namaste.dk', '4000'),
-('American','8823910','Stacys Diner','Søndre havnevej 3', 'www.stacysdiner.dk', '4600'),
+('American','8823910','Stacys Diner','Søndre Havnevej 3', 'www.stacysdiner.dk', '4600'),
 ('American','62730192','Bones', 'Åboulevard 75', 'www.bones.dk', '2800'),
-('American','65648391','Jensens Bøfhus', 'Helsingørvej 33', 'www.jensensboefhus.dk', '3000'),
+('American','65648317','Jensens Bøfhus', 'Helsingørvej 33', 'www.jensensboefhus.dk', '3000'),
 ('American','87968571','Hard Rock Café','Rådhuspladsen 23', 'www.hardrockcafe.dk', '4000'),
 ('American','63814231','Burger Palace','Vesterbrogade 43', 'www.burgerpalace.dk', '3400'),
 ('American','99847112','Halifax','Frederikssundvej 97', 'www.halifax.dk', '3540'),

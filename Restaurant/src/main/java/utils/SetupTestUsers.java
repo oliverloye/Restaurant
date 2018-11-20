@@ -16,24 +16,24 @@ public class SetupTestUsers {
         // CHANGE the three passwords below, before you uncomment and execute the code below
         //throw new UnsupportedOperationException("REMOVE THIS LINE, WHEN YOU HAVE READ WARNING");
         em.getTransaction().begin();
-        Role userRole = new Role("user");
+        Role restOwner = new Role("rest_owner");
         Role adminRole = new Role("admin");
-        User user = new User("user", "test");
-        user.addRole(userRole);
+        User rest_owner = new User("rest_owner", "test");
+        rest_owner.addRole(restOwner);
         User admin = new User("admin", "test");
         admin.addRole(adminRole);
-        User both = new User("user_admin", "test");
-        both.addRole(userRole);
+        User both = new User("rest_owner_admin", "test");
+        both.addRole(restOwner);
         both.addRole(adminRole);
-        em.persist(userRole);
+        em.persist(restOwner);
         em.persist(adminRole);
-        em.persist(user);
+        em.persist(rest_owner);
         em.persist(admin);
         em.persist(both);
         em.getTransaction().commit();
-        System.out.println("PW: " + user.getUserPass());
-        System.out.println("Testing user with OK password: " + user.verifyPassword("test"));
-        System.out.println("Testing user with wrong password: " + user.verifyPassword("test1"));
+        System.out.println("PW: " + rest_owner.getUserPass());
+        System.out.println("Testing user with OK password: " + rest_owner.verifyPassword("test"));
+        System.out.println("Testing user with wrong password: " + rest_owner.verifyPassword("test1"));
         System.out.println("Created TEST Users");
 
     }

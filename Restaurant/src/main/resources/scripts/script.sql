@@ -16,7 +16,7 @@ INSERT INTO CITYINFO (ZIP, CITY) VALUES ('2800', 'Lyngby');
 INSERT INTO CITYINFO (ZIP, CITY) VALUES ('4600', 'Køge');
 INSERT INTO CITYINFO (ZIP, CITY) VALUES ('3400', 'Hillerød');
 
-INSERT INTO restaurant (id,foodtype,phone,restname,street, website,cityinfo_zip) VALUES
+INSERT INTO RESTAURANT (id,foodtype,phone,restname,street, website,cityinfo_zip) VALUES
 (1,'Indian','867564523','Dhaba','Brogade 45', 'www.dhaba.dk', '4600'),
 (2,'Indian','26374891','Kashmir','Viaduktvej 2', 'www.kashmir.dk', '3400'),
 (3,'Indian','85962849','Punjab','Jernbanegade 23', 'www.punjab.dk', '3000'),

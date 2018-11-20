@@ -31,6 +31,7 @@ public class Facade {
         return emf.createEntityManager();
     }
     
+    // VIRKER
     public List<RestaurantDTO> getAllRestaurants(){
         EntityManager em = getEntityManager();
         try {

@@ -12,10 +12,10 @@ CREATE TABLE if not exists restaurant (
  foodtype VARCHAR(60) NOT NULL,
 );
 
-CREATE TABLE if not exists cityinfo (
- zip INT(6) PRIMARY KEY,
- city VARCHAR(10) NOT NULL,
-);
+-- CREATE TABLE if not exists cityinfo (
+--  zip INT(6) PRIMARY KEY,
+--  city VARCHAR(10) NOT NULL,
+-- );
 
 CREATE TABLE if not exists menuitem (
  id INT(6) PRIMARY KEY,

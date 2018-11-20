@@ -21,6 +21,7 @@ public class RestaurantDTO {
         this.foodType = restaurant.getFoodType();
         this.street = restaurant.getStreet();
         this.phone = restaurant.getPhone();
+        this.website = restaurant.getWebsite();
         this.cityInfo = new CityInfoDTO(restaurant.getCityInfo());
     }
 

@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 @Path("info")
-public class DemoResource {
+public class RestaurantAPI {
 
     private Facade facade = new Facade(Persistence.createEntityManagerFactory("pu"));
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -29,7 +29,7 @@ public class DemoResource {
     @Context
     SecurityContext securityContext;
 
-    @GET
+    @GET // VIRKER
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getlist")
     public Response getAllRestaurants() {
@@ -40,6 +40,7 @@ public class DemoResource {
         return Response.ok(gson.toJson(restaurants)).build();
     }
 
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getname")

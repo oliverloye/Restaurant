@@ -2,6 +2,7 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dto.MenuItemDTO;
 import dto.RestaurantDTO;
 import facade.Facade;
 import java.io.IOException;
@@ -13,6 +14,7 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -39,9 +41,8 @@ public class RestaurantAPI {
 //        }
         return Response.ok(gson.toJson(restaurants)).build();
     }
-
     
-    @GET
+    @GET //VIRKER
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getname")
     @RolesAllowed({"rest_owner", "admin"})
@@ -49,6 +50,36 @@ public class RestaurantAPI {
         String user = securityContext.getUserPrincipal().getName();
         return "\"" + user + " is logged in \"";
     }
+    
+    
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Path("getmenu")
+////    @RolesAllowed({"rest_owner", "admin"})
+//    public String getMenuItems() {
+//        String user = securityContext.getUserPrincipal().getName();
+//        return "\"" + user + " is logged in \"";
+//    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("getmenu")
+    public Response getMenuItems(@QueryParam("id") int id) {
+        List<MenuItemDTO> menuItems = facade.getMenuItems(id);
+//        if (menuItems == null) {
+//            {
+//                throw new MenuNotFoundException("No restaurants match this id.");
+//            } 
+//            catch (MenuNotFoundException e) {
+//                ExceptionDTO exDTO = new ExceptionDTO(e, 406, false);
+//                exDTO.setMessage("No pets match this id.");
+//                return gson.toJson(exDTO);
+//            }
+//        }
+        return Response.ok(gson.toJson(menuItems)).build();
+    }
+    
+    
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

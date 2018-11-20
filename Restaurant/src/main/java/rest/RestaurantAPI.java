@@ -44,7 +44,7 @@ public class RestaurantAPI {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getname")
-    @RolesAllowed({"user", "admin"})
+    @RolesAllowed({"rest_owner", "admin"})
     public String getName() {
         String user = securityContext.getUserPrincipal().getName();
         return "\"" + user + " is logged in \"";

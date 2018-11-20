@@ -1,6 +1,7 @@
 package facade;
 
 import dto.RestaurantDTO;
+import entity.User;
 import exceptions.AuthenticationException;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -46,19 +47,19 @@ public class Facade {
     }
     
 
-//    public User getVeryfiedUser(String username, String password) throws AuthenticationException {
-//        EntityManager em = emf.createEntityManager();
-//        User user;
-//        try {
-//            user = em.find(User.class, username);
-//            if (user == null || !user.verifyPassword(password)) {
-//                throw new AuthenticationException("Invalid user name or password");
-//            }
-//        } finally {
-//            em.close();
-//        }
-//        return user;
-//    }
+    public User getVeryfiedUser(String username, String password) throws AuthenticationException {
+        EntityManager em = emf.createEntityManager();
+        User user;
+        try {
+            user = em.find(User.class, username);
+            if (user == null || !user.verifyPassword(password)) {
+                throw new AuthenticationException("Invalid user name or password");
+            }
+        } finally {
+            em.close();
+        }
+        return user;
+    }
 //
 //    public User addNewUser(User user) throws AuthenticationException {
 //        EntityManager em = emf.createEntityManager();

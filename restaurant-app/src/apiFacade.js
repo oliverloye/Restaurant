@@ -60,7 +60,12 @@ class ApiFacade {
         const options = this.makeOptions("GET", true);
         return fetch(URL + "/api/info/list", options).then(handleHttpErrors);
     }
-// ?_start=0&_end=10
+
+    getAllRestaurants = () => {
+        const options = this.makeOptions("GET", true);
+        return fetch(URL + "/api/info/getlist", options).then(handleHttpErrors);
+    }
+    
     makeOptions(method, addToken, body) {
         var opts = {
             method: method,

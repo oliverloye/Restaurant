@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8570b7b8-6c12-4627-9d9a-faf34d497cad" name="Default Changelist" comment="" />
+    <list default="true" id="8570b7b8-6c12-4627-9d9a-faf34d497cad" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../Restaurant/src/main/java/facade/Facade.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Restaurant/src/main/java/facade/Facade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Restaurant/src/main/java/rest/ApplicationConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Restaurant/src/main/java/rest/ApplicationConfig.java" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -15,7 +18,7 @@
     <session id="-729586639">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="2" />
+          <entry key="project.closed" value="3" />
           <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.3" value="1" />
           <entry key="project.open.time.4" value="1" />
@@ -44,6 +47,7 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds">
+    <option name="x" value="12" />
     <option name="y" value="23" />
     <option name="width" value="1142" />
     <option name="height" value="833" />
@@ -98,15 +102,15 @@
       <updated>1542746307888</updated>
       <workItem from="1542746310318" duration="840000" />
       <workItem from="1542747218071" duration="3000" />
-      <workItem from="1542789851949" duration="367000" />
+      <workItem from="1542789851949" duration="965000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1210000" />
+    <option name="totallyTimeSpent" value="1808000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1142" height="833" extended-state="0" />
+    <frame x="12" y="23" width="1142" height="833" extended-state="0" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17127565" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />

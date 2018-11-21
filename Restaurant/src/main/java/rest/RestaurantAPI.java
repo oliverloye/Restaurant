@@ -4,15 +4,20 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dto.MenuItemDTO;
 import dto.RestaurantDTO;
+import entity.CityInfo;
+import entity.Restaurant;
+import exceptions.NotFoundException;
 import facade.Facade;
 import java.io.IOException;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.Persistence;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -128,4 +133,35 @@ public class RestaurantAPI {
 //        return Response.ok(persons).header("X-Total-Count", count)
 //                .header("Access-Control-Expose-Headers", "X-Total-Count").build();
 //    }
+    
+    @Path("addrest")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addRestaurant(String json) throws NotFoundException {
+        RestaurantDTO restData = gson.fromJson(json, RestaurantDTO.class);
+        if (restData.restName == null || restData.foodType == null || restData.phone == null) {
+            throw new NotFoundException("Please enter a valid restaurant name, foodtype or phone number.");
+        } else if ((restData.restName.length() <= 1)) {
+            throw new NotFoundException("Your restaurant name must be at least 2 characters long.");
+        }
+        System.out.println(restData.toString());
+        
+        Restaurant rest = new Restaurant();
+        CityInfo cityInfo = new CityInfo();
+        
+        
+        cityInfo.setCity(restData.cityInfo.city);
+        cityInfo.setZip(restData.cityInfo.zip);
+        
+        rest.setRestname(restData.restName);
+        rest.setPhone(restData.phone);
+        rest.setStreet(restData.street);
+        rest.setWebsite(restData.website);
+        rest.setFoodType(restData.foodType);
+        rest.setCityInfo(cityInfo);
+        
+        facade.addRestaurant(rest);
+        return Response.ok(json).build();
+    }
 }

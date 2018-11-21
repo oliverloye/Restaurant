@@ -24,16 +24,11 @@ class App extends Component {
       .then(res => this.setState({ loggedIn: true }));
   }
 
-  addNew = (user, pass) => {
-    facade.addNew(user, pass)
-      .then(res => this.setState({ loggedIn: true }));
-  }
-
   render() {
     return (
       <Router>
         <div>
-          {!this.state.loggedIn ? (<LogIn login={this.login} addNew={this.addNew} />) :
+          {!this.state.loggedIn ? (<LogIn login={this.login} />) :
             (<div>
               <LoggedIn logout={this.logout} />
             </div>)}
@@ -46,7 +41,7 @@ class App extends Component {
 class LogIn extends Component {
   constructor(props) {
     super(props);
-    this.state = { username: "", password: "", newuser: "", newpw: "", newpw2: "", msg: "" }
+    this.state = { username: "", password: "" }
   }
 
   login = (evt) => {
@@ -56,16 +51,6 @@ class LogIn extends Component {
 
   onChange = (evt) => {
     this.setState({ [evt.target.id]: evt.target.value, msg: "" })
-  }
-
-  addNew = (event) => {
-    event.preventDefault();
-    if (this.state.newpw !== this.state.newpw2) {
-      this.setState({ msg: "Your passwords must match" })
-      event.target.reset();
-    } else {
-      this.props.addNew(this.state.newuser, this.state.newpw);
-    }
   }
 
   render() {
@@ -82,16 +67,6 @@ class LogIn extends Component {
           </fieldset>
         </form>
         <br></br>
-        <form onSubmit={this.addNew} onChange={this.onChange} >
-          <fieldset>
-            <legend>New user? Register here:</legend>
-            <input placeholder="User Name" id="newuser" />
-            <input placeholder="Password" id="newpw" />
-            <input placeholder="Repeat password" id="newpw2" />
-            <button>Login</button>
-          </fieldset>
-        </form>
-        <p>{this.state.msg}</p>
       </div>
     )
   }
@@ -126,20 +101,20 @@ function Header(props) {
     role = decodedJwtData.roles
   }
   console.log('role: ' + role)
-  if (role === "user") {
+  if (role === "rest_owner") {
     return (
       <Router>
         <div>
           <ul className="header">
             <li><NavLink exact activeClassName="active" to="/">Home</NavLink></li>
-            <li><NavLink activeClassName="active" to="/data">Data</NavLink></li>
+            <li><NavLink activeClassName="active" to="/restaurants">Restaurants</NavLink></li>
             <li><NavLink activeClassName="active" to="/user">User</NavLink></li>
             <li><NavLink activeClassName="active" to="/logout" onClick={props.logout}>Logout</NavLink></li>
             <div className="nav-right"><li><p>{props.user}</p></li></div>
           </ul>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route path="/data" component={Data} />
+            <Route path="/restaurants" component={Restaurants} />
             <Route path="/user" component={User} />
           </Switch>
         </div>

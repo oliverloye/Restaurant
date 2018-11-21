@@ -46,7 +46,7 @@ public class RestaurantAPI {
 //        }
         return Response.ok(gson.toJson(restaurants)).build();
     }
-    
+
     @GET //VIRKER
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getname")
@@ -55,8 +55,7 @@ public class RestaurantAPI {
         String user = securityContext.getUserPrincipal().getName();
         return "\"" + user + " is logged in \"";
     }
-    
-    
+
 //    @GET
 //    @Produces(MediaType.APPLICATION_JSON)
 //    @Path("getmenu")
@@ -65,7 +64,6 @@ public class RestaurantAPI {
 //        String user = securityContext.getUserPrincipal().getName();
 //        return "\"" + user + " is logged in \"";
 //    }
-    
     @GET // VIRKER - overvej om man overhovedet skal returnere hele restauranten i DTO'en
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getmenu")
@@ -83,8 +81,6 @@ public class RestaurantAPI {
 //        }
         return Response.ok(gson.toJson(menuItems)).build();
     }
-    
-    
 
 //    @GET
 //    @Produces(MediaType.APPLICATION_JSON)
@@ -102,7 +98,6 @@ public class RestaurantAPI {
 //    public String getFromAdmin() {
 //        return "\" test \"";
 //    }
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("swapi")
@@ -133,7 +128,6 @@ public class RestaurantAPI {
 //        return Response.ok(persons).header("X-Total-Count", count)
 //                .header("Access-Control-Expose-Headers", "X-Total-Count").build();
 //    }
-    
     @Path("addrest")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -146,21 +140,20 @@ public class RestaurantAPI {
             throw new NotFoundException("Your restaurant name must be at least 2 characters long.");
         }
         System.out.println(restData.toString());
-        
+
         Restaurant rest = new Restaurant();
         CityInfo cityInfo = new CityInfo();
-        
-        
+
         cityInfo.setCity(restData.cityInfo.city);
         cityInfo.setZip(restData.cityInfo.zip);
-        
+
         rest.setRestname(restData.restName);
         rest.setPhone(restData.phone);
         rest.setStreet(restData.street);
         rest.setWebsite(restData.website);
         rest.setFoodType(restData.foodType);
         rest.setCityInfo(cityInfo);
-        
+
         facade.addRestaurant(rest);
         return Response.ok(json).build();
     }

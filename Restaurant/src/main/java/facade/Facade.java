@@ -202,7 +202,6 @@ public class Facade {
 //            em.close();
 //        }
 //    }
-    
     public Restaurant addRestaurant(Restaurant rest) throws InternalException {
         EntityManager em = getEntityManager();
         try {

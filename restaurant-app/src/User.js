@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import facade from './apiFacade';
+//import facade from './apiFacade';
 
 export default class User extends Component {
     constructor(props) {
@@ -8,12 +8,12 @@ export default class User extends Component {
     }
 
     componentDidMount() {
-        facade.getNumberOfUsers().then(res => this.setState({ usernum: res }));
+        //facade.getNumberOfUsers().then(res => this.setState({ usernum: res }));
     }
     render() {
         return (
             <div>
-                {this.state.usernum}
+                {/* {this.state.usernum} */}
             </div>
         )
     }

@@ -1,5 +1,6 @@
 package facade;
 
+import dto.MenuItemDTO;
 import dto.RestaurantDTO;
 import entity.User;
 import exceptions.AuthenticationException;
@@ -31,9 +32,9 @@ public class Facade {
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-    
+
     // VIRKER
-    public List<RestaurantDTO> getAllRestaurants(){
+    public List<RestaurantDTO> getAllRestaurants() {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
@@ -45,8 +46,8 @@ public class Facade {
             em.close();
         }
     }
-    
 
+    // VIRKER (som kopieret fra tidligere)
     public User getVeryfiedUser(String username, String password) throws AuthenticationException {
         EntityManager em = emf.createEntityManager();
         User user;
@@ -60,6 +61,22 @@ public class Facade {
         }
         return user;
     }
+
+    public List<MenuItemDTO> getMenuItems(int id) {
+        EntityManager em = getEntityManager();
+        try {
+//            em.getTransaction().begin();
+            TypedQuery<MenuItemDTO> tq = em.createQuery("Select new entity.MenuItemDTO(m)"
+                    + " from MenuItem m where m.restaurant_id=:id", MenuItemDTO.class);
+            tq.setParameter("id", id);
+            List<MenuItemDTO> menu = tq.getResultList();
+//            em.getTransaction().commit();
+            return menu;
+        } finally {
+            em.close();
+        }
+    }
+
 //
 //    public User addNewUser(User user) throws AuthenticationException {
 //        EntityManager em = emf.createEntityManager();

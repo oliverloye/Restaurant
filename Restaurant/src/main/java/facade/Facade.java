@@ -2,6 +2,7 @@ package facade;
 
 import dto.MenuItemDTO;
 import dto.RestaurantDTO;
+import entity.Restaurant;
 import entity.User;
 import exceptions.AuthenticationException;
 import java.io.IOException;
@@ -62,15 +63,14 @@ public class Facade {
         return user;
     }
 
+    // VIRKER
     public List<MenuItemDTO> getMenuItems(int id) {
         EntityManager em = getEntityManager();
         try {
-//            em.getTransaction().begin();
-            TypedQuery<MenuItemDTO> tq = em.createQuery("Select new entity.MenuItemDTO(m)"
-                    + " from MenuItem m where m.restaurant_id=:id", MenuItemDTO.class);
-            tq.setParameter("id", id);
+            Restaurant restaurant = em.find(Restaurant.class, id);
+            TypedQuery<MenuItemDTO> tq = em.createQuery("Select new dto.MenuItemDTO(m) from MenuItem m where m.restaurant=:rest", MenuItemDTO.class);
+            tq.setParameter("rest", restaurant);
             List<MenuItemDTO> menu = tq.getResultList();
-//            em.getTransaction().commit();
             return menu;
         } finally {
             em.close();

@@ -78,18 +78,19 @@ public class Facade {
         }
     }
 
-//
-//    public User addNewUser(User user) throws AuthenticationException {
-//        EntityManager em = emf.createEntityManager();
-//        try {
-//            em.getTransaction().begin();
-//            em.persist(user);
-//            em.getTransaction().commit();
-//        } finally {
-//            em.close();
-//        }
-//        return user;
-//    }
+
+    public User addNewUser(User user) throws AuthenticationException {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(user);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return user;
+    }
+    
     public Long getNumberOfUsers() {
         EntityManager em = getEntityManager();
         try {

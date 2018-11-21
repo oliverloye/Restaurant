@@ -134,8 +134,9 @@ public class RestaurantAPI {
 //                .header("Access-Control-Expose-Headers", "X-Total-Count").build();
 //    }
     
-    @Path("addrest")
     @POST
+    @Path("addrest")
+    @RolesAllowed("rest_owner")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addRestaurant(String json) throws NotFoundException {

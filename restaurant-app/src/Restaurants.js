@@ -6,7 +6,8 @@ import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import filterFactory, { /* textFilter, */ selectFilter } from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 
-let selectOptions = {
+
+let foodTypeOptions = {
     Indian: 'Indian',
     Italian: 'Italian',
     American: 'American',
@@ -22,6 +23,15 @@ let zipOptions = {
     4000: '4000'
 }
 
+const expandRow = {
+    renderer: (row, menuItems) => (
+    <div>
+        <p>Hej</p>
+        <p>Hejsa</p>
+    </div>
+    )
+  };
+
 const columns = [{
     dataField: 'id',
     text: 'ID',
@@ -33,7 +43,7 @@ const columns = [{
     dataField: 'foodType',
     text: 'Food type',
     filter: selectFilter({
-        options: selectOptions,
+        options: foodTypeOptions,
     })
 },
 {
@@ -56,6 +66,10 @@ const columns = [{
 }, {
     dataField: 'cityInfo.city',
     text: "City"
+}, {
+    dataField: 'menuItems',
+    text: "Menu",
+    expandRow: expandRow
 }
 
 ];
@@ -64,12 +78,14 @@ const columns = [{
 export default class Restaurants extends Component {
     constructor(props) {
         super(props);
-        this.state = { restaurantList: [], paginationData: "Fetching data..." };
+        this.state = { restaurantList: [], menuItems: [], paginationData: "Fetching data..." };
     }
 
     async componentDidMount() {
         const restaurantList = await facade.getAllRestaurants();//.then(res => res.json());
-        this.setState({ restaurantList });
+        const menuItems = await facade.getMenuItems();
+
+        this.setState({ restaurantList, menuItems });
     }
 
     render() {
@@ -80,9 +96,11 @@ export default class Restaurants extends Component {
                 bootstrap4
                 keyField='id'
                 data={this.state.restaurantList}
+                data1={this.state.menuItems}
                 columns={columns}
                 filter={filterFactory()}
                 pagination={paginationFactory()}
+                expandRow={expandRow} 
             />
         </div>
     }

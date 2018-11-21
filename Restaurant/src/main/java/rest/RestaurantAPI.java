@@ -61,7 +61,7 @@ public class RestaurantAPI {
 //        return "\"" + user + " is logged in \"";
 //    }
     
-    @GET
+    @GET // VIRKER - overvej om man overhovedet skal returnere hele restauranten i DTO'en
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getmenu")
     public Response getMenuItems(@QueryParam("id") int id) {
@@ -81,22 +81,22 @@ public class RestaurantAPI {
     
     
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("user")
-    @RolesAllowed("user")
-    public String getFromUser() {
-        Long numberOfUsers = facade.getNumberOfUsers();
-        return "\"" + numberOfUsers.toString() + "\"";
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("admin")
-    @RolesAllowed("admin")
-    public String getFromAdmin() {
-        return "\" test \"";
-    }
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Path("user")
+//    @RolesAllowed("user")
+//    public String getFromUser() {
+//        Long numberOfUsers = facade.getNumberOfUsers();
+//        return "\"" + numberOfUsers.toString() + "\"";
+//    }
+//
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Path("admin")
+//    @RolesAllowed("admin")
+//    public String getFromAdmin() {
+//        return "\" test \"";
+//    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

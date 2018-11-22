@@ -21,6 +21,8 @@ public class Restaurant implements Serializable {
     private String foodType;
     @ManyToOne
     private CityInfo cityInfo;
+    @ManyToOne
+    private User owner;
 
     public Integer getId() {
         return id;
@@ -32,6 +34,15 @@ public class Restaurant implements Serializable {
 
     public Restaurant() {
     }
+    
+    public Restaurant(String restname, String street, String phone, CityInfo cityInfo, String foodType, User owner) {
+        this.restname = restname;
+        this.street = street;
+        this.phone = phone;
+        this.cityInfo = cityInfo;
+        this.foodType = foodType;
+        this.owner = owner;
+    }
 
     public Restaurant(String restname, String street, String phone, CityInfo cityInfo, String foodType) {
         this.restname = restname;
@@ -41,6 +52,14 @@ public class Restaurant implements Serializable {
         this.foodType = foodType;
     }
 
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+    
     public String getWebsite() {
         return website;
     }

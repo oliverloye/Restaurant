@@ -10,6 +10,8 @@ import com.nimbusds.jose.JWSSigner;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import entity.Role;
+import entity.User;
 import facade.Facade;
 import java.util.Date;
 import java.util.List;
@@ -32,35 +34,35 @@ public class RegisterEndpoint {
 
     public static final int TOKEN_EXPIRE_TIME = 1000 * 60 * 30; //30 min
 
-//    @POST
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response addNew(String jsonString) throws AuthenticationException {
-//
-//        JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
-//        String username = json.get("username").getAsString();
-//        String password = json.get("password").getAsString();
-//        Facade facade = new Facade(Persistence.createEntityManagerFactory("pu"));
-//
-//        //Todo refactor into facade
-//        try {
-//            User newUser = new User(username, username);
-//            newUser.addRole(new Role("user"));
-//            User user = facade.addNewUser(newUser);
-//            String token = createToken(username, user.getRolesAsStrings());
-//            JsonObject responseJson = new JsonObject();
-//            responseJson.addProperty("username", username);
-//            responseJson.addProperty("token", token);
-//            return Response.ok(new Gson().toJson(responseJson)).build();
-//
-//        } catch (Exception ex) {
-//            if (ex instanceof AuthenticationException) {
-//                throw (AuthenticationException) ex;
-//            }
-//            Logger.getLogger(GenericExceptionMapper.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        throw new AuthenticationException("Invalid username or password! Please try again");
-//    }
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addNew(String jsonString) throws AuthenticationException {
+
+        JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
+        String username = json.get("username").getAsString();
+        String password = json.get("password").getAsString();
+        Facade facade = new Facade(Persistence.createEntityManagerFactory("pu"));
+
+        //Todo refactor into facade
+        try {
+            User newUser = new User(username, username);
+            newUser.addRole(new Role("user"));
+            User user = facade.addNewUser(newUser);
+            String token = createToken(username, user.getRolesAsStrings());
+            JsonObject responseJson = new JsonObject();
+            responseJson.addProperty("username", username);
+            responseJson.addProperty("token", token);
+            return Response.ok(new Gson().toJson(responseJson)).build();
+
+        } catch (Exception ex) {
+            if (ex instanceof AuthenticationException) {
+                throw (AuthenticationException) ex;
+            }
+            Logger.getLogger(GenericExceptionMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        throw new AuthenticationException("Invalid username or password! Please try again");
+    }
 
     private String createToken(String userName, List<String> roles) throws JOSEException {
 

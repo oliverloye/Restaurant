@@ -83,9 +83,9 @@ export default class Restaurants extends Component {
 
     async componentDidMount() {
         const restaurantList = await facade.getAllRestaurants();//.then(res => res.json());
-        const menuItems = await facade.getMenuItems();
+        //const menuItems = await facade.getMenuItems();
 
-        this.setState({ restaurantList, menuItems });
+        this.setState({ restaurantList});//, menuItems });
     }
 
     render() {

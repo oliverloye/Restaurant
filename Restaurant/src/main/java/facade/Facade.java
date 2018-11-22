@@ -77,18 +77,32 @@ public class Facade {
         }
     }
 
+    public List<RestaurantDTO> getMyRestaurants(String owner) {
+        EntityManager em = getEntityManager();
+        try {
+            User ownerOfRestaurants = em.find(User.class, owner);
+            TypedQuery<RestaurantDTO> tq = em.createQuery("Select new dto.RestaurantDTO(r) from Restaurant r where r.owner=:owner", RestaurantDTO.class);
+            tq.setParameter("owner", ownerOfRestaurants);
+            List<RestaurantDTO> list = tq.getResultList();
+            return list;
+        } finally {
+            em.close();
+        }
+    }
+
 //
-//    public User addNewUser(User user) throws AuthenticationException {
-//        EntityManager em = emf.createEntityManager();
-//        try {
-//            em.getTransaction().begin();
-//            em.persist(user);
-//            em.getTransaction().commit();
-//        } finally {
-//            em.close();
-//        }
-//        return user;
-//    }
+    public User addNewUser(User user) throws AuthenticationException {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(user);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return user;
+    }
+
     public Long getNumberOfUsers() {
         EntityManager em = getEntityManager();
         try {

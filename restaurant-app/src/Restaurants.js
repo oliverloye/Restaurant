@@ -80,7 +80,7 @@ const columns = [{
     dataField: 'cityInfo.city',
     text: "By",
     filter: textFilter()
-}, 
+},
 
 ];
 
@@ -98,6 +98,7 @@ export default class Restaurants extends Component {
         const restaurantList = await facade.getAllRestaurants();//.then(res => res.json());
         const menuItems = await facade.getMenuItems();
         this.setState({ restaurantList, menuItems });
+        console.log(this.state.menuItems);
     }
 
 
@@ -114,12 +115,14 @@ export default class Restaurants extends Component {
                 columns={columns}
                 filter={filterFactory()}
                 pagination={paginationFactory()}
+
                 expandRow={expandRow} />
-                    {/* <TableHeaderColumn 
+            {/* <TableHeaderColumn 
                         dataField="button" 
                         dataFormat={buttonFormatter}>
                         Restaurant information
                     </TableHeaderColumn> */}
+
         </div>
     }
 }

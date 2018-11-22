@@ -86,6 +86,7 @@ export default class Restaurants extends Component {
         const menuItems = await facade.getMenuItems();
 
         this.setState({ restaurantList, menuItems });
+        console.log(this.state.menuItems);
     }
 
     render() {
@@ -100,7 +101,7 @@ export default class Restaurants extends Component {
                 columns={columns}
                 filter={filterFactory()}
                 pagination={paginationFactory()}
-                expandRow={expandRow} 
+                expandRow={expandRow}
             />
         </div>
     }

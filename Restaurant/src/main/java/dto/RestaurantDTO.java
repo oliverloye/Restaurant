@@ -1,6 +1,7 @@
 package dto;
 
 import entity.Restaurant;
+import entity.User;
 
 public class RestaurantDTO {
 
@@ -11,6 +12,7 @@ public class RestaurantDTO {
     public String website;
     public String phone;
     public CityInfoDTO cityInfo;
+    public User owner;
 
     public RestaurantDTO() {
     }
@@ -23,6 +25,9 @@ public class RestaurantDTO {
         this.phone = restaurant.getPhone();
         this.website = restaurant.getWebsite();
         this.cityInfo = new CityInfoDTO(restaurant.getCityInfo());
+        if (restaurant.getOwner() != null) {
+            this.owner = new User(restaurant.getOwner().getUserName(), restaurant.getOwner().getUserPass());
+        }
     }
 
     public RestaurantDTO(int id, String restName, String foodType, String street, String website, CityInfoDTO cityInfo) {

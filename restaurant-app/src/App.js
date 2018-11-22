@@ -4,13 +4,15 @@ import Data from './Data.js';
 import Admin from './Admin.js';
 import User from './User.js';
 import Home from './Home.js';
+import Menu from './Menu.js';
 import Restaurants from './Restaurants';
+import MyRestaurants from './MyRestaurants.js';
 import { BrowserRouter as Router, Route, Switch, NavLink } from "react-router-dom";
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { loggedIn: false, role: "" }
+    this.state = { loggedIn: false, role: ""}
   }
 
   logout = () => {
@@ -102,6 +104,27 @@ function Header(props) {
   }
   console.log('role: ' + role)
   if (role === "rest_owner") {
+    console.log("Headerporps: " + props)
+    return (
+      <Router>
+        <div>
+          <ul className="header">
+            <li><NavLink exact activeClassName="active" to="/">Home</NavLink></li>
+            <li><NavLink activeClassName="active" to="/myrestaurants">MyRestaurants</NavLink></li>
+            <li><NavLink activeClassName="active" to="/logout" onClick={props.logout}>Logout</NavLink></li>
+            <div className="nav-right"><li><p>{props.user}</p></li></div>
+          </ul>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/myrestaurants" render={(props) => <MyRestaurants {...props} user={props.user} />} />
+
+          </Switch>
+        </div>
+      </ Router>
+    )
+  }
+
+  /* if (role === "rest_owner") {
     return (
       <Router>
         <div>
@@ -120,7 +143,7 @@ function Header(props) {
         </div>
       </ Router>
     )
-  }
+  } */
   else if (role === "admin") {
 
     return (
@@ -149,11 +172,13 @@ function Header(props) {
           <ul className="header">
             <li><NavLink exact activeClassName="active" to="/">Home</NavLink></li>
             <li><NavLink activeClassName="active" to="/restaurants">Restaurants</NavLink></li>
+            <li><NavLink activeClassName="active" to="/menu">Menu</NavLink></li>
             <div className="nav-right"><li><p>Not logged in</p></li></div>
           </ul>
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/restaurants" component={Restaurants} />
+            <Route path="/menu" component={Menu} />
           </Switch>
         </div>
       </ Router>

@@ -2,6 +2,7 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParser;
 import dto.MenuItemDTO;
 import dto.RestaurantDTO;
 import entity.CityInfo;
@@ -29,6 +30,7 @@ public class RestaurantAPI {
 
     private Facade facade = new Facade(Persistence.createEntityManagerFactory("pu"));
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private JsonParser parser = new JsonParser();
 
     @Context
     private UriInfo context;
@@ -53,7 +55,7 @@ public class RestaurantAPI {
     @RolesAllowed({"rest_owner", "admin"})
     public String getName() {
         String user = securityContext.getUserPrincipal().getName();
-        return "\"" + user + " is logged in \"";
+        return "\"" + user + "\"";
     }
 
 //    @GET
@@ -80,6 +82,15 @@ public class RestaurantAPI {
 //            }
 //        }
         return Response.ok(gson.toJson(menuItems)).build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("getmyrestaurants")
+    public Response getMyRestaurants(@QueryParam("owner") String owner) {
+//        String owner = parser.parse(json).getAsString();
+        List<RestaurantDTO> myRest = facade.getMyRestaurants(owner);
+        return Response.ok(gson.toJson(myRest)).build();
     }
 
 //    @GET
@@ -128,7 +139,6 @@ public class RestaurantAPI {
 //        return Response.ok(persons).header("X-Total-Count", count)
 //                .header("Access-Control-Expose-Headers", "X-Total-Count").build();
 //    }
-    
     @POST
     @Path("addrest")
     @RolesAllowed("rest_owner")

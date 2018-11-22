@@ -26,10 +26,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import exceptions.AuthenticationException;
 import exceptions.GenericExceptionMapper;
+import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-@Path("addNew")
+@Path("adduser")
+@RolesAllowed("admin")
 public class RegisterEndpoint {
 
     public static final int TOKEN_EXPIRE_TIME = 1000 * 60 * 30; //30 min
@@ -46,8 +48,8 @@ public class RegisterEndpoint {
 
         //Todo refactor into facade
         try {
-            User newUser = new User(username, username);
-            newUser.addRole(new Role("user"));
+            User newUser = new User(username, password);
+            newUser.addRole(new Role("rest_owner"));
             User user = facade.addNewUser(newUser);
             String token = createToken(username, user.getRolesAsStrings());
             JsonObject responseJson = new JsonObject();

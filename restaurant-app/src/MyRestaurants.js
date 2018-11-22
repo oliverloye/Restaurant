@@ -16,14 +16,12 @@ export default class MyRestaurants extends Component {
     render() {
         const tableData = this.state.restaurantList.map((restaurant) =>
             <SingleData key={restaurant.id}
-
                 restName={restaurant.restName}
                 foodType={restaurant.foodType}
                 street={restaurant.street}
                 website={restaurant.website} />
         );
         return <div>
-
             <table className="table">
                 <thead>
                     <tr><th>Rest name</th><th>Food type</th><th>Street</th><th>Website</th></tr>
@@ -32,8 +30,6 @@ export default class MyRestaurants extends Component {
                     {tableData}
                 </tbody>
             </table>
-
-
         </div>
         
     }
@@ -53,10 +49,3 @@ function SingleData(props) {
 }
 
 
-//xport default myrest;
-
-// WIP metode som skal flyttes over i facaden
-/* getMyRestaurants = (props) =>{
-    const options = this.makeOptions("GET", true);
-    return fetch(URL + "/api/info/admin", options).then(handleHttpErrors);
-} */

@@ -5,6 +5,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 import dto.MenuItemDTO;
 import dto.RestaurantDTO;
+import entity.CityInfo;
+import entity.Restaurant;
+import exceptions.NotFoundException;
 import facade.Facade;
 import java.io.IOException;
 import java.util.List;
@@ -15,6 +18,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -44,19 +48,16 @@ public class RestaurantAPI {
 //        }
         return Response.ok(gson.toJson(restaurants)).build();
     }
-    
+
     @GET //VIRKER
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getname")
     @RolesAllowed({"rest_owner", "admin"})
     public String getName() {
         String user = securityContext.getUserPrincipal().getName();
-        return "\"" + user +"\"";
+        return "\"" + user + "\"";
     }
-    
-    
-    
-    
+
 //    @GET
 //    @Produces(MediaType.APPLICATION_JSON)
 //    @Path("getmenu")
@@ -65,7 +66,6 @@ public class RestaurantAPI {
 //        String user = securityContext.getUserPrincipal().getName();
 //        return "\"" + user + " is logged in \"";
 //    }
-    
     @GET // VIRKER - overvej om man overhovedet skal returnere hele restauranten i DTO'en
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getmenu")
@@ -83,8 +83,8 @@ public class RestaurantAPI {
 //        }
         return Response.ok(gson.toJson(menuItems)).build();
     }
-    
-    @GET 
+
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getmyrestaurants")
     public Response getMyRestaurants(@QueryParam("owner") String owner) {
@@ -92,8 +92,6 @@ public class RestaurantAPI {
         List<RestaurantDTO> myRest = facade.getMyRestaurants(owner);
         return Response.ok(gson.toJson(myRest)).build();
     }
-    
-    
 
 //    @GET
 //    @Produces(MediaType.APPLICATION_JSON)
@@ -111,7 +109,6 @@ public class RestaurantAPI {
 //    public String getFromAdmin() {
 //        return "\" test \"";
 //    }
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("swapi")
@@ -142,4 +139,34 @@ public class RestaurantAPI {
 //        return Response.ok(persons).header("X-Total-Count", count)
 //                .header("Access-Control-Expose-Headers", "X-Total-Count").build();
 //    }
+    @POST
+    @Path("addrest")
+    @RolesAllowed("rest_owner")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addRestaurant(String json) throws NotFoundException {
+        RestaurantDTO restData = gson.fromJson(json, RestaurantDTO.class);
+        if (restData.restName == null || restData.foodType == null || restData.phone == null) {
+            throw new NotFoundException("Please enter a valid restaurant name, foodtype or phone number.");
+        } else if ((restData.restName.length() <= 1)) {
+            throw new NotFoundException("Your restaurant name must be at least 2 characters long.");
+        }
+        System.out.println(restData.toString());
+
+        Restaurant rest = new Restaurant();
+        CityInfo cityInfo = new CityInfo();
+
+        cityInfo.setCity(restData.cityInfo.city);
+        cityInfo.setZip(restData.cityInfo.zip);
+
+        rest.setRestname(restData.restName);
+        rest.setPhone(restData.phone);
+        rest.setStreet(restData.street);
+        rest.setWebsite(restData.website);
+        rest.setFoodType(restData.foodType);
+        rest.setCityInfo(cityInfo);
+
+        facade.addRestaurant(rest);
+        return Response.ok(json).build();
+    }
 }

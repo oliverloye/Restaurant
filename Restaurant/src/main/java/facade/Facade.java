@@ -21,6 +21,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import jdk.nashorn.internal.runtime.regexp.joni.exception.InternalException;
 
 public class Facade {
 
@@ -90,7 +91,6 @@ public class Facade {
         }
     }
 
-//
     public User addNewUser(User user) throws AuthenticationException {
         EntityManager em = emf.createEntityManager();
         try {
@@ -215,4 +215,18 @@ public class Facade {
 //            em.close();
 //        }
 //    }
+    public Restaurant addRestaurant(Restaurant rest) throws InternalException {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(rest);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+
+        return rest;
+    }
 }

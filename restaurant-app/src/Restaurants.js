@@ -3,9 +3,8 @@ import facade from './apiFacade';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import filterFactory, { /* textFilter, */ selectFilter } from 'react-bootstrap-table2-filter';
+import filterFactory, { selectFilter, textFilter } from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
-
 
 let foodTypeOptions = {
     Indian: 'Indian',
@@ -24,56 +23,70 @@ let zipOptions = {
 }
 
 const expandRow = {
-    renderer: (row, menuItems) => (
-    <div>
-        <p>Hej</p>
-        <p>Hejsa</p>
-    </div>
-    )
-  };
+    renderer: (row) => (
+        <div>
+            <p><b>Kontakt information: </b></p>
+            <p><b>Navn: </b> {row.restName} <br /> </p>
+            <p><b>Adresse: </b> {row.street}, {row.cityInfo.zip} {row.cityInfo.city}<br /> </p>
+            <p><b>Website: </b> {row.website}</p>
+            <p><b>Telefon: </b> {row.phone}</p>
+
+            {console.log(row.id)}
+
+            <a href="/menu">Menukort</a>
+        </div>
+
+    ),
+    showExpandColumn: true,
+    headerAlign: 'left',
+    expandHeaderColumnRenderer: ({ isAnyExpands }) => {
+
+        if (isAnyExpands) {
+            return <b>-</b>;
+        }
+        return <b>+</b>;
+    },
+    expandColumnRenderer: ({ expanded }) => {
+        if (expanded) {
+            return (
+                <b>-</b>
+            );
+        }
+        return (
+            <b> ... </b>
+        );
+    }
+};
+
 
 const columns = [{
-    dataField: 'id',
-    text: 'ID',
-}, {
     dataField: 'restName',
-    text: 'Name',
+    text: 'Navn',
 },
 {
     dataField: 'foodType',
-    text: 'Food type',
+    text: 'Madtype',
     filter: selectFilter({
         options: foodTypeOptions,
     })
 },
 {
-    dataField: 'street',
-    text: 'Street',
-    //sort: true
-}, {
-    dataField: 'website',
-    text: 'Website'
-},
-{
-    dataField: 'phone',
-    text: 'Phone'
-}, {
     dataField: 'cityInfo.zip',
-    text: 'Zip',
+    text: 'Postnummer',
     filter: selectFilter({
         options: zipOptions
     })
 }, {
     dataField: 'cityInfo.city',
-    text: "City"
-}, {
-    dataField: 'menuItems',
-    text: "Menu",
-    expandRow: expandRow
-}
+    text: "By",
+    filter: textFilter()
+}, 
 
 ];
 
+/* function buttonFormatter(cell, row) {
+    return '<BootstrapButton type="submit"></BootstrapButton>';
+} */
 
 export default class Restaurants extends Component {
     constructor(props) {
@@ -84,11 +97,12 @@ export default class Restaurants extends Component {
     async componentDidMount() {
         const restaurantList = await facade.getAllRestaurants();//.then(res => res.json());
         const menuItems = await facade.getMenuItems();
-
         this.setState({ restaurantList, menuItems });
     }
 
+
     render() {
+        console.log(this.state.menuItems);
         return <div>
             <BootstrapTable
                 striped
@@ -100,8 +114,12 @@ export default class Restaurants extends Component {
                 columns={columns}
                 filter={filterFactory()}
                 pagination={paginationFactory()}
-                expandRow={expandRow} 
-            />
+                expandRow={expandRow} />
+                    {/* <TableHeaderColumn 
+                        dataField="button" 
+                        dataFormat={buttonFormatter}>
+                        Restaurant information
+                    </TableHeaderColumn> */}
         </div>
     }
 }

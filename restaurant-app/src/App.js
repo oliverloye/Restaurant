@@ -4,6 +4,7 @@ import Data from './Data.js';
 import Admin from './Admin.js';
 import User from './User.js';
 import Home from './Home.js';
+import Menu from './Menu.js';
 import Restaurants from './Restaurants';
 import { BrowserRouter as Router, Route, Switch, NavLink } from "react-router-dom";
 
@@ -149,11 +150,13 @@ function Header(props) {
           <ul className="header">
             <li><NavLink exact activeClassName="active" to="/">Home</NavLink></li>
             <li><NavLink activeClassName="active" to="/restaurants">Restaurants</NavLink></li>
+            <li><NavLink activeClassName="active" to="/menu">Menu</NavLink></li>
             <div className="nav-right"><li><p>Not logged in</p></li></div>
           </ul>
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/restaurants" component={Restaurants} />
+            <Route path="/menu" component={Menu} />
           </Switch>
         </div>
       </ Router>

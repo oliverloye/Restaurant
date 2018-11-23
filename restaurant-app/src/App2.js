@@ -51,7 +51,7 @@ class App extends Component {
                     <li><NavLink activeClassName="active" to="/logout" onClick={this.logout}>Logout</NavLink></li>
                     <div className="nav-right"><li><p>{this.state.username}</p></li></div>
                 </ul>
-                <Switch>
+                <Switch> 
                     <Route path="/myrestaurants" render={(props) => <MyRestaurants {...props} username={this.state.username} />} />
 
                 </Switch>

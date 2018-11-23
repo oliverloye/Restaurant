@@ -5,6 +5,8 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import filterFactory, { selectFilter, textFilter } from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
+import { BrowserRouter as Router, Route, Switch, NavLink } from "react-router-dom";
+import Menu from './Menu.js';
 
 let foodTypeOptions = {
     Indian: 'Indian',
@@ -25,15 +27,23 @@ let zipOptions = {
 const expandRow = {
     renderer: (row) => (
         <div>
-            <p><b>Kontakt information: </b></p>
-            <p><b>Navn: </b> {row.restName} <br /> </p>
-            <p><b>Adresse: </b> {row.street}, {row.cityInfo.zip} {row.cityInfo.city}<br /> </p>
-            <p><b>Website: </b> {row.website}</p>
-            <p><b>Telefon: </b> {row.phone}</p>
+            <Router>
+                <div>
+                    <p><b>Kontakt information: </b></p>
+                    <p><b>Navn: </b> {row.restName} <br /> </p>
+                    <p><b>Adresse: </b> {row.street}, {row.cityInfo.zip} {row.cityInfo.city}<br /> </p>
+                    <p><b>Website: </b> {row.website}</p>
+                    <p><b>Telefon: </b> {row.phone}</p>
 
-            {console.log(row.id)}
+                    {console.log(row.id)}
 
-            <a href="/menu">Menukort</a>
+                    <NavLink exact activeClassName="active" to="/menu">Menu</NavLink>
+                    <Switch>
+                        <Route exact path="/menu" render={(props) => <Menu {...props} id={row.id} />} />
+                    </Switch>
+
+                </div>
+            </Router>
         </div>
 
     ),
@@ -57,7 +67,6 @@ const expandRow = {
         );
     }
 };
-
 
 const columns = [{
     dataField: 'restName',
@@ -84,10 +93,6 @@ const columns = [{
 
 ];
 
-/* function buttonFormatter(cell, row) {
-    return '<BootstrapButton type="submit"></BootstrapButton>';
-} */
-
 export default class Restaurants extends Component {
     constructor(props) {
         super(props);
@@ -95,15 +100,12 @@ export default class Restaurants extends Component {
     }
 
     async componentDidMount() {
-        const restaurantList = await facade.getAllRestaurants();//.then(res => res.json());
+        const restaurantList = await facade.getAllRestaurants();
         const menuItems = await facade.getMenuItems();
         this.setState({ restaurantList, menuItems });
-        console.log(this.state.menuItems);
     }
 
-
     render() {
-        console.log(this.state.menuItems);
         return <div>
             <BootstrapTable
                 striped
@@ -111,18 +113,10 @@ export default class Restaurants extends Component {
                 bootstrap4
                 keyField='id'
                 data={this.state.restaurantList}
-                data1={this.state.menuItems}
                 columns={columns}
                 filter={filterFactory()}
                 pagination={paginationFactory()}
-
                 expandRow={expandRow} />
-            {/* <TableHeaderColumn 
-                        dataField="button" 
-                        dataFormat={buttonFormatter}>
-                        Restaurant information
-                    </TableHeaderColumn> */}
-
         </div>
     }
 }

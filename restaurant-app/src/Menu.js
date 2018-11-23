@@ -18,8 +18,7 @@ export default class Menu extends Component {
                 id={menu.id}
                 description={menu.description}
                 itemName={menu.itemName}
-                price={menu.price}
-            />
+                price={menu.price} />
         );
         return (
             <div>
@@ -42,8 +41,8 @@ function SingleData(props) {
     const itemName = props.itemName;
     const price = props.price;
     return (
-      <tr>
-        <td>{id}</td><td><b>{itemName}</b></td><td>{description}</td><td>{price} kr.</td>
-      </tr>
+        <tr>
+            <td>{id}</td><td><b>{itemName}</b></td><td>{description}</td><td>{price} kr.</td>
+        </tr>
     );
-  }
+}

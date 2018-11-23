@@ -165,6 +165,7 @@ public class RestaurantAPI {
         rest.setWebsite(restData.website);
         rest.setFoodType(restData.foodType);
         rest.setCityInfo(cityInfo);
+        rest.setOwner(restData.owner);
 
         facade.addRestaurant(rest);
         return Response.ok(json).build();

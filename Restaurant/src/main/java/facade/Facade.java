@@ -114,17 +114,6 @@ public class Facade {
         }
     }
 
-//    public List<User> getAllUsers() {
-//        List<User> allUsers = new ArrayList<>();
-//        EntityManager em = getEntityManager(emf);
-//        try {
-//            Query q = em.createQuery("select u.userName from User u");
-//            allUsers = q.getResultList();
-//            return allUsers;
-//        } finally {
-//            em.close();
-//        }
-//    }
     public String getSwapiData() throws MalformedURLException, IOException {
         String hostURL = "https://swapi.co/api/people/";
         int numberOfServerCalls = 5;
@@ -192,16 +181,6 @@ public class Facade {
         }
     }
 
-//    public List<Persons> getPersons() {
-//        EntityManager em = getEntityManager(emf);
-//        try {
-//            Query tq = em.createQuery("Select p from Persons p");
-//            return tq.getResultList();
-//        } finally {
-//            em.close();
-//        }
-//    }
-//
 //    // bruges ikke pt
 //    public List<Persons> getByPage(int start, int end) {
 //        EntityManager em = getEntityManager(emf);

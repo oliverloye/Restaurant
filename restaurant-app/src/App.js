@@ -172,7 +172,6 @@ function Header(props) {
           <ul className="header">
             <li><NavLink exact activeClassName="active" to="/">Home</NavLink></li>
             <li><NavLink activeClassName="active" to="/restaurants">Restaurants</NavLink></li>
-            <li><NavLink activeClassName="active" to="/menu">Menu</NavLink></li>
             <div className="nav-right"><li><p>Not logged in</p></li></div>
           </ul>
           <Switch>

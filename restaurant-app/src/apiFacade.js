@@ -66,9 +66,9 @@ class ApiFacade {
         return fetch(URL + "/api/info/getlist", options).then(handleHttpErrors);
     }
 
-    getMenuItems = () => {
+    getMenuItems = (id) => {
         const options = this.makeOptions("GET", true);
-        return fetch(URL + "/api/info/getmenu?id=1", options).then(handleHttpErrors);
+        return fetch(URL + "/api/info/getmenu?id=" + id, options).then(handleHttpErrors);
     }
 
     getMyRestaurants = (owner) => {

@@ -7,6 +7,7 @@ import dto.MenuItemDTO;
 import dto.RestaurantDTO;
 import entity.CityInfo;
 import entity.Restaurant;
+import entity.User;
 import exceptions.NotFoundException;
 import facade.Facade;
 import java.io.IOException;
@@ -123,7 +124,8 @@ public class RestaurantAPI {
         rest.setWebsite(restData.website);
         rest.setFoodType(restData.foodType);
         rest.setCityInfo(cityInfo);
-        rest.setOwner(restData.owner);
+        User owner = facade.findUser(restData.owner.getUserName());
+        rest.setOwner(owner);
 
         facade.addRestaurant(rest);
         return Response.ok(json).build();

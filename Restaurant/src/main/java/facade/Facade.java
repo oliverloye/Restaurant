@@ -208,4 +208,15 @@ public class Facade {
 
         return rest;
     }
+    
+    public User findUser(String username) {
+        EntityManager em = getEntityManager();
+        try {
+            User user = em.find(User.class, username);
+            return user;
+        } finally {
+            em.close();
+        }
+    }
+    
 }

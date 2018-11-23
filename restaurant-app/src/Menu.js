@@ -4,15 +4,18 @@ import facade from './apiFacade';
 export default class Menu extends Component {
     constructor(props) {
         super(props);
-        this.state = { menuItems: [], items: "Fetching items...", msg: "" };
+        this.state = { menuItems: [] };
     }
 
     async componentDidMount() {
-        const menuItems = await facade.getMenuItems();
+        const id = this.props.id;
+        console.log(id);
+        const menuItems = await facade.getMenuItems(this.props.id);
         this.setState({ menuItems });
     }
 
     render() {
+        console.log(this.props.id);
         const tableData = this.state.menuItems.map((menu) =>
             <SingleData key={menu.id}
                 id={menu.id}
@@ -21,6 +24,7 @@ export default class Menu extends Component {
                 price={menu.price} />
         );
         return (
+            
             <div>
                 <table className="table">
                     <thead>
@@ -30,7 +34,6 @@ export default class Menu extends Component {
                         {tableData}
                     </tbody>
                 </table>
-                {this.state.msg}
             </div>
         )
     }

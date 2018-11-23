@@ -37,7 +37,8 @@ const expandRow = {
 
                     {console.log(row.id)}
 
-                    <NavLink exact activeClassName="active" to="/menu">Menu</NavLink>
+                    <NavLink exact activeClassName="active" to="/menu">Menu        </NavLink>
+                    <NavLink exact activeClassName="active" to="/restaurants">      Luk Menu</NavLink>
                     <Switch>
                         <Route exact path="/menu" render={(props) => <Menu {...props} id={row.id} />} />
                     </Switch>
@@ -101,8 +102,7 @@ export default class Restaurants extends Component {
 
     async componentDidMount() {
         const restaurantList = await facade.getAllRestaurants();
-        const menuItems = await facade.getMenuItems();
-        this.setState({ restaurantList, menuItems });
+        this.setState({ restaurantList });
     }
 
     render() {

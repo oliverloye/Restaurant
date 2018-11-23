@@ -58,29 +58,11 @@ public class RestaurantAPI {
         return "\"" + user + "\"";
     }
 
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @Path("getmenu")
-////    @RolesAllowed({"rest_owner", "admin"})
-//    public String getMenuItems() {
-//        String user = securityContext.getUserPrincipal().getName();
-//        return "\"" + user + " is logged in \"";
-//    }
     @GET // VIRKER - overvej om man overhovedet skal returnere hele restauranten i DTO'en
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getmenu")
     public Response getMenuItems(@QueryParam("id") int id) {
         List<MenuItemDTO> menuItems = facade.getMenuItems(id);
-//        if (menuItems == null) {
-//            {
-//                throw new MenuNotFoundException("No restaurants match this id.");
-//            } 
-//            catch (MenuNotFoundException e) {
-//                ExceptionDTO exDTO = new ExceptionDTO(e, 406, false);
-//                exDTO.setMessage("No pets match this id.");
-//                return gson.toJson(exDTO);
-//            }
-//        }
         return Response.ok(gson.toJson(menuItems)).build();
     }
 
@@ -93,22 +75,6 @@ public class RestaurantAPI {
         return Response.ok(gson.toJson(myRest)).build();
     }
 
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @Path("user")
-//    @RolesAllowed("user")
-//    public String getFromUser() {
-//        Long numberOfUsers = facade.getNumberOfUsers();
-//        return "\"" + numberOfUsers.toString() + "\"";
-//    }
-//
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @Path("admin")
-//    @RolesAllowed("admin")
-//    public String getFromAdmin() {
-//        return "\" test \"";
-//    }
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("swapi")
@@ -117,14 +83,6 @@ public class RestaurantAPI {
         return swapitest;
     }
 
-//    @GET
-//    @Path("list")
-//    //    @RolesAllowed({"user", "admin"})
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public String getJson() {
-//        return gson.toJson(facade.getPersons());
-//    }
-//
 //    // bruges ikke pt
 //    @GET
 //    @Path("pagetest")

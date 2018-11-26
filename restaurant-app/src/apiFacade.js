@@ -91,6 +91,11 @@ class ApiFacade {
         return fetch(URL + "/api/info/editrest", options)
     }
 
+    deleteRestaurant = (id) => {
+        const options = this.makeOptions("DELETE", true);
+        return fetch(URL + "/api/info?id=" + id, options).then(handleHttpErrors);
+    }
+
     getSingleRestaurant = (id) => {
         const options = this.makeOptions("GET", true);
         return fetch(URL + "/api/info/getrestaurant?id=" + id, options).then(handleHttpErrors);

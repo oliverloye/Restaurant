@@ -15,7 +15,13 @@ export default class MyRestaurants extends Component {
 
     handleClick = (id) => {
         this.setState({ edit: true, editID: id })
-
+    }
+    
+    handleDeleteClick = async (id) => {
+        const del = await facade.deleteRestaurant(id);
+        const restaurantList = await facade.getMyRestaurants(this.props.username);
+        this.setState({ restaurantList, del });
+        window.location.reload();
     }
 
     render() {
@@ -27,12 +33,13 @@ export default class MyRestaurants extends Component {
                     foodType={restaurant.foodType}
                     street={restaurant.street}
                     website={restaurant.website}
-                    onclicking={() => this.handleClick(restaurant.id)} />
+                    onclicking={() => this.handleClick(restaurant.id)}
+                    ondeleteclicking={() => this.handleDeleteClick(restaurant.id)} />
             );
             return <div>
                 <table className="table">
                     <thead>
-                        <tr><th>Rest name</th><th>Food type</th><th>Street</th><th>Website</th><th>Edit</th></tr>
+                        <tr><th>Rest name</th><th>Food type</th><th>Street</th><th>Website</th><th>Edit</th><th>Delete</th></tr>
                     </thead>
                     <tbody>
                         {tableData}
@@ -43,7 +50,7 @@ export default class MyRestaurants extends Component {
             return <div>
                 <EditRestaurant {...this.props} id={this.state.editID} /> 
             </div>
-        }
+        } 
     }
 }
 
@@ -56,6 +63,7 @@ function SingleData(props) {
         <tr>
             <td>{restName}</td><td>{foodType}</td><td>{street}</td><td>{website}</td>
             <td><button type="button" onClick={props.onclicking}>Edit</button></td>
+            <td><button type="button" onClick={props.ondeleteclicking}>Delete</button></td>
         </tr>
     );
 }

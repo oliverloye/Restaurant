@@ -17,6 +17,7 @@ import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.Persistence;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -122,6 +123,13 @@ public class RestaurantAPI {
         rest.setCityInfo(cityInfo);
         facade.editRestaurant(rest, jo.get("id").getAsInt());
         return Response.ok(json).build();
+    }
+    
+    @DELETE
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteRestaurant(@QueryParam("id") Integer id) {
+        Restaurant rest = facade.deleteRestaurant(id);
+        return Response.ok(rest).build();
     }
 
     @POST

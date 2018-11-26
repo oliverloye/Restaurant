@@ -30,6 +30,16 @@ public class RestaurantDTO {
         }
     }
 
+    public RestaurantDTO(String restName, String foodType, String street, String website, String phone, CityInfoDTO cityInfo, User owner) {
+        this.restName = restName;
+        this.foodType = foodType;
+        this.street = street;
+        this.website = website;
+        this.phone = phone;
+        this.cityInfo = cityInfo;
+        this.owner = owner;
+    }
+
     public RestaurantDTO(int id, String restName, String foodType, String street, String website, CityInfoDTO cityInfo) {
         this.id = id;
         this.restName = restName;
@@ -45,11 +55,6 @@ public class RestaurantDTO {
         this.foodType = foodType;
         this.street = street;
         this.website = website;
-    }
-
-    @Override
-    public String toString() {
-        return "RestaurantDTO{" + "restName=" + restName + ", foodType=" + foodType + ", street=" + street + ", website=" + website + ", cityInfo=" + cityInfo + '}';
     }
 
 }

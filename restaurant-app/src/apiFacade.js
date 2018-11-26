@@ -76,6 +76,21 @@ class ApiFacade {
         return fetch(URL + "/api/info/getmyrestaurants?owner=" + owner, options).then(handleHttpErrors);
     }
 
+    addRestaurant = (restaurant) => {
+        const options = this.makeOptions("POST", true, restaurant);
+        return fetch(URL + "/api/info/addrest", options)
+    }
+
+    editRestaurant = (restaurant) => {
+        const options = this.makeOptions("PUT", true, restaurant);
+        return fetch(URL + "/api/info/editrest", options)
+    }
+
+    getSingleRestaurant = (id) => {
+        const options = this.makeOptions("GET", true);
+        return fetch(URL + "/api/info/getrestaurant?id=" + id, options).then(handleHttpErrors);
+    }
+
     makeOptions(method, addToken, body) {
         var opts = {
             method: method,

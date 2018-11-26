@@ -43,7 +43,7 @@ class App extends Component {
                 <Router>
                     <div>
                         <ul className="header">
-                            <li><NavLink activeClassName="active" to="/myrestaurants">MyRestaurants</NavLink></li>
+                            <li><NavLink exact activeClassName="active" to="/myrestaurants">MyRestaurants</NavLink></li>
                             <li><NavLink activeClassName="active" to="/addrestaurant">Add Restaurant</NavLink></li>
                             <li><NavLink activeClassName="active" to="/logout" onClick={this.logout}>Logout</NavLink></li>
                             <div className="nav-right"><li><p>{this.state.username}</p></li></div>

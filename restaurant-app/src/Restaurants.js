@@ -91,7 +91,7 @@ const columns = [{
     text: "By",
     filter: textFilter()
 }, {
-    //dataField: 'Info',
+    dataField: 'Info',
     text: 'Info',
 }
 

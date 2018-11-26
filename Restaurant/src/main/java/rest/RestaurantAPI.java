@@ -62,7 +62,7 @@ public class RestaurantAPI {
         return "\"" + user + "\"";
     }
 
-    @GET // VIRKER - overvej om man overhovedet skal returnere hele restauranten i DTO'en
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getmenu")
     public Response getMenuItems(@QueryParam("id") int id) {
@@ -84,6 +84,17 @@ public class RestaurantAPI {
     public Response getRestaurant(@QueryParam("id") Integer id) {
         RestaurantDTO myRest = facade.getRestaurant(id);
         return Response.ok(gson.toJson(myRest)).build();
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("getusers")
+    public Response getUsers() {
+        List<String> users = facade.getUsers();
+//        if (persons.isEmpty()) {
+//            throw new PersonNotFoundException("Ingen personer fundet.");
+//        }
+        return Response.ok(gson.toJson(users)).build();
     }
 
     @GET

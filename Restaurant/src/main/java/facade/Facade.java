@@ -173,6 +173,25 @@ public class Facade {
             em.close();
         }
     }
+    
+    public List<String> getUsers() {
+        
+        EntityManager em = getEntityManager();
+        try {
+            List<String> users;
+            Query q = em.createQuery("Select new dto.UserDTO(u) from User u, Role r where r.roleName=:rest_owner");
+            q.setParameter("rest_owner", "rest_owner");
+            
+//            TypedQuery<PetDTO> tq = em.createQuery("Select new entity.PetDTO(p)"
+//                    + " from Pet p where p in (select e.pet from Event e where e.date=:date)", PetDTO.class);
+            
+            users = q.getResultList();
+            return users;
+        } finally {
+            em.close();
+        }
+    }
+
 
     public CityInfo getCityFromZip(String zip) {
         EntityManager em = getEntityManager();
@@ -215,6 +234,7 @@ public class Facade {
         return returnstring;
     }
 
+    
     class SwapiHelper implements Callable {
 
         private String urlName;

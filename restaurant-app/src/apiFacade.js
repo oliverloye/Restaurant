@@ -66,6 +66,11 @@ class ApiFacade {
         return fetch(URL + "/api/info/getlist", options).then(handleHttpErrors);
     }
 
+    /* getAllUsers = () => {
+        const options = this.makeOptions("GET", true);
+        return fetch(URL + "/api/info/getusers", options).then(handleHttpErrors);
+    } */
+
     getMenuItems = (id) => {
         const options = this.makeOptions("GET", true);
         return fetch(URL + "/api/info/getmenu?id=" + id, options).then(handleHttpErrors);

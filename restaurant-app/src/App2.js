@@ -23,6 +23,17 @@ class App extends Component {
     }
 
     render() {
+
+        let role = "";
+        if (localStorage.jwtToken) {
+            let jwt = localStorage.jwtToken;
+            let jwtData = jwt.split('.')[1]
+            let decodedJwtJsonData = window.atob(jwtData)
+            let decodedJwtData = JSON.parse(decodedJwtJsonData)
+            role = decodedJwtData.roles
+        }
+
+
         if (!this.state.loggedIn) {
             return (
                 <Router>
@@ -38,7 +49,7 @@ class App extends Component {
                     </div>
                 </Router>
             )
-        } else
+        } else if (role === 'rest_owner') {
             return (
                 <Router>
                     <div>
@@ -55,9 +66,55 @@ class App extends Component {
                     </div>
                 </ Router>
             )
-
+        } else {
+            return (
+                <Router>
+                    <div>
+                        <ul className="header">
+                            <li><NavLink exact activeClassName="active" to="/adduser">Add user</NavLink></li>
+                            <li><NavLink activeClassName="active" to="/deleteuser">Delete user</NavLink></li>
+                            <li><NavLink activeClassName="active" to="/logout" onClick={this.logout}>Logout</NavLink></li>
+                            <div className="nav-right"><li><p>{this.state.username}</p></li></div>
+                        </ul>
+                        <Switch>
+                            <Route path="/adduser" render={(props) => <MyRestaurants {...props} username={this.state.username} />} />
+                            <Route path="/deleteuser" render={(props) => <AddRestaurant {...props} restOwner={this.state.username} />} />
+                        </Switch>
+                    </div>
+                </ Router>
+            )
+        }
     }
 }
+
+/* class AddUser extends Component{
+    constructor(props){
+        super(props);
+        this.state = {userList:[]}
+    }
+
+    render(){
+        const tableData = this.state.userList.map((user) =>
+                <SingleData key={user.id}
+                    id={restaurant.id}
+                    restName={restaurant.restName}
+                    website={restaurant.website}
+                    onclicking={() => this.handleClick(restaurant.id)} />
+            );
+    }
+
+}
+
+function SingleData(props) {
+    const userName = props.restName;
+    const foodType = props.foodType;
+    return (
+        <tr>
+            <td>{userName}</td>
+            <td><button type="button" onClick={props.onclicking}>Edit</button></td>
+        </tr>
+    );
+} */
 
 class LogIn extends Component {
     constructor(props) {

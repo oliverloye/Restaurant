@@ -21,7 +21,6 @@ export default class MyRestaurants extends Component {
         const del = await facade.deleteRestaurant(id);
         const restaurantList = await facade.getMyRestaurants(this.props.username);
         this.setState({ restaurantList, del });
-        window.location.reload();
     }
 
     render() {

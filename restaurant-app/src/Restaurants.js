@@ -3,7 +3,7 @@ import facade from './apiFacade';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import filterFactory, { selectFilter, textFilter } from 'react-bootstrap-table2-filter';
+import filterFactory, { selectFilter, textFilter, Button } from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import { BrowserRouter as Router, Route, Switch, NavLink } from "react-router-dom";
 import Menu from './Menu.js';
@@ -37,8 +37,8 @@ const expandRow = {
 
                     {console.log(row.id)}
 
-                    <NavLink exact activeClassName="active" to="/menu">Menu        </NavLink>
-                    <NavLink exact activeClassName="active" to="/restaurants">      Luk Menu</NavLink>
+                    <NavLink exact style={{backgroundColor: 'transparent', marginRight: '30px'}} to="/menu">Menukort</NavLink>
+                    <NavLink exact style={{backgroundColor: 'transparent'}} to="/restaurants">Luk Menukort</NavLink>
                     <Switch>
                         <Route exact path="/menu" render={(props) => <Menu {...props} id={row.id} />} />
                     </Switch>
@@ -48,7 +48,7 @@ const expandRow = {
         </div>
 
     ),
-    showExpandColumn: true,
+    /* showExpandColumn: true,
     headerAlign: 'left',
     expandHeaderColumnRenderer: ({ isAnyExpands }) => {
 
@@ -66,7 +66,7 @@ const expandRow = {
         return (
             <b> ... </b>
         );
-    }
+    } */
 };
 
 const columns = [{
@@ -90,7 +90,10 @@ const columns = [{
     dataField: 'cityInfo.city',
     text: "By",
     filter: textFilter()
-},
+}, {
+    dataField: 'Info',
+    text: 'Info'
+}
 
 ];
 

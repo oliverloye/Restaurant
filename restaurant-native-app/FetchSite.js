@@ -1,19 +1,20 @@
 import React from 'react';
 import { StyleSheet, Text, ScrollView, Alert } from 'react-native';
 
-const URL = "http://ba98380c.ngrok.io/CA3-2/api/info/swapi";
+//const URL = "http://ba98380c.ngrok.io/CA3-2/api/info/swapi";
+const URL = "http://2e2fb80d.ngrok.io/Restaurant/api/info/getlist";
 
 export default class FetchSite extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { person: "" };
+        this.state = { restaurant: "" };
     }
 
     async componentDidMount() {
         try {
-            const swapitest = await fetch(URL).then(res => res.json());
-            const luke = swapitest[0];
-            this.setState({ person: luke });
+            const resttest = await fetch(URL).then(res => res.json());
+            const rest1 = resttest[0];
+            this.setState({ restaurant: rest1 });
 
         } catch (err) {
             Alert.alert("UPS " + err);
@@ -21,24 +22,13 @@ export default class FetchSite extends React.Component {
     }
 
     render() {
-        const person = this.state.person;
+        const restaurant = this.state.restaurant;
         return (
             <ScrollView style={styles.white}>
                 <Text> </Text>
-                <Text style={styles.table}>{person.name}</Text>
+                <Text style={styles.table}>{restaurant.restName}</Text>
                 <Text style={styles.table}>{
-                    'Gender: ' + person.gender + '\n'
-                    + 'Height: ' + person.height + '\n'
-                    + 'Mass: ' + person.mass + '\n'
-                    + 'Hair-color: ' + person.hair_color + '\n'
-                    + 'Skin-color: ' + person.skin_color + '\n'
-                    + 'Eye-color: ' + person.eye_color + '\n'
-                    + 'Birth-year: ' + person.birth_year + '\n'
-                    + 'Homeworld: ' + person.homeworld + '\n\n'
-                    + 'Films: ' + person.films + '\n\n'
-                    + 'Species: ' + person.species + '\n\n'
-                    + 'Vehicles: ' + person.vehicles + '\n\n'
-                    + 'Starships: ' + person.starships + '\n\n'
+                    'Madtype: ' + restaurant.foodType
                 }</Text>
             </ScrollView>
         );

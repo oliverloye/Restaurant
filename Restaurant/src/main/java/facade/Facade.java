@@ -149,6 +149,19 @@ public class Facade {
         }
 
     }
+    
+    public Restaurant deleteRestaurant(Integer id) {
+        EntityManager em = getEntityManager();
+        try {
+            Restaurant rest = em.find(Restaurant.class, id);
+            em.getTransaction().begin();
+            em.remove(rest);
+            em.getTransaction().commit();
+            return rest;
+        } finally {
+            em.close();
+        }
+    }
 
     public Restaurant addRestaurant(Restaurant rest) throws InternalException {
         EntityManager em = getEntityManager();

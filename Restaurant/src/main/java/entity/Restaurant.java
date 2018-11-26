@@ -2,6 +2,7 @@ package entity;
 
 import dto.RestaurantDTO;
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,7 +23,7 @@ public class Restaurant implements Serializable {
     private String foodType;
     @ManyToOne
     private CityInfo cityInfo;
-    @ManyToOne
+    @ManyToOne 
     private User owner;
 
     public Integer getId() {

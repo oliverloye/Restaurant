@@ -17,7 +17,6 @@ class App extends Component {
     }
 
     login = (user, pass) => {
-        console.log("In the login method of App2")
         facade.login(user, pass)
             .then(res => this.setState({ loggedIn: true, username: user }));
     }

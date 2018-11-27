@@ -46,27 +46,7 @@ const expandRow = {
                 </div>
             </Router>
         </div>
-
-    ),
-    /* showExpandColumn: true,
-    headerAlign: 'left',
-    expandHeaderColumnRenderer: ({ isAnyExpands }) => {
-
-        if (isAnyExpands) {
-            return <b>-</b>;
-        }
-        return <b>+</b>;
-    },
-    expandColumnRenderer: ({ expanded }) => {
-        if (expanded) {
-            return (
-                <b>-</b>
-            );
-        }
-        return (
-            <b> ... </b>
-        );
-    } */
+    )
 };
 
 

@@ -38,3 +38,8 @@ ul.header {
  ul.header li a:hover:not(.active) { background-color: #111;}
  
  .active { background-color: darksalmon/* #4CAF50 */;}
+
+tbody tr {
+  cursor: pointer;
+}
+

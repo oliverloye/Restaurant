@@ -3,6 +3,7 @@ import facade from "./apiFacade";
 import Restaurants from './Restaurants';
 import MyRestaurants from './MyRestaurants.js';
 import AddRestaurant from './AddRestaurant.js';
+import Customer from './Customer.js';
 import { BrowserRouter as Router, Route, Switch, NavLink } from "react-router-dom";
 
 class App extends Component {
@@ -63,6 +64,23 @@ class App extends Component {
                     </div>
                 </ Router>
             )
+        } else if (role === 'customer') {
+            return (
+                <Router>
+                    <div>
+                        <ul className="header">
+                            <li><NavLink exact activeClassName="active" to="/">Restaurants</NavLink></li>
+                            <li><NavLink activeClassName="active" to="/customer">My page</NavLink></li>
+                            <li><NavLink activeClassName="active" to="/logout" onClick={this.logout}>Logout</NavLink></li>
+                            <div className="nav-right"><li><p>{this.state.username}</p></li></div>
+                        </ul>
+                        <Switch>
+                            <Route exact path="/" component={Restaurants} />
+                            <Route path="/customer" render={(props) => <Customer {...props} username={this.state.username} />} />
+                        </Switch>
+                    </div>
+                </ Router>
+            )
         } else {
             return (
                 <Router>
@@ -84,10 +102,10 @@ class App extends Component {
     }
 }
 
-class DeleteUser extends Component{
-    constructor(props){
+class DeleteUser extends Component {
+    constructor(props) {
         super(props);
-        this.state = {userList:[]}
+        this.state = { userList: [] }
     }
 
     async componentDidMount() {
@@ -97,26 +115,26 @@ class DeleteUser extends Component{
     }
 
     handleClick = (userName) => {
-        console.log('success'+userName);
+        console.log('success' + userName);
         //this.setState({ edit: true, editID: id })
     }
 
-    render(){
+    render() {
         const tableData = this.state.userList.map((user) =>
-                <SingleData key={user.userName}
-                    userName={user.userName}
-                    onclicking={() => this.handleClick(user.userName)} />
-            );
-            return <div>
-                <table className="table">
-                    <thead>
-                        <tr><th>User name</th></tr>
-                    </thead>
-                    <tbody>
-                        {tableData}
-                    </tbody>
-                </table>
-            </div>
+            <SingleData key={user.userName}
+                userName={user.userName}
+                onclicking={() => this.handleClick(user.userName)} />
+        );
+        return <div>
+            <table className="table">
+                <thead>
+                    <tr><th>User name</th></tr>
+                </thead>
+                <tbody>
+                    {tableData}
+                </tbody>
+            </table>
+        </div>
     }
 
 }
@@ -154,7 +172,7 @@ class LogIn extends Component {
                     <fieldset>
                         <legend>Login:</legend>
                         <input placeholder="User Name" id="username" />
-                        <input placeholder="Password" id="password" type="password"/>
+                        <input placeholder="Password" id="password" type="password" />
                         <button>Login</button>
                     </fieldset>
                 </form>

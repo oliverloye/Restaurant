@@ -77,8 +77,8 @@ class App extends Component {
                             <div className="nav-right"><li><p>{this.state.username}</p></li></div>
                         </ul>
                         <Switch>
-                            <Route path="/adduser" render={(props) => <MyRestaurants {...props} username={this.state.username} />} />
-                            <Route path="/deleteuser" render={(props) => <AddRestaurant {...props} restOwner={this.state.username} />} />
+                            <Route path="/deleteuser" render={(props) => <DeleteUser {...props} username={this.state.username} />} />
+                            <Route path="/user" render={(props) => <AddRestaurant {...props} restOwner={this.state.username} />} />
                         </Switch>
                     </div>
                 </ Router>
@@ -87,34 +87,52 @@ class App extends Component {
     }
 }
 
-/* class AddUser extends Component{
+class DeleteUser extends Component{
     constructor(props){
         super(props);
         this.state = {userList:[]}
     }
 
+    async componentDidMount() {
+        const userList = await facade.getAllUsers();
+        console.log(this.state.userList);
+        this.setState({ userList });
+    }
+
+    handleClick = (userName) => {
+        console.log('success'+userName);
+        //this.setState({ edit: true, editID: id })
+    }
+
     render(){
         const tableData = this.state.userList.map((user) =>
-                <SingleData key={user.id}
-                    id={restaurant.id}
-                    restName={restaurant.restName}
-                    website={restaurant.website}
-                    onclicking={() => this.handleClick(restaurant.id)} />
+                <SingleData key={user.userName}
+                    userName={user.userName}
+                    onclicking={() => this.handleClick(user.userName)} />
             );
+            return <div>
+                <table className="table">
+                    <thead>
+                        <tr><th>User name</th></tr>
+                    </thead>
+                    <tbody>
+                        {tableData}
+                    </tbody>
+                </table>
+            </div>
     }
 
 }
 
 function SingleData(props) {
-    const userName = props.restName;
-    const foodType = props.foodType;
+    const userName = props.userName;
     return (
         <tr>
             <td>{userName}</td>
-            <td><button type="button" onClick={props.onclicking}>Edit</button></td>
+            <td><button type="button" onClick={props.onclicking}>Delete (u/s)</button></td>
         </tr>
     );
-} */
+}
 
 class LogIn extends Component {
     constructor(props) {

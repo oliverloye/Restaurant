@@ -5,7 +5,7 @@ import EditRestaurant from './EditRestaurant.js';
 export default class MyRestaurants extends Component {
     constructor(props) {
         super(props);
-        this.state = { restaurantList: [], edit: false, editID: '' };
+        this.state = { restaurantList: [], edit: false, editID: '', msg:'' };
     }
 
     async componentDidMount() {
@@ -18,9 +18,9 @@ export default class MyRestaurants extends Component {
     }
     
     handleDeleteClick = async (id) => {
-        const del = await facade.deleteRestaurant(id);
+        const msg = await facade.deleteRestaurant(id);
         const restaurantList = await facade.getMyRestaurants(this.props.username);
-        this.setState({ restaurantList, del });
+        this.setState({ restaurantList, msg });
     }
 
     render() {
@@ -36,6 +36,7 @@ export default class MyRestaurants extends Component {
                     ondeleteclicking={() => this.handleDeleteClick(restaurant.id)} />
             );
             return <div>
+                {this.state.msg}
                 <table className="table">
                     <thead>
                         <tr><th>Rest name</th><th>Food type</th><th>Street</th><th>Website</th><th>Edit</th><th>Delete</th></tr>

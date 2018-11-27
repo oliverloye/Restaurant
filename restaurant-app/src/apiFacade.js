@@ -66,10 +66,10 @@ class ApiFacade {
         return fetch(URL + "/api/info/getlist", options).then(handleHttpErrors);
     }
 
-    /* getAllUsers = () => {
+    getAllUsers = () => {
         const options = this.makeOptions("GET", true);
         return fetch(URL + "/api/info/getusers", options).then(handleHttpErrors);
-    } */
+    }
 
     getMenuItems = (id) => {
         const options = this.makeOptions("GET", true);
@@ -99,6 +99,11 @@ class ApiFacade {
     getSingleRestaurant = (id) => {
         const options = this.makeOptions("GET", true);
         return fetch(URL + "/api/info/getrestaurant?id=" + id, options).then(handleHttpErrors);
+    }
+
+    getFoodTypes = () => {
+        const options = this.makeOptions("GET", true);
+        return fetch(URL + "/api/info/getfoodtypes", options).then(handleHttpErrors);
     }
 
     makeOptions(method, addToken, body) {

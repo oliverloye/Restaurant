@@ -2,12 +2,13 @@ package entity;
 
 import dto.RestaurantDTO;
 import java.io.Serializable;
-import javax.persistence.CascadeType;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Restaurant implements Serializable {
@@ -23,8 +24,10 @@ public class Restaurant implements Serializable {
     private String foodType;
     @ManyToOne
     private CityInfo cityInfo;
-    @ManyToOne 
+    @ManyToOne
     private User owner;
+    @OneToMany(mappedBy = "restaurant", orphanRemoval=true)
+    private List<MenuItem> menuItems;
 
     public Integer getId() {
         return id;

@@ -6,12 +6,14 @@ import entity.User;
 public class RestaurantDTO {
 
     public int id;
+    
     public String restName;
     public String foodType;
     public String street;
     public String website;
     public String phone;
     public CityInfoDTO cityInfo;
+    
     public User owner;
 
     public RestaurantDTO() {

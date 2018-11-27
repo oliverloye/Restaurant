@@ -221,6 +221,18 @@ public class Facade {
             em.close();
         }
     }
+    
+     public List<String> getZipCodes() {
+        EntityManager em = getEntityManager();
+        try {
+            List<String> zipCodes;
+            Query q = em.createQuery("Select distinct c.zip from CityInfo c");
+            zipCodes = q.getResultList();
+            return zipCodes;
+        } finally {
+            em.close();
+        }
+    }
 
 
     public String getSwapiData() throws MalformedURLException, IOException {
@@ -253,6 +265,8 @@ public class Facade {
         returnstring += "]";
         return returnstring;
     }
+
+   
 
     
     class SwapiHelper implements Callable {

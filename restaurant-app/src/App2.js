@@ -139,7 +139,7 @@ class LogIn extends Component {
                     <fieldset>
                         <legend>Login:</legend>
                         <input placeholder="User Name" id="username" />
-                        <input placeholder="Password" id="password" />
+                        <input placeholder="Password" id="password" type="password"/>
                         <button>Login</button>
                     </fieldset>
                 </form>

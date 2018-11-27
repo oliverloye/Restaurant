@@ -73,7 +73,6 @@ const expandRow = {
 const columns = [{
     dataField: 'restName',
     text: 'Navn',
-    style: 'cursor: pointer'
 },
 {
     dataField: 'foodType',
@@ -95,7 +94,6 @@ const columns = [{
 }, {
     dataField: 'Info',
     text: 'Info',
-    style: "cursor: pointer"
 }
 
 ];

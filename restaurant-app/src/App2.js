@@ -22,7 +22,6 @@ class App extends Component {
     }
 
     render() {
-
         let role = "";
         if (localStorage.jwtToken) {
             let jwt = localStorage.jwtToken;
@@ -31,7 +30,6 @@ class App extends Component {
             let decodedJwtData = JSON.parse(decodedJwtJsonData)
             role = decodedJwtData.roles
         }
-
 
         if (!this.state.loggedIn) {
             return (

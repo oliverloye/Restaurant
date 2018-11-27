@@ -103,10 +103,15 @@ public class RestaurantAPI {
     @Path("getfoodtypes")
     public Response getFoodTypes() {
         List<String> foodTypes = facade.getFoodTypes();
-//        if (persons.isEmpty()) {
-//            throw new PersonNotFoundException("Ingen personer fundet.");
-//        }
         return Response.ok(gson.toJson(foodTypes)).build();
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("getzipcodes")
+    public Response getZipCodes() {
+        List<String> zipCodes = facade.getZipCodes();
+        return Response.ok(gson.toJson(zipCodes)).build();
     }
 
     @GET

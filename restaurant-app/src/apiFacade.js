@@ -106,6 +106,11 @@ class ApiFacade {
         return fetch(URL + "/api/info/getfoodtypes", options).then(handleHttpErrors);
     }
 
+    getZipCodes = () => {
+        const options = this.makeOptions("GET", true);
+        return fetch(URL + "/api/info/getzipcodes", options).then(handleHttpErrors);
+    }
+
     makeOptions(method, addToken, body) {
         var opts = {
             method: method,

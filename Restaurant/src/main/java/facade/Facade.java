@@ -209,7 +209,7 @@ public class Facade {
             em.close();
         }
     }
-    
+
     public List<String> getFoodTypes() {
         EntityManager em = getEntityManager();
         try {
@@ -221,8 +221,8 @@ public class Facade {
             em.close();
         }
     }
-    
-     public List<String> getZipCodes() {
+
+    public List<String> getZipCodes() {
         EntityManager em = getEntityManager();
         try {
             List<String> zipCodes;
@@ -234,6 +234,30 @@ public class Facade {
         }
     }
 
+    public String getRemoteRestaurants() {
+
+        String result = "Error";
+        try {
+            URL url = new URL("https://andreasheick.dk/durumbo/api/info/restaurants");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("Accept", "application/json;charset=UTF-8");
+            con.setRequestProperty("User-Agent", "server");
+            Scanner scan = new Scanner(con.getInputStream());
+            String jsonStr = "";
+
+            while (scan.hasNext()) {
+                jsonStr += scan.nextLine();
+            }
+            scan.close();
+            return jsonStr;
+
+        } catch (Exception e) {
+            result = "->Red<-";
+        }
+        return "\"" + result + "\"";
+
+    }
 
     public String getSwapiData() throws MalformedURLException, IOException {
         String hostURL = "https://swapi.co/api/people/";
@@ -266,9 +290,6 @@ public class Facade {
         return returnstring;
     }
 
-   
-
-    
     class SwapiHelper implements Callable {
 
         private String urlName;

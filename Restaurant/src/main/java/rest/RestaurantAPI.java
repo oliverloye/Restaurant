@@ -2,6 +2,8 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import dto.CityInfoDTO;
@@ -13,6 +15,7 @@ import entity.User;
 import exceptions.NotFoundException;
 import facade.Facade;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.Persistence;
@@ -48,10 +51,60 @@ public class RestaurantAPI {
     @Path("getlist")
     public Response getAllRestaurants() {
         List<RestaurantDTO> restaurants = facade.getAllRestaurants();
-//        if (persons.isEmpty()) {
-//            throw new PersonNotFoundException("Ingen personer fundet.");
-//        }
+        int nextID = restaurants.get(restaurants.size() - 1).id + 1;
+
+        String remote = facade.getRemoteRestaurants();
+        JsonArray jo = parser.parse(remote).getAsJsonArray();
+        List<RestaurantDTO> list = new ArrayList<>();
+        for (JsonElement jsonElement : jo) {
+            RestaurantDTO dto = new RestaurantDTO();
+            dto.phone = jsonElement.getAsJsonObject().get("phone").getAsString();
+            dto.restName = jsonElement.getAsJsonObject().get("restName").getAsString();
+            dto.foodType = jsonElement.getAsJsonObject().get("foodType").getAsString();
+            dto.street = jsonElement.getAsJsonObject().get("street").getAsString();
+            if (jsonElement.getAsJsonObject().has("website")) {
+                dto.website = jsonElement.getAsJsonObject().get("website").getAsString();
+            }
+            JsonElement newjo = jsonElement.getAsJsonObject().get("cityInfo");
+            String zip = newjo.getAsJsonObject().get("zip").getAsString();
+            String city = newjo.getAsJsonObject().get("city").getAsString();
+            CityInfo cityInfo = new CityInfo(zip, city);
+            CityInfoDTO cityInfoDTO = new CityInfoDTO(cityInfo);
+            dto.cityInfo = cityInfoDTO;
+            dto.id = nextID;
+            nextID++;
+            list.add(dto);
+        }
+        restaurants.addAll(list);
         return Response.ok(gson.toJson(restaurants)).build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("getremote")
+    public Response getRemote() {
+        String remote = facade.getRemoteRestaurants();
+        JsonArray jo = parser.parse(remote).getAsJsonArray();
+        List<RestaurantDTO> list = new ArrayList<>();
+        for (JsonElement jsonElement : jo) {
+            RestaurantDTO dto = new RestaurantDTO();
+            dto.phone = jsonElement.getAsJsonObject().get("phone").getAsString();
+            dto.restName = jsonElement.getAsJsonObject().get("restName").getAsString();
+            dto.foodType = jsonElement.getAsJsonObject().get("foodType").getAsString();
+            dto.street = jsonElement.getAsJsonObject().get("street").getAsString();
+            if (jsonElement.getAsJsonObject().has("website")) {
+                dto.website = jsonElement.getAsJsonObject().get("website").getAsString();
+            }
+            JsonElement newjo = jsonElement.getAsJsonObject().get("cityInfo");
+            String zip = newjo.getAsJsonObject().get("zip").getAsString();
+//            String city = newjo.getAsJsonObject().get("city").getAsString();
+
+            CityInfo cityInfo = facade.getCityFromZip(zip);
+            CityInfoDTO cityInfoDTO = new CityInfoDTO(cityInfo);
+            dto.cityInfo = cityInfoDTO;
+            list.add(dto);
+        }
+        return Response.ok(list).build();
     }
 
     @GET
@@ -97,7 +150,7 @@ public class RestaurantAPI {
 //        }
         return Response.ok(gson.toJson(users)).build();
     }
-    
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getfoodtypes")
@@ -105,7 +158,7 @@ public class RestaurantAPI {
         List<String> foodTypes = facade.getFoodTypes();
         return Response.ok(gson.toJson(foodTypes)).build();
     }
-    
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getzipcodes")

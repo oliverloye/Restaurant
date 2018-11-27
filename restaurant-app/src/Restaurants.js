@@ -108,6 +108,7 @@ export default class Restaurants extends Component {
 
 
     render() {
+
         let role = "";
         if (localStorage.jwtToken) {
             let jwt = localStorage.jwtToken;

@@ -76,6 +76,9 @@ public class RestaurantAPI {
             list.add(dto);
         }
         restaurants.addAll(list);
+        for (RestaurantDTO restaurantDTO : restaurants) {
+            System.out.println(restaurantDTO.street);
+        }
         return Response.ok(gson.toJson(restaurants)).build();
     }
 

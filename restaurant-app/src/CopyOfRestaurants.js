@@ -3,12 +3,12 @@ import facade from './apiFacade';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import filterFactory, { selectFilter, textFilter } from 'react-bootstrap-table2-filter';
+import filterFactory, { selectFilter, textFilter, TableHeaderColumn } from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import { BrowserRouter as Router, Route, Switch, NavLink } from "react-router-dom";
 import Menu from './Menu.js';
 
-let foodTypeOptions = {
+const foodTypeOptions = {
     Indian: 'Indian',
     Italian: 'Italian',
     American: 'American',
@@ -16,7 +16,7 @@ let foodTypeOptions = {
     Chinese: 'Chinese'
 };
 
-let zipOptions = {
+const zipOptions = {
     4600: '4600',
     3400: '3400',
     3000: '3000',
@@ -37,8 +37,8 @@ const expandRow = {
 
                     {console.log(row.id)}
 
-                    <NavLink exact style={{backgroundColor: 'transparent', marginRight: '30px'}} to="/menu">Menukort</NavLink>
-                    <NavLink exact style={{backgroundColor: 'transparent'}} to="/restaurants">Luk Menukort</NavLink>
+                    <NavLink exact activeClassName="active" to="/menu">Menu        </NavLink>
+                    <NavLink exact activeClassName="active" to="/restaurants">      Luk Menu</NavLink>
                     <Switch>
                         <Route exact path="/menu" render={(props) => <Menu {...props} id={row.id} />} />
                     </Switch>
@@ -48,7 +48,7 @@ const expandRow = {
         </div>
 
     ),
-    /* showExpandColumn: true,
+    showExpandColumn: true,
     headerAlign: 'left',
     expandHeaderColumnRenderer: ({ isAnyExpands }) => {
 
@@ -66,7 +66,7 @@ const expandRow = {
         return (
             <b> ... </b>
         );
-    } */
+    }
 };
 
 const columns = [{
@@ -90,25 +90,78 @@ const columns = [{
     dataField: 'cityInfo.city',
     text: "By",
     filter: textFilter()
-}, {
-    dataField: 'Info',
-    text: 'Info',
+},{
+    dataField: 'button',
+    
 }
 
 ];
 
-export default class Restaurants extends Component {
+export default class CopyOfRestaurants extends Component {
     constructor(props) {
         super(props);
         this.state = { restaurantList: [], menuItems: [], paginationData: "Fetching data..." };
+        
     }
+
+    
 
     async componentDidMount() {
         const restaurantList = await facade.getAllRestaurants();
         this.setState({ restaurantList });
     }
 
-    render() {
+    details(row) {
+        console.log("activity id :" + row.id);
+    }
+
+    buttonFunction(cell, row) {
+        return <label>
+            <button type="button"
+                id="validatebutton"
+                onClick={() => { this.details(row) }}
+                className="bbtn btn-primary btn-sm">
+                Click Me
+               </button>
+        </label>
+    }
+
+    /* render() {
+        if(this.state.restaurantList.length===0){
+        return (<div>EMpty list</div>)}else{
+        return (<div>
+            <BootstrapTable
+                data={this.state.restaurantList}
+                pagination={true}
+                hover={true}
+                search={true}
+                 filter={filterFactory()} 
+                 >
+                <TableHeaderColumn isKey={true} dataField="id" hidden>
+              ID</TableHeaderColumn>
+                <TableHeaderColumn dataField="restName" >
+                    Navn</TableHeaderColumn>
+                <TableHeaderColumn dataField="foodType"
+                    filter={selectFilter({
+                        options: foodTypeOptions
+                    })} 
+                    dataSort={true}>
+                    Madtype</TableHeaderColumn>
+                <TableHeaderColumn dataField="cityInfo.zip"
+                     filter={selectFilter({
+                        options: zipOptions
+                    })} 
+                    dataSort={true}>
+                    Postnummer</TableHeaderColumn>
+                <TableHeaderColumn dataField="cityInfo.city">
+                    By</TableHeaderColumn>
+                <TableHeaderColumn dataField="button"
+                    dataFormat={this.buttonFunction.bind(this)}></TableHeaderColumn>
+            </BootstrapTable></div>
+        );}
+    }  */
+
+     render() {
         return <div>
             <BootstrapTable
                 striped
@@ -121,6 +174,6 @@ export default class Restaurants extends Component {
                 pagination={paginationFactory()}
                 expandRow={expandRow} />
         </div>
-    }
+    } 
 }
 

@@ -2,7 +2,9 @@ package facade;
 
 import dto.MenuItemDTO;
 import dto.RestaurantDTO;
+import entity.CityInfo;
 import entity.Restaurant;
+import entity.Role;
 import entity.User;
 import exceptions.AuthenticationException;
 import java.io.IOException;
@@ -35,7 +37,6 @@ public class Facade {
         return emf.createEntityManager();
     }
 
-    // VIRKER
     public List<RestaurantDTO> getAllRestaurants() {
         EntityManager em = getEntityManager();
         try {
@@ -49,7 +50,6 @@ public class Facade {
         }
     }
 
-    // VIRKER (som kopieret fra tidligere)
     public User getVeryfiedUser(String username, String password) throws AuthenticationException {
         EntityManager em = emf.createEntityManager();
         User user;
@@ -64,7 +64,6 @@ public class Facade {
         return user;
     }
 
-    // VIRKER
     public List<MenuItemDTO> getMenuItems(int id) {
         EntityManager em = getEntityManager();
         try {
@@ -114,6 +113,116 @@ public class Facade {
         }
     }
 
+    public RestaurantDTO getRestaurant(Integer id) {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            Restaurant rest = em.find(Restaurant.class, id);
+            em.getTransaction().commit();
+            if (rest != null) {
+                RestaurantDTO r = new RestaurantDTO(rest);
+                return r;
+            } else {
+                return null;
+            }
+        } finally {
+            em.close();
+        }
+    }
+
+    public Restaurant editRestaurant(Restaurant r, Integer id) {
+        EntityManager em = getEntityManager();
+        try {
+            Restaurant rest = em.find(Restaurant.class, id);
+            rest.setCityInfo(r.getCityInfo());
+            rest.setFoodType(r.getFoodType());
+            rest.setOwner(r.getOwner());
+            rest.setPhone(r.getPhone());
+            rest.setRestname(r.getRestname());
+            rest.setStreet(r.getStreet());
+            rest.setWebsite(r.getWebsite());
+            em.getTransaction().begin();
+            em.merge(rest);
+            em.getTransaction().commit();
+            return rest;
+        } finally {
+            em.close();
+        }
+    }
+
+    public void deleteRestaurant(Integer id) {
+        EntityManager em = getEntityManager();
+        try {
+            Restaurant rest = em.find(Restaurant.class, id);
+            em.getTransaction().begin();
+            em.remove(rest);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
+
+    public Restaurant addRestaurant(Restaurant rest) throws InternalException {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(rest);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+        return rest;
+    }
+
+    public User findUser(String username) {
+        EntityManager em = getEntityManager();
+        try {
+            User user = em.find(User.class, username);
+            return user;
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<String> getUsers() {
+        EntityManager em = getEntityManager();
+        try {
+            List<String> users;
+            Role role = new Role("rest_owner");
+            Query q = em.createQuery("Select distinct new dto.UserDTO(u) from User u, Role r where u.roleList=:rest_owner");
+            q.setParameter("rest_owner", role);
+            users = q.getResultList();
+            return users;
+        } finally {
+            em.close();
+        }
+    }
+
+    public CityInfo getCityFromZip(String zip) {
+        EntityManager em = getEntityManager();
+        try {
+            CityInfo cityInfo = em.find(CityInfo.class, zip);
+            return cityInfo;
+        } finally {
+            em.close();
+        }
+    }
+    
+    public List<String> getFoodTypes() {
+        EntityManager em = getEntityManager();
+        try {
+            List<String> foodTypes;
+            Query q = em.createQuery("Select distinct r.foodType from Restaurant r");
+            foodTypes = q.getResultList();
+            return foodTypes;
+        } finally {
+            em.close();
+        }
+    }
+
+
     public String getSwapiData() throws MalformedURLException, IOException {
         String hostURL = "https://swapi.co/api/people/";
         int numberOfServerCalls = 5;
@@ -145,6 +254,7 @@ public class Facade {
         return returnstring;
     }
 
+    
     class SwapiHelper implements Callable {
 
         private String urlName;
@@ -180,43 +290,4 @@ public class Facade {
             return urlName + "---" + result;
         }
     }
-
-//    // bruges ikke pt
-//    public List<Persons> getByPage(int start, int end) {
-//        EntityManager em = getEntityManager(emf);
-//        try {
-//            Query query = em.createQuery("SELECT p FROM Persons p");
-//            query.setFirstResult(start);
-//            query.setMaxResults(end);
-//            List<Persons> persons = query.getResultList();
-//            return persons;
-//        } finally {
-//            em.close();
-//        }
-//    }
-    public Restaurant addRestaurant(Restaurant rest) throws InternalException {
-        EntityManager em = getEntityManager();
-        try {
-            em.getTransaction().begin();
-            em.persist(rest);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            em.close();
-        }
-
-        return rest;
-    }
-    
-    public User findUser(String username) {
-        EntityManager em = getEntityManager();
-        try {
-            User user = em.find(User.class, username);
-            return user;
-        } finally {
-            em.close();
-        }
-    }
-    
 }

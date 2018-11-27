@@ -66,6 +66,11 @@ class ApiFacade {
         return fetch(URL + "/api/info/getlist", options).then(handleHttpErrors);
     }
 
+    getAllUsers = () => {
+        const options = this.makeOptions("GET", true);
+        return fetch(URL + "/api/info/getusers", options).then(handleHttpErrors);
+    }
+
     getMenuItems = (id) => {
         const options = this.makeOptions("GET", true);
         return fetch(URL + "/api/info/getmenu?id=" + id, options).then(handleHttpErrors);
@@ -74,6 +79,31 @@ class ApiFacade {
     getMyRestaurants = (owner) => {
         const options = this.makeOptions("GET", true);
         return fetch(URL + "/api/info/getmyrestaurants?owner=" + owner, options).then(handleHttpErrors);
+    }
+
+    addRestaurant = (restaurant) => {
+        const options = this.makeOptions("POST", true, restaurant);
+        return fetch(URL + "/api/info/addrest", options)
+    }
+
+    editRestaurant = (restaurant) => {
+        const options = this.makeOptions("PUT", true, restaurant);
+        return fetch(URL + "/api/info/editrest", options)
+    }
+
+    deleteRestaurant = (id) => {
+        const options = this.makeOptions("DELETE", true);
+        return fetch(URL + "/api/info?id=" + id, options).then(handleHttpErrors);
+    }
+
+    getSingleRestaurant = (id) => {
+        const options = this.makeOptions("GET", true);
+        return fetch(URL + "/api/info/getrestaurant?id=" + id, options).then(handleHttpErrors);
+    }
+
+    getFoodTypes = () => {
+        const options = this.makeOptions("GET", true);
+        return fetch(URL + "/api/info/getfoodtypes", options).then(handleHttpErrors);
     }
 
     makeOptions(method, addToken, body) {

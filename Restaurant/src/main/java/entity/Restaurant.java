@@ -1,11 +1,14 @@
 package entity;
 
+import dto.RestaurantDTO;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Restaurant implements Serializable {
@@ -23,6 +26,8 @@ public class Restaurant implements Serializable {
     private CityInfo cityInfo;
     @ManyToOne
     private User owner;
+    @OneToMany(mappedBy = "restaurant", orphanRemoval=true)
+    private List<MenuItem> menuItems;
 
     public Integer getId() {
         return id;
@@ -34,7 +39,7 @@ public class Restaurant implements Serializable {
 
     public Restaurant() {
     }
-    
+
     public Restaurant(String restname, String street, String phone, CityInfo cityInfo, String foodType, User owner) {
         this.restname = restname;
         this.street = street;
@@ -52,6 +57,16 @@ public class Restaurant implements Serializable {
         this.foodType = foodType;
     }
 
+    public Restaurant(RestaurantDTO rest) {
+        this.restname = rest.restName;
+        this.phone = rest.phone;
+        this.street = rest.street;
+        this.website = rest.website;
+        this.foodType = rest.foodType;
+        this.owner = rest.owner;
+        this.cityInfo = new CityInfo(rest.cityInfo);
+    }
+
     public User getOwner() {
         return owner;
     }
@@ -59,7 +74,7 @@ public class Restaurant implements Serializable {
     public void setOwner(User owner) {
         this.owner = owner;
     }
-    
+
     public String getWebsite() {
         return website;
     }

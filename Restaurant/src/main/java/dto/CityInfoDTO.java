@@ -12,9 +12,4 @@ public class CityInfoDTO {
         this.city = cityInfo.getCity();
     }
 
-    @Override
-    public String toString() {
-        return "CityInfoDTO{zip=" + zip + ", city=" + city + '}';
-    }
-
 }

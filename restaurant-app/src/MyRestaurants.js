@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import facade from "./apiFacade";
+import EditRestaurant from './EditRestaurant.js';
 
 export default class MyRestaurants extends Component {
     constructor(props) {
@@ -14,7 +15,12 @@ export default class MyRestaurants extends Component {
 
     handleClick = (id) => {
         this.setState({ edit: true, editID: id })
-
+    }
+    
+    handleDeleteClick = async (id) => {
+        const del = await facade.deleteRestaurant(id);
+        const restaurantList = await facade.getMyRestaurants(this.props.username);
+        this.setState({ restaurantList, del });
     }
 
     render() {
@@ -26,12 +32,13 @@ export default class MyRestaurants extends Component {
                     foodType={restaurant.foodType}
                     street={restaurant.street}
                     website={restaurant.website}
-                    onclicking={() => this.handleClick(restaurant.id)} />
+                    onclicking={() => this.handleClick(restaurant.id)}
+                    ondeleteclicking={() => this.handleDeleteClick(restaurant.id)} />
             );
             return <div>
                 <table className="table">
                     <thead>
-                        <tr><th>Rest name</th><th>Food type</th><th>Street</th><th>Website</th><th>Edit</th></tr>
+                        <tr><th>Rest name</th><th>Food type</th><th>Street</th><th>Website</th><th>Edit</th><th>Delete</th></tr>
                     </thead>
                     <tbody>
                         {tableData}
@@ -39,8 +46,10 @@ export default class MyRestaurants extends Component {
                 </table>
             </div>
         } else {
-            return <div>Vis id for restaurant: {this.state.editID}</div>
-        }
+            return <div>
+                <EditRestaurant {...this.props} id={this.state.editID} /> 
+            </div>
+        } 
     }
 }
 
@@ -53,6 +62,7 @@ function SingleData(props) {
         <tr>
             <td>{restName}</td><td>{foodType}</td><td>{street}</td><td>{website}</td>
             <td><button type="button" onClick={props.onclicking}>Edit</button></td>
+            <td><button type="button" onClick={props.ondeleteclicking}>Delete</button></td>
         </tr>
     );
 }

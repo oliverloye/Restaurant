@@ -20,7 +20,6 @@ class HomeScreen extends React.Component {
       <Text></Text>
       <Text></Text>
         <Text style={styles.text}>Welcome to our app!</Text>
-        <Text style={styles.text}>Too see some cool Star Wars information, push the button below!</Text>
         <Text></Text>
         <Text></Text>
         <Text></Text>

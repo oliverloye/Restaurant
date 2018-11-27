@@ -5,6 +5,7 @@ import Admin from './Admin.js';
 import User from './User.js';
 import Home from './Home.js';
 import Menu from './Menu.js';
+import CopyOfRestaurants from './CopyOfRestaurants.js';
 import Restaurants from './Restaurants';
 import MyRestaurants from './MyRestaurants.js';
 import { BrowserRouter as Router, Route, Switch, NavLink } from "react-router-dom";
@@ -111,12 +112,14 @@ function Header(props) {
           <ul className="header">
             <li><NavLink exact activeClassName="active" to="/">Home</NavLink></li>
             <li><NavLink activeClassName="active" to="/myrestaurants">MyRestaurants</NavLink></li>
+            
             <li><NavLink activeClassName="active" to="/logout" onClick={props.logout}>Logout</NavLink></li>
             <div className="nav-right"><li><p>{props.user}</p></li></div>
           </ul>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route path="/myrestaurants" render={(props) => <MyRestaurants {...props} user={props.user} />} />
+            <Route path="/myrestaurants" render={(props) => <MyRestaurants {...props} restOwner={props.user} />} />
+            <Route path="/addrestaurant" render={(props) => <AddRestaurant {...props} restOwner={props.user} />} />
 
           </Switch>
         </div>

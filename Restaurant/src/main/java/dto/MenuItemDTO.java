@@ -8,14 +8,14 @@ public class MenuItemDTO {
     public String description;
     public String itemName;
     public int price;
-    public RestaurantDTO restaurant;
+    public int restID;
 
     public MenuItemDTO(MenuItem menuItem) {
         this.id = menuItem.getId();
         this.itemName = menuItem.getItemName();
         this.description = menuItem.getDescription();
         this.price = menuItem.getPrice();
-        this.restaurant = new RestaurantDTO(menuItem.getRestaurant());
+        this.restID = menuItem.getRestaurant().getId();
     }
 
 }

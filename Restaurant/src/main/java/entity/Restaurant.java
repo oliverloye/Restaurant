@@ -26,7 +26,7 @@ public class Restaurant implements Serializable {
     private CityInfo cityInfo;
     @ManyToOne
     private User owner;
-    @OneToMany(mappedBy = "restaurant", orphanRemoval=true)
+    @OneToMany(mappedBy = "restaurant", orphanRemoval = true)
     private List<MenuItem> menuItems;
 
     public Integer getId() {
@@ -63,7 +63,7 @@ public class Restaurant implements Serializable {
         this.street = rest.street;
         this.website = rest.website;
         this.foodType = rest.foodType;
-        this.owner = rest.owner;
+//        this.owner = rest.owner;
         this.cityInfo = new CityInfo(rest.cityInfo);
     }
 

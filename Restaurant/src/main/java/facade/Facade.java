@@ -4,6 +4,7 @@ import dto.MenuItemDTO;
 import dto.RestaurantDTO;
 import entity.CityInfo;
 import entity.Restaurant;
+import entity.Role;
 import entity.User;
 import exceptions.AuthenticationException;
 import java.io.IOException;
@@ -147,17 +148,15 @@ public class Facade {
         } finally {
             em.close();
         }
-
     }
-    
-    public Restaurant deleteRestaurant(Integer id) {
+
+    public void deleteRestaurant(Integer id) {
         EntityManager em = getEntityManager();
         try {
             Restaurant rest = em.find(Restaurant.class, id);
             em.getTransaction().begin();
             em.remove(rest);
             em.getTransaction().commit();
-            return rest;
         } finally {
             em.close();
         }
@@ -186,25 +185,20 @@ public class Facade {
             em.close();
         }
     }
-    
+
     public List<String> getUsers() {
-        
         EntityManager em = getEntityManager();
         try {
             List<String> users;
-            Query q = em.createQuery("Select new dto.UserDTO(u) from User u, Role r where r.roleName=:rest_owner");
-            q.setParameter("rest_owner", "rest_owner");
-            
-//            TypedQuery<PetDTO> tq = em.createQuery("Select new entity.PetDTO(p)"
-//                    + " from Pet p where p in (select e.pet from Event e where e.date=:date)", PetDTO.class);
-            
+            Role role = new Role("rest_owner");
+            Query q = em.createQuery("Select distinct new dto.UserDTO(u) from User u, Role r where u.roleList=:rest_owner");
+            q.setParameter("rest_owner", role);
             users = q.getResultList();
             return users;
         } finally {
             em.close();
         }
     }
-
 
     public CityInfo getCityFromZip(String zip) {
         EntityManager em = getEntityManager();
@@ -215,6 +209,19 @@ public class Facade {
             em.close();
         }
     }
+    
+    public List<String> getFoodTypes() {
+        EntityManager em = getEntityManager();
+        try {
+            List<String> foodTypes;
+            Query q = em.createQuery("Select distinct r.foodType from Restaurant r");
+            foodTypes = q.getResultList();
+            return foodTypes;
+        } finally {
+            em.close();
+        }
+    }
+
 
     public String getSwapiData() throws MalformedURLException, IOException {
         String hostURL = "https://swapi.co/api/people/";

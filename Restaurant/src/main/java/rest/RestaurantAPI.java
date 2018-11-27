@@ -86,7 +86,7 @@ public class RestaurantAPI {
         RestaurantDTO myRest = facade.getRestaurant(id);
         return Response.ok(gson.toJson(myRest)).build();
     }
-    
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getusers")
@@ -96,6 +96,17 @@ public class RestaurantAPI {
 //            throw new PersonNotFoundException("Ingen personer fundet.");
 //        }
         return Response.ok(gson.toJson(users)).build();
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("getfoodtypes")
+    public Response getFoodTypes() {
+        List<String> foodTypes = facade.getFoodTypes();
+//        if (persons.isEmpty()) {
+//            throw new PersonNotFoundException("Ingen personer fundet.");
+//        }
+        return Response.ok(gson.toJson(foodTypes)).build();
     }
 
     @GET
@@ -124,12 +135,12 @@ public class RestaurantAPI {
         facade.editRestaurant(rest, jo.get("id").getAsInt());
         return Response.ok(json).build();
     }
-    
+
     @DELETE
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response deleteRestaurant(@QueryParam("id") Integer id) {
-        Restaurant rest = facade.deleteRestaurant(id);
-        return Response.ok(rest).build();
+        facade.deleteRestaurant(id);
+        return Response.ok().build();
     }
 
     @POST

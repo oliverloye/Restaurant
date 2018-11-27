@@ -138,9 +138,11 @@ public class RestaurantAPI {
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteRestaurant(@QueryParam("id") Integer id) {
+    public String deleteRestaurant(@QueryParam("id") Integer id) {
         facade.deleteRestaurant(id);
-        return Response.ok().build();
+        String answer = "Restaurant deleted.";
+        return "\"" + answer + "\"";
+        //return Response.ok().build();
     }
 
     @POST

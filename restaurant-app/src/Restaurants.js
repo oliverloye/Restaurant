@@ -35,10 +35,8 @@ const expandRow = {
                     <p><b>Website: </b> {row.website}</p>
                     <p><b>Telefon: </b> {row.phone}</p>
 
-                    {console.log(row.id)}
-
-                    <NavLink exact style={{backgroundColor: 'transparent', marginRight: '30px'}} to="/menu">Menukort</NavLink>
-                    <NavLink exact style={{backgroundColor: 'transparent'}} to="/restaurants">Luk Menukort</NavLink>
+                    <NavLink exact style={{ backgroundColor: 'transparent', marginRight: '30px' }} to="/menu">Menukort</NavLink>
+                    <NavLink exact style={{ backgroundColor: 'transparent', marginRight: '30px' }} to="/restaurants">Luk Menukort</NavLink>
                     <Switch>
                         <Route exact path="/menu" render={(props) => <Menu {...props} id={row.id} />} />
                     </Switch>
@@ -49,6 +47,29 @@ const expandRow = {
     )
 };
 
+const expandRowCustomer = {
+    renderer: (row) => (
+        <div>
+            <Router>
+                <div>
+                    <p><b>Kontakt information: </b></p>
+                    <p><b>Navn: </b> {row.restName} <br /> </p>
+                    <p><b>Adresse: </b> {row.street}, {row.cityInfo.zip} {row.cityInfo.city}<br /> </p>
+                    <p><b>Website: </b> {row.website}</p>
+                    <p><b>Telefon: </b> {row.phone}</p>
+
+                    <NavLink exact style={{ backgroundColor: 'transparent', marginRight: '30px' }} to="/menu">Menukort</NavLink>
+                    <NavLink exact style={{ backgroundColor: 'transparent', marginRight: '30px' }} to="/restaurants">Luk Menukort</NavLink>
+                    <NavLink exact style={{ backgroundColor: 'transparent' }} to="/restaurants">Marker som favorit</NavLink>
+                    <Switch>
+                        <Route exact path="/menu" render={(props) => <Menu {...props} id={row.id} />} />
+                    </Switch>
+
+                </div>
+            </Router>
+        </div>
+    )
+};
 
 const columns = [{
     dataField: 'restName',
@@ -71,17 +92,13 @@ const columns = [{
     dataField: 'cityInfo.city',
     text: "By",
     filter: textFilter()
-}, {
-    dataField: 'Info',
-    text: 'Info',
-}
-
+},
 ];
 
 export default class Restaurants extends Component {
     constructor(props) {
         super(props);
-        this.state = { restaurantList: [], menuItems: [], paginationData: "Fetching data..." };
+        this.state = { restaurantList: [], menuItems: [], paginationData: "Fetching data...", role: "" };
     }
 
     async componentDidMount() {
@@ -89,20 +106,43 @@ export default class Restaurants extends Component {
         this.setState({ restaurantList });
     }
 
+
     render() {
-        return <div>
-            <BootstrapTable
-                hover
-                bootstrap4
-                keyField='id'
-                data={this.state.restaurantList}
-                columns={columns}
-                filter={filterFactory()}
-                pagination={paginationFactory()}
-                expandRow={expandRow} 
-                select
+        let role = "";
+        if (localStorage.jwtToken) {
+            let jwt = localStorage.jwtToken;
+            let jwtData = jwt.split('.')[1]
+            let decodedJwtJsonData = window.atob(jwtData)
+            let decodedJwtData = JSON.parse(decodedJwtJsonData)
+            role = decodedJwtData.roles
+        }
+        if (role === 'customer') {
+            return <div>
+                <BootstrapTable
+                    hover
+                    bootstrap4
+                    keyField='id'
+                    data={this.state.restaurantList}
+                    columns={columns}
+                    filter={filterFactory()}
+                    pagination={paginationFactory()}
+                    expandRow={expandRowCustomer}
                 />
-        </div>
+            </div>
+        } else {
+            return <div>
+                <BootstrapTable
+                    hover
+                    bootstrap4
+                    keyField='id'
+                    data={this.state.restaurantList}
+                    columns={columns}
+                    filter={filterFactory()}
+                    pagination={paginationFactory()}
+                    expandRow={expandRow}
+                />
+            </div>
+        }
     }
 }
 

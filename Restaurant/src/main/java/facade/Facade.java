@@ -201,7 +201,7 @@ public class Facade {
             em.close();
         }
     }
-
+    
     public CityInfo getCityFromZip(String zip) {
         EntityManager em = getEntityManager();
         try {
@@ -253,9 +253,10 @@ public class Facade {
         String result = "Error";
         try {
             URL url = new URL("https://andreasheick.dk/durumbo/api/info/restaurants");
+            //URL url = new URL("https://andreasheick.dk/durumbo/api/info/durumborestaurants");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
-            con.setRequestProperty("Accept", "application/json;charset=UTF-8");
+            con.setRequestProperty("Accept", "application/json; charset=UTF-8");
             con.setRequestProperty("User-Agent", "server");
             Scanner scan = new Scanner(con.getInputStream());
             String jsonStr = "";

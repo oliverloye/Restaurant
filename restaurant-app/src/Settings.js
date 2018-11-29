@@ -1,2 +1,2 @@
-const URL = "http://localhost:8080/Restaurant";
+const URL = "https://oloye.dk";
 export default URL;

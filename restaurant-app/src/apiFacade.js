@@ -41,7 +41,7 @@ class ApiFacade {
 
     addNew = (user, pass) => {
         const options = this.makeOptions("POST", true, { username: user, password: pass });
-        return fetch(URL + "/api/addNew", options, true)
+        return fetch(URL + "/api/adduser", options, true)
             .then(handleHttpErrors)
             .then(res => { this.setToken(res.token) })
     }

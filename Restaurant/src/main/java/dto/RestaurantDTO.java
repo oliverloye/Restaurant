@@ -13,8 +13,8 @@ public class RestaurantDTO {
     public String website;
     public String phone;
     public CityInfoDTO cityInfo;
-    public String owner;
-    //public User owner;
+    
+    public User owner;
 
     public RestaurantDTO() {
     }
@@ -28,7 +28,7 @@ public class RestaurantDTO {
         this.website = restaurant.getWebsite();
         this.cityInfo = new CityInfoDTO(restaurant.getCityInfo());
         if (restaurant.getOwner() != null) {
-            this.owner = restaurant.getOwner().getUserName();
+            this.owner = new User(restaurant.getOwner().getUserName(), restaurant.getOwner().getUserPass());
         }
     }
 
@@ -39,7 +39,7 @@ public class RestaurantDTO {
         this.website = website;
         this.phone = phone;
         this.cityInfo = cityInfo;
-        this.owner = owner.getUserName();
+        this.owner = owner;
     }
 
     public RestaurantDTO(int id, String restName, String foodType, String street, String website, CityInfoDTO cityInfo) {

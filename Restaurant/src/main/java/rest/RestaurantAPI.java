@@ -84,34 +84,6 @@ public class RestaurantAPI {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("getremote")
-    public Response getRemote() {
-        String remote = facade.getRemoteRestaurants();
-        JsonArray jo = parser.parse(remote).getAsJsonArray();
-        List<RestaurantDTO> list = new ArrayList<>();
-        for (JsonElement jsonElement : jo) {
-            RestaurantDTO dto = new RestaurantDTO();
-            dto.phone = jsonElement.getAsJsonObject().get("phone").getAsString();
-            dto.restName = jsonElement.getAsJsonObject().get("restName").getAsString();
-            dto.foodType = jsonElement.getAsJsonObject().get("foodType").getAsString();
-            dto.street = jsonElement.getAsJsonObject().get("street").getAsString();
-            if (jsonElement.getAsJsonObject().has("website")) {
-                dto.website = jsonElement.getAsJsonObject().get("website").getAsString();
-            }
-            JsonElement newjo = jsonElement.getAsJsonObject().get("cityInfo");
-            String zip = newjo.getAsJsonObject().get("zip").getAsString();
-//            String city = newjo.getAsJsonObject().get("city").getAsString();
-
-            CityInfo cityInfo = facade.getCityFromZip(zip);
-            CityInfoDTO cityInfoDTO = new CityInfoDTO(cityInfo);
-            dto.cityInfo = cityInfoDTO;
-            list.add(dto);
-        }
-        return Response.ok(list).build();
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
     @Path("getname")
     @RolesAllowed({"rest_owner", "admin"})
     public String getName() {
@@ -130,8 +102,11 @@ public class RestaurantAPI {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getmyrestaurants")
-    public Response getMyRestaurants(@QueryParam("owner") String owner) {
+    public Response getMyRestaurants(@QueryParam("owner") String owner) throws NotFoundException {
         List<RestaurantDTO> myRest = facade.getMyRestaurants(owner);
+        if (myRest.isEmpty()) {
+            throw new NotFoundException("No restaurants are registered on your account.");
+        }
         return Response.ok(gson.toJson(myRest)).build();
     }
 

@@ -7,6 +7,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import dto.CityInfoDTO;
+import dto.FavRestDTO;
 import dto.MenuItemDTO;
 import dto.RestaurantDTO;
 import entity.CityInfo;
@@ -165,6 +166,15 @@ public class RestaurantAPI {
         facade.addFavRestaurant(restID, userName);
         return Response.ok().build();
     }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("getfavrests")
+    public Response getFavRests(@QueryParam("userName") String userName) {
+        List<FavRestDTO> myRest = facade.getFavRestaurants(userName);
+        return Response.ok(gson.toJson(myRest)).build();
+    }
+
     
 
     @GET

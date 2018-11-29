@@ -1,8 +1,10 @@
 package facade;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import dto.MenuItemDTO;
 import dto.RestaurantDTO;
 import entity.CityInfo;
+import entity.FavRest;
 import entity.Restaurant;
 import entity.Role;
 import entity.User;
@@ -230,6 +232,18 @@ public class Facade {
             zipCodes = q.getResultList();
             return zipCodes;
         } finally {
+            em.close();
+        }
+    }
+
+    public void addFavRestaurant(int restID, String userName) {
+        EntityManager em = getEntityManager();
+        FavRest fr = new FavRest(restID, userName);
+        try{
+            em.getTransaction().begin();
+            em.persist(fr);
+            em.getTransaction().commit();
+        } finally{
             em.close();
         }
     }

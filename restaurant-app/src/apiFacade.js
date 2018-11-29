@@ -63,7 +63,7 @@ class ApiFacade {
 
     getAllRestaurants = () => {
         const options = this.makeOptions("GET", true);
-        return fetch(URL + "/api/info/getlist", options).then(handleHttpErrors);
+        return fetch(URL + "/api/info/getlists", options).then(handleHttpErrors);
     }
 
     getAllUsers = () => {
@@ -109,6 +109,11 @@ class ApiFacade {
     getZipCodes = () => {
         const options = this.makeOptions("GET", true);
         return fetch(URL + "/api/info/getzipcodes", options).then(handleHttpErrors);
+    }
+
+    getFavRestaurants = (username) => {
+        const options = this.makeOptions("GET", true);
+        return fetch(URL + "/api/info/getfav?username=" + username, options).then(handleHttpErrors);
     }
 
     makeOptions(method, addToken, body) {

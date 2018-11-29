@@ -48,7 +48,7 @@ public class RestaurantAPI {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("getlist")
+    @Path("getlists")
     public Response getAllRestaurants() {
         List<RestaurantDTO> restaurants = facade.getAllRestaurants();
         int nextID = restaurants.get(restaurants.size() - 1).id + 1;
@@ -81,33 +81,13 @@ public class RestaurantAPI {
         }
         return Response.ok(gson.toJson(restaurants)).build();
     }
-
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("getremote")
-    public Response getRemote() {
-        String remote = facade.getRemoteRestaurants();
-        JsonArray jo = parser.parse(remote).getAsJsonArray();
-        List<RestaurantDTO> list = new ArrayList<>();
-        for (JsonElement jsonElement : jo) {
-            RestaurantDTO dto = new RestaurantDTO();
-            dto.phone = jsonElement.getAsJsonObject().get("phone").getAsString();
-            dto.restName = jsonElement.getAsJsonObject().get("restName").getAsString();
-            dto.foodType = jsonElement.getAsJsonObject().get("foodType").getAsString();
-            dto.street = jsonElement.getAsJsonObject().get("street").getAsString();
-            if (jsonElement.getAsJsonObject().has("website")) {
-                dto.website = jsonElement.getAsJsonObject().get("website").getAsString();
-            }
-            JsonElement newjo = jsonElement.getAsJsonObject().get("cityInfo");
-            String zip = newjo.getAsJsonObject().get("zip").getAsString();
-//            String city = newjo.getAsJsonObject().get("city").getAsString();
-
-            CityInfo cityInfo = facade.getCityFromZip(zip);
-            CityInfoDTO cityInfoDTO = new CityInfoDTO(cityInfo);
-            dto.cityInfo = cityInfoDTO;
-            list.add(dto);
-        }
-        return Response.ok(list).build();
+    @Path("getlist")
+    public Response getOurRestaurants() {
+        List<RestaurantDTO> restaurants = facade.getAllRestaurants();
+        return Response.ok(gson.toJson(restaurants)).build();
     }
 
     @GET
@@ -130,8 +110,11 @@ public class RestaurantAPI {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getmyrestaurants")
-    public Response getMyRestaurants(@QueryParam("owner") String owner) {
+    public Response getMyRestaurants(@QueryParam("owner") String owner) throws NotFoundException {
         List<RestaurantDTO> myRest = facade.getMyRestaurants(owner);
+        if (myRest.isEmpty()) {
+            throw new NotFoundException("No restaurants are registered on your account.");
+        }
         return Response.ok(gson.toJson(myRest)).build();
     }
 
@@ -169,6 +152,20 @@ public class RestaurantAPI {
         List<String> zipCodes = facade.getZipCodes();
         return Response.ok(gson.toJson(zipCodes)).build();
     }
+    
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("addfavrest")
+    public Response addFavoriteRestaurants(String json) throws NotFoundException {
+        System.out.println("Test");
+        JsonObject jo = parser.parse(json).getAsJsonObject();
+        String userName = jo.get("userName").getAsString();
+        Integer restID = jo.get("restID").getAsInt();
+        System.out.println("u: " + userName + "r: " + restID);
+        facade.addFavRestaurant(restID, userName);
+        return Response.ok().build();
+    }
+    
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

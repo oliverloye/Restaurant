@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import facade from './apiFacade';
+//import facade from './apiFacade';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
@@ -7,11 +7,11 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 
 
 const columns = [{
-    dataField: 'restName',
+    dataField: 'restaurant.restName',
     text: 'Navn',
 },
 {
-    dataField: 'foodType',
+    dataField: 'restaurant.foodType',
     text: 'Madtype',
 },
 {
@@ -30,12 +30,16 @@ export default class Customer extends Component {
     }
 
     async componentDidMount() {
-        const favRests = [];/* await facade.getFavoriteRestaurants(); */
+        const favRests = [];
+        //const favRests = await facade.getFavRestaurants();
         this.setState({ favRests });
     }
 
     render() {
         return <div>
+            <br/>
+            <h3>Dine favorit restauranter</h3>
+            <br/>
             <BootstrapTable
                 hover
                 bootstrap4

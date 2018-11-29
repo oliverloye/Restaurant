@@ -2,21 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8570b7b8-6c12-4627-9d9a-faf34d497cad" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../Restaurant/src/main/java/entity/FavRest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Restaurant/src/main/java/entity/FavRestId.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Restaurant/src/main/java/utils/SchemaBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Restaurant/src/main/java/dto/RestaurantDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Restaurant/src/main/java/dto/RestaurantDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Restaurant/src/main/java/entity/Restaurant.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Restaurant/src/main/java/entity/Restaurant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Restaurant/src/main/java/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Restaurant/src/main/java/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Restaurant/src/main/java/facade/Facade.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Restaurant/src/main/java/facade/Facade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Restaurant/src/main/java/rest/RestaurantAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Restaurant/src/main/java/rest/RestaurantAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Restaurant/src/main/resources/scripts/script.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../Restaurant/src/main/resources/scripts/script.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Restaurant/src/main/resources/scripts/script2.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../Restaurant/src/main/resources/scripts/script2.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Customer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Customer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MyRestaurants.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/MyRestaurants.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Settings.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/apiFacade.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/apiFacade.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Restaurant/src/main/java/rest/ApplicationConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Restaurant/src/main/java/rest/ApplicationConfig.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -182,12 +168,12 @@
       <workItem from="1542875015658" duration="3899000" />
       <workItem from="1542960113109" duration="1196000" />
       <workItem from="1543305924882" duration="3365000" />
-      <workItem from="1543486597758" duration="23000" />
+      <workItem from="1543486597758" duration="286000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10291000" />
+    <option name="totallyTimeSpent" value="10554000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="2" y="23" width="1142" height="833" extended-state="0" />

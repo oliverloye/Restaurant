@@ -336,3 +336,6 @@ INSERT INTO MENUITEM (DESCRIPTION, ITEMNAME, PRICE, RESTAURANT_ID) VALUES
 ("Med hasselnød, kakao nibs & kaffeis.", "Tiramisu", 95, 24),
 ("Med hasselnød, kakao nibs & kaffeis.", "Tiramisu", 95, 25),
 ("Med hasselnød, kakao nibs & kaffeis.", "Tiramisu", 95, 26);
+
+-- INSERT INTO FAVREST (user_name, RESTAURANT_ID, COMMENT, RATING) VALUES ('customer', 1, 'Ingen kommentar endnu', '2 ud af 5');
+

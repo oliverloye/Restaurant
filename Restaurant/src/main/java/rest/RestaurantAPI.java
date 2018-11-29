@@ -144,6 +144,20 @@ public class RestaurantAPI {
         List<String> zipCodes = facade.getZipCodes();
         return Response.ok(gson.toJson(zipCodes)).build();
     }
+    
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("addfavrest")
+    public Response addFavoriteRestaurants(String json) throws NotFoundException {
+        System.out.println("Test");
+        JsonObject jo = parser.parse(json).getAsJsonObject();
+        String userName = jo.get("userName").getAsString();
+        Integer restID = jo.get("restID").getAsInt();
+        System.out.println("u: " + userName + "r: " + restID);
+        facade.addFavRestaurant(restID, userName);
+        return Response.ok().build();
+    }
+    
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

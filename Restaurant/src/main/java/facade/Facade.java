@@ -1,6 +1,6 @@
 package facade;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
+import dto.FavRestDTO;
 import dto.MenuItemDTO;
 import dto.RestaurantDTO;
 import entity.CityInfo;
@@ -238,12 +238,26 @@ public class Facade {
 
     public void addFavRestaurant(int restID, String userName) {
         EntityManager em = getEntityManager();
-        FavRest fr = new FavRest(restID, userName);
-        try{
+        FavRest fr = new FavRest(restID, userName, "", "");
+        try {
             em.getTransaction().begin();
             em.persist(fr);
             em.getTransaction().commit();
-        } finally{
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<FavRestDTO> getFavRestaurants(String userName) {
+        EntityManager em = getEntityManager();
+        try {
+            List<FavRestDTO> list;
+            //Query q = em.createQuery("select new dto.FavRestDTO(r, f) from Restaurant r, FavRest f where f.userName=:userName");
+            Query q = em.createQuery("select new dto.FavRestDTO(r, f) from Restaurant r, FavRest f where r.id in (select f.restID from FavRest f where f.userName=:userName)");
+            q.setParameter("userName", userName);
+            list = q.getResultList();
+            return list;
+        } finally {
             em.close();
         }
     }

@@ -63,7 +63,7 @@ class ApiFacade {
 
     getAllRestaurants = () => {
         const options = this.makeOptions("GET", true);
-        return fetch(URL + "/api/info/getlist", options).then(handleHttpErrors);
+        return fetch(URL + "/api/info/getlists", options).then(handleHttpErrors);
     }
 
     getAllUsers = () => {

@@ -48,7 +48,7 @@ public class RestaurantAPI {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("getlist")
+    @Path("getlists")
     public Response getAllRestaurants() {
         List<RestaurantDTO> restaurants = facade.getAllRestaurants();
         int nextID = restaurants.get(restaurants.size() - 1).id + 1;
@@ -79,6 +79,14 @@ public class RestaurantAPI {
         for (RestaurantDTO restaurantDTO : restaurants) {
             System.out.println(restaurantDTO.street);
         }
+        return Response.ok(gson.toJson(restaurants)).build();
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("getlist")
+    public Response getOurRestaurants() {
+        List<RestaurantDTO> restaurants = facade.getAllRestaurants();
         return Response.ok(gson.toJson(restaurants)).build();
     }
 

@@ -24,6 +24,7 @@ let zipOptions = {
     4000: '4000'
 }
 
+
 const expandRow = {
     renderer: (row) => (
         <div>
@@ -47,6 +48,7 @@ const expandRow = {
     )
 };
 
+
 const expandRowCustomer = {
     renderer: (row) => (
         <div>
@@ -60,9 +62,10 @@ const expandRowCustomer = {
 
                     <NavLink exact style={{ backgroundColor: 'transparent', marginRight: '30px' }} to="/menu">Menukort</NavLink>
                     <NavLink exact style={{ backgroundColor: 'transparent', marginRight: '30px' }} to="/restaurants">Luk Menukort</NavLink>
-                    <NavLink exact style={{ backgroundColor: 'transparent' }} to="/restaurants">Marker som favorit</NavLink>
+                    <NavLink exact style={{ backgroundColor: 'transparent' }} to="/restaurants" >Marker som favorit</NavLink>
                     <Switch>
                         <Route exact path="/menu" render={(props) => <Menu {...props} id={row.id} />} />
+                        <Route exact path="/restaurants" render={(props) => <AddFavoriteRestaurant {...props} restId={row.id} />} />
                     </Switch>
 
                 </div>
@@ -106,9 +109,8 @@ export default class Restaurants extends Component {
         this.setState({ restaurantList });
     }
 
-
     render() {
-
+        console.log(this.props.username);
         let role = "";
         if (localStorage.jwtToken) {
             let jwt = localStorage.jwtToken;
@@ -147,4 +149,31 @@ export default class Restaurants extends Component {
     }
 }
 
+class AddFavoriteRestaurant extends Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount() {
+        this.addFavoriteRestaurant()
+    }
+
+    addFavoriteRestaurant = () => {
+        console.log(this.props.username);
+        console.log(this.props.restId);
+        facade.addFavRest({
+            restId: this.props.rowId,
+            username: this.props.username
+        });
+    }
+
+    render() {
+        return (
+            <div>
+
+            </div>
+        )
+    }
+}
 

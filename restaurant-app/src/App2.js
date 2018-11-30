@@ -83,9 +83,10 @@ class App extends Component {
                             </div>
                         </ul>
                         <Switch>
-                            <Route exact path="/" component={Restaurants}/>
+                            <Route exact path="/" 
+                                    render={(props) => <Restaurants {...props} username={this.state.username}/>}/>
                             <Route path="/customer"
-                                   render={(props) => <Customer {...props} username={this.state.username}/>}/>
+                                    render={(props) => <Customer {...props} username={this.state.username}/>}/>
                         </Switch>
                     </div>
                 </ Router>

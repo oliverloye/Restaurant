@@ -63,11 +63,11 @@ export default class Customer extends Component {
                 columns={columns}
                 pagination={paginationFactory()}
                 expandRow={expandRow}
-                cellEdit={ cellEditFactory({
+                /* cellEdit={ cellEditFactory({
                     mode: 'click',
                     blurToSave: true,
                     //afterSaveCell: this.onAfterSaveCell.bind(this)
-                  }) }
+                  }) } */
             />
         </div>
     }

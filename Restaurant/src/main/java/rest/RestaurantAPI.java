@@ -55,34 +55,36 @@ public class RestaurantAPI {
         int nextID = restaurants.get(restaurants.size() - 1).id + 1;
 
         String remote = facade.getRemoteRestaurants();
-        JsonArray jo = parser.parse(remote).getAsJsonArray();
-        List<RestaurantDTO> list = new ArrayList<>();
-        for (JsonElement jsonElement : jo) {
-            RestaurantDTO dto = new RestaurantDTO();
-            dto.phone = jsonElement.getAsJsonObject().get("phone").getAsString();
-            dto.restName = jsonElement.getAsJsonObject().get("restName").getAsString();
-            dto.foodType = jsonElement.getAsJsonObject().get("foodType").getAsString();
-            dto.street = jsonElement.getAsJsonObject().get("street").getAsString();
-            if (jsonElement.getAsJsonObject().has("website")) {
-                dto.website = jsonElement.getAsJsonObject().get("website").getAsString();
+        if (!remote.contains("Error")) {
+            JsonArray jo = parser.parse(remote).getAsJsonArray();
+            List<RestaurantDTO> list = new ArrayList<>();
+            for (JsonElement jsonElement : jo) {
+                RestaurantDTO dto = new RestaurantDTO();
+                dto.phone = jsonElement.getAsJsonObject().get("phone").getAsString();
+                dto.restName = jsonElement.getAsJsonObject().get("restName").getAsString();
+                dto.foodType = jsonElement.getAsJsonObject().get("foodType").getAsString();
+                dto.street = jsonElement.getAsJsonObject().get("street").getAsString();
+                if (jsonElement.getAsJsonObject().has("website")) {
+                    dto.website = jsonElement.getAsJsonObject().get("website").getAsString();
+                }
+                JsonElement newjo = jsonElement.getAsJsonObject().get("cityInfo");
+                String zip = newjo.getAsJsonObject().get("zip").getAsString();
+                String city = newjo.getAsJsonObject().get("city").getAsString();
+                CityInfo cityInfo = new CityInfo(zip, city);
+                CityInfoDTO cityInfoDTO = new CityInfoDTO(cityInfo);
+                dto.cityInfo = cityInfoDTO;
+                dto.id = nextID;
+                nextID++;
+                list.add(dto);
             }
-            JsonElement newjo = jsonElement.getAsJsonObject().get("cityInfo");
-            String zip = newjo.getAsJsonObject().get("zip").getAsString();
-            String city = newjo.getAsJsonObject().get("city").getAsString();
-            CityInfo cityInfo = new CityInfo(zip, city);
-            CityInfoDTO cityInfoDTO = new CityInfoDTO(cityInfo);
-            dto.cityInfo = cityInfoDTO;
-            dto.id = nextID;
-            nextID++;
-            list.add(dto);
+            restaurants.addAll(list);
         }
-        restaurants.addAll(list);
         for (RestaurantDTO restaurantDTO : restaurants) {
             System.out.println(restaurantDTO.street);
         }
         return Response.ok(gson.toJson(restaurants)).build();
     }
-    
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getlist")
@@ -153,7 +155,7 @@ public class RestaurantAPI {
         List<String> zipCodes = facade.getZipCodes();
         return Response.ok(gson.toJson(zipCodes)).build();
     }
-    
+
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("addfavrest")
@@ -166,7 +168,7 @@ public class RestaurantAPI {
         facade.addFavRestaurant(restID, userName);
         return Response.ok().build();
     }
-    
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getfavrests")
@@ -174,8 +176,6 @@ public class RestaurantAPI {
         List<FavRestDTO> myRest = facade.getFavRestaurants(userName);
         return Response.ok(gson.toJson(myRest)).build();
     }
-
-    
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

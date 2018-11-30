@@ -10,7 +10,7 @@ export default class MyRestaurants extends Component {
 
     async componentDidMount() {
         try {
-            const restaurantList = await facade.getMyRestaurants('rest');
+            const restaurantList = await facade.getMyRestaurants(this.props.username);
             this.setState({ restaurantList });
         }
         catch (err) {

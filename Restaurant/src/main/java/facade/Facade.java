@@ -266,8 +266,8 @@ public class Facade {
 
         String result = "Error";
         try {
-            URL url = new URL("https://andreasheick.dk/durumbo/api/info/restaurants");
-            //URL url = new URL("https://andreasheick.dk/durumbo/api/info/durumborestaurants");
+            //URL url = new URL("https://andreasheick.dk/durumbo/api/info/restaurants");
+            URL url = new URL("https://andreasheick.dk/durumbo/api/info/durumborestaurants");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("Accept", "application/json; charset=UTF-8");
@@ -282,7 +282,7 @@ public class Facade {
             return jsonStr;
 
         } catch (Exception e) {
-            result = "->Red<-";
+//            result = "->Red<-";
         }
         return "\"" + result + "\"";
 

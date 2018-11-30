@@ -267,6 +267,7 @@ public class Facade {
         String result = "Error";
         try {
             //URL url = new URL("https://andreasheick.dk/durumbo/api/info/restaurants");
+
             URL url = new URL("https://andreasheick.dk/durumbo/api/info/durumborestaurants");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");

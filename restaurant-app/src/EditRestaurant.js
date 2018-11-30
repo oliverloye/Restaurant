@@ -60,11 +60,11 @@ export default class EditRestaurant extends Component {
     render() {
         let { isBlocking } = this.state;
         console.log(this.props);
-
-
-
         return (
-            <div>
+            <div><div>
+                <p>Want to add or edit the menu for this restaurant? Click here:
+                    Otherwise, edit the fields below.
+                </p></div>
                 <form className="form-horizontal" onSubmit={this.handleSave}>
                     <div className="form-group">
                         <label className="control-label col-sm-3">

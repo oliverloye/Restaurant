@@ -111,9 +111,9 @@ class ApiFacade {
         return fetch(URL + "/api/info/getzipcodes", options).then(handleHttpErrors);
     }
 
-    getFavRestaurants = (username) => {
+    getFavRestaurants = (userName) => {
         const options = this.makeOptions("GET", true);
-        return fetch(URL + "/api/info/getfav?username=" + username, options).then(handleHttpErrors);
+        return fetch(URL + "/api/info/getfavrests?userName=" + userName, options).then(handleHttpErrors);
     }
 
     makeOptions(method, addToken, body) {

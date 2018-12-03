@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, ScrollView, Alert } from 'react-native';
+import { StyleSheet, Text, ScrollView, Alert, ListView } from 'react-native';
 import { Table, Row, Rows } from 'react-native-table-component';
 
 //const URL = "http://4f0fbf03.ngrok.io/Restaurant/api/info/getlist";
@@ -9,7 +9,7 @@ export default class FetchSite extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            /* restaurant: "", */
+            restaurant: "",
             tableHead: ['Navn', 'Madtype', 'Zip', 'By'],
             tableData: [
                 ['1', '2', '3', '4'],
@@ -17,14 +17,13 @@ export default class FetchSite extends React.Component {
                 ['1', '2', '3', '4'],
                 ['a', 'b', 'c', 'd']
             ],
-            restaurant: [[""]]
         }
     }
 
     async componentDidMount() {
         try {
-            const resttest = await fetch(URL).then(res => res.json());
-            const rest1 = resttest[0];
+            const restaurantList = await fetch(URL).then(res => res.json());
+            const rest1 = restaurantList[0];
             this.setState({ restaurant: rest1 });
 
         } catch (err) {
@@ -34,25 +33,25 @@ export default class FetchSite extends React.Component {
 
     render() {
         const state = this.state;
-    
+        const restaurant = this.state.restaurant;
         return (
             
-            /*
             <ScrollView style={styles.white}>
                 <Text> </Text>
-                <Text style={styles.table}>{restaurant.restName}</Text>
-                <Text style={styles.table}>{
-                    'Madtype: ' + restaurant.foodType
-                }</Text>
-            </ScrollView> */
+                <Text>{restaurant.restName}</Text>
+                <Text>{'Madtype: ' + restaurant.foodType}</Text>
+            
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
 
-
-            <ScrollView style={styles.container}>
-                <Table borderStyle={{ borderWidth: 1, borderColor: 'black' }}>
+                {/* <Table borderStyle={{ borderWidth: 1, borderColor: 'black' }}>
                     <Row data={state.tableHead} style={styles.head} textStyle={styles.text} />
                     <Rows data={state.tableData} textStyle={styles.text} />
-                </Table>
-            </ScrollView>
+                </Table> */}
+
+            </ScrollView> 
         );
     }
 }

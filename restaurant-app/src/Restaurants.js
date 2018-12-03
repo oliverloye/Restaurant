@@ -65,11 +65,10 @@ function expandRowCustomer(props) {
 
                         <NavLink exact style={{ backgroundColor: 'transparent', marginRight: '30px' }} to="/menu">Menukort</NavLink>
                         <NavLink exact style={{ backgroundColor: 'transparent', marginRight: '30px' }} to="/restaurants">Luk Menukort</NavLink>
-                        {/* <NavLink activeClassName="active" to="/logout" onClick="">Logout</NavLink> */}
-                        <NavLink exact style={{ backgroundColor: 'transparent' }} to="/restaurants" >Marker som favorit</NavLink>
+                        <NavLink exact style={{ backgroundColor: 'transparent' }} to="/customer" >Marker som favorit</NavLink>
                         <Switch>
                             <Route exact path="/menu" render={(props) => <Menu {...props} id={row.id} />} />
-                            <Route exact path="/restaurants" render={(props) => <AddFavoriteRestaurant username={username} restId={row.id} />} />
+                            <Route exact path="/customer" render={(props) => <AddFavoriteRestaurant username={username} restId={row.id} />} />
                         </Switch>
 
                     </div>
@@ -78,32 +77,6 @@ function expandRowCustomer(props) {
         )
     })
 };
-
-/* const expandRowCustomer = {
-    renderer: (row) => (
-        <div>
-            <Router>
-                <div>
-                    <p><b>Kontakt information: </b></p>
-                    <p><b>Navn: </b> {row.restName} <br /> </p>
-                    <p><b>Adresse: </b> {row.street}, {row.cityInfo.zip} {row.cityInfo.city}<br /> </p>
-                    <p><b>Website: </b> {row.website}</p>
-                    <p><b>Telefon: </b> {row.phone}</p>
-
-                    <NavLink exact style={{ backgroundColor: 'transparent', marginRight: '30px' }} to="/menu">Menukort</NavLink>
-                    <NavLink exact style={{ backgroundColor: 'transparent', marginRight: '30px' }} to="/restaurants">Luk Menukort</NavLink>
-                     <NavLink activeClassName="active" to="/logout" onClick="">Logout</NavLink> 
-                    <NavLink exact style={{ backgroundColor: 'transparent' }} to="/restaurants" >Marker som favorit</NavLink>
-                    <Switch>
-                        <Route exact path="/menu" render={(props) => <Menu {...props} id={row.id} />} />
-                        <Route exact path="/restaurants" render={(props) => <AddFavoriteRestaurant {...props} restId={row.id} />} />
-                    </Switch>
-
-                </div>
-            </Router>
-        </div>
-    )
-}; */
 
 const columns = [{
     dataField: 'restName',
@@ -164,7 +137,7 @@ export default class Restaurants extends Component {
 
             return <div>
                 <BootstrapTable
-                    {...this.props}
+                    //{...this.props}
                     hover
                     bootstrap4
                     keyField='id'

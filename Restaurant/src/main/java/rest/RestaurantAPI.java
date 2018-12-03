@@ -172,7 +172,7 @@ public class RestaurantAPI {
     public Response addFavoriteRestaurants(String json) throws NotFoundException {
         JsonObject jo = parser.parse(json).getAsJsonObject();
         String userName = jo.get("username").getAsString();
-        Integer restID = jo.get("restID").getAsInt();
+        Integer restID = jo.get("restId").getAsInt();
         System.out.println("u: " + userName + "r: " + restID);
         facade.addFavRestaurant(restID, userName);
         return Response.ok().build();

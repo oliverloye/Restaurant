@@ -5,7 +5,6 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import { BrowserRouter as Router } from "react-router-dom";
-import cellEditFactory from 'react-bootstrap-table2-editor';
 
 const expandRow = {
     renderer: (row) => (
@@ -63,11 +62,11 @@ export default class Customer extends Component {
                 columns={columns}
                 pagination={paginationFactory()}
                 expandRow={expandRow}
-                cellEdit={ cellEditFactory({
+                /* cellEdit={ cellEditFactory({
                     mode: 'click',
                     blurToSave: true,
                     //afterSaveCell: this.onAfterSaveCell.bind(this)
-                  }) }
+                  }) } */
             />
         </div>
     }

@@ -1,7 +1,5 @@
 import React, { Component } from "react"
 import facade from "./apiFacade";
-import { Prompt } from "react-router-dom";
-import EditMenu from './EditMenu.js';
 
 export default class EditMenuItem extends Component {
     constructor(props) {

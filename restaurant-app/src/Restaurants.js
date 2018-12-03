@@ -167,10 +167,6 @@ export default class Restaurants extends Component {
 
 class AddFavoriteRestaurant extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     componentDidMount() {
         this.addFavoriteRestaurant()
     }

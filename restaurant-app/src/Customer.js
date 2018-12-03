@@ -25,14 +25,16 @@ const columns = [{
 }, {
     dataField: 'foodType',
     text: 'Food type'
-},
-{
+}, {
     dataField: 'comment',
     text: 'Kommentarer',
 }, {
     dataField: 'rating',
     text: "Rating",
-},
+}, {
+    dataField: 'button',
+    text: "edit"
+}
 ];
 
 export default class Customer extends Component {
@@ -42,13 +44,29 @@ export default class Customer extends Component {
     }
 
     async componentDidMount() {
-        //const favRests = [];
         const favRests = await facade.getFavRestaurants(this.state.userName);
         this.setState({ favRests });
     }
 
+    onclicking = (event) => {
+        // der skal ske lidt mere i denne metode, men har fat i restID som skal editeres
+        const editID = event.target.value;
+        this.setState({ editID: editID })
+    }
+
     render() {
-        //console.log(this.state.favRests);
+
+        console.log(this.state.favRests);
+        const tableData = this.state.favRests.map((rest) =>
+            ({
+                restName: rest.restName,
+                foodType: rest.foodType,
+                comment: rest.comment,
+                rating: rest.rating,
+                button: <button type="button" onClick={this.onclicking} value={rest.restID}>Edit</button>
+            })
+        );
+
         console.log(this.state.userName);
         return <div>
             <br />
@@ -58,7 +76,8 @@ export default class Customer extends Component {
                 hover
                 bootstrap4
                 keyField='restName'
-                data={this.state.favRests}
+                data={tableData}
+                //data={this.state.favRests}
                 columns={columns}
                 pagination={paginationFactory()}
                 expandRow={expandRow}
@@ -71,3 +90,7 @@ export default class Customer extends Component {
         </div>
     }
 }
+
+
+
+

@@ -10,7 +10,8 @@ export default class EditMenuItem extends Component {
             itemName: '',
             description: '',
             price: '',
-            isBlocking: false
+            isBlocking: false,
+            msg: ''
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSave = this.handleSave.bind(this);
@@ -34,21 +35,33 @@ export default class EditMenuItem extends Component {
             itemName: this.state.itemName,
             description: this.state.description,
             price: this.state.price,
-            id: this.props.id
+            editID: this.props.editID,
+            restID: this.props.id
         });
         event.target.reset();
+        const msg = 'Edit complete.';
         this.setState({
-            isBlocking: false
+            isBlocking: false, msg
+        });
+    }
+
+    async componentDidMount() {
+        const menuItem = await facade.getSingleMenuItem(this.props.editID);
+        this.setState({
+            itemName: menuItem.itemName,
+            description: menuItem.description,
+            price: menuItem.price,
         });
     }
 
     render() {
-        return (
 
+        return (<div>
+            {this.state.msg}
             <form className="form-horizontal" onSubmit={this.handleSave}>
                 <div className="form-group">
                     <label className="control-label col-sm-3">
-                        Name of new menu item:</label>
+                        Name:</label>
                     <div className="col-sm-9">
                         <input className="form-control"
                             name="itemName"
@@ -87,6 +100,6 @@ export default class EditMenuItem extends Component {
                         <button type="submit" className="btn btn-default">Save</button>
                     </div>
                 </div>
-            </form>)
+            </form></div>)
     }
 }

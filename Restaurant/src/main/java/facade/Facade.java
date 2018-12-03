@@ -163,6 +163,22 @@ public class Facade {
         }
     }
 
+    public MenuItem editMenuItem(MenuItem mi, Integer id) {
+        EntityManager em = getEntityManager();
+        try {
+            MenuItem item = em.find(MenuItem.class, id);
+            item.setItemName(mi.getItemName());
+            item.setDescription(mi.getDescription());
+            item.setPrice(mi.getPrice());
+            em.getTransaction().begin();
+            em.merge(item);
+            em.getTransaction().commit();
+            return item;
+        } finally {
+            em.close();
+        }
+    }
+
     public void deleteRestaurant(Integer id) {
         EntityManager em = getEntityManager();
         try {
@@ -209,6 +225,23 @@ public class Facade {
             em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
+    public MenuItemDTO getMenuItemDTO(Integer id) {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            MenuItem mi = em.find(MenuItem.class, id);
+            em.getTransaction().commit();
+            if (mi != null) {
+                MenuItemDTO miDTO = new MenuItemDTO(mi);
+                return miDTO;
+            } else {
+                return null;
+            }
         } finally {
             em.close();
         }

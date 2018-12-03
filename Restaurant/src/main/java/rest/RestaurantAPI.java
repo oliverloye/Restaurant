@@ -80,7 +80,7 @@ public class RestaurantAPI {
             }
             restaurants.addAll(list);
         }
-        
+
         return Response.ok(gson.toJson(restaurants)).build();
     }
 
@@ -133,6 +133,14 @@ public class RestaurantAPI {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("getmenuitem")
+    public Response getMenuItem(@QueryParam("id") Integer id) {
+        MenuItemDTO mi = facade.getMenuItemDTO(id);
+        return Response.ok(gson.toJson(mi)).build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("getusers")
     public Response getUsers() {
         List<String> users = facade.getUsers();
@@ -176,6 +184,21 @@ public class RestaurantAPI {
     public Response getFavRests(@QueryParam("userName") String userName) {
         List<FavRestDTO> myRest = facade.getFavRestaurants(userName);
         return Response.ok(gson.toJson(myRest)).build();
+    }
+
+    @PUT
+    @Path("editmenuitem")
+    //@RolesAllowed("rest_owner")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response editMenuItem(String json) throws NotFoundException {
+        JsonObject jo = parser.parse(json).getAsJsonObject();
+        Restaurant rest = facade.getRestaurant(jo.get("restID").getAsInt());
+        MenuItem mi = new MenuItem(rest, jo.get("itemName").getAsString(),
+                jo.get("description").getAsString(), jo.get("price").getAsInt());
+
+        facade.editMenuItem(mi, jo.get("editID").getAsInt());
+        return Response.ok(json).build();
     }
 
     @PUT

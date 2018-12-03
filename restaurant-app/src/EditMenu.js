@@ -140,7 +140,7 @@ export default class EditMenu extends Component {
                     </table>
                 </div>)
         } else {
-            return <EditMenuItem {...this.props} />
+            return <EditMenuItem {...this.props} editID={this.state.editID} />
         }
     }
 }

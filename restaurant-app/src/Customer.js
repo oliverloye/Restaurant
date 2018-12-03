@@ -49,7 +49,7 @@ export default class Customer extends Component {
 
     render() {
         //console.log(this.state.favRests);
-        console.log(this.state.username);
+        console.log(this.state.userName);
         return <div>
             <br />
             <h3>Dine favorit restauranter</h3>
@@ -62,11 +62,11 @@ export default class Customer extends Component {
                 columns={columns}
                 pagination={paginationFactory()}
                 expandRow={expandRow}
-                /* cellEdit={ cellEditFactory({
-                    mode: 'click',
-                    blurToSave: true,
-                    //afterSaveCell: this.onAfterSaveCell.bind(this)
-                  }) } */
+            /* cellEdit={ cellEditFactory({
+                mode: 'click',
+                blurToSave: true,
+                //afterSaveCell: this.onAfterSaveCell.bind(this)
+              }) } */
             />
         </div>
     }

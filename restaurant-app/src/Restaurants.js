@@ -48,8 +48,38 @@ const expandRow = {
     )
 };
 
+function expandRowCustomer(props) {
+    console.log(props);
+    const username = props.username;
+    console.log(username);
+    return ({
+        renderer: (row) => (
+            <div>
+                <Router>
+                    <div>
+                        <p><b>Kontakt information: </b></p>
+                        <p><b>Navn: </b> {row.restName} <br /> </p>
+                        <p><b>Adresse: </b> {row.street}, {row.cityInfo.zip} {row.cityInfo.city}<br /> </p>
+                        <p><b>Website: </b> {row.website}</p>
+                        <p><b>Telefon: </b> {row.phone}</p>
 
-const expandRowCustomer = {
+                        <NavLink exact style={{ backgroundColor: 'transparent', marginRight: '30px' }} to="/menu">Menukort</NavLink>
+                        <NavLink exact style={{ backgroundColor: 'transparent', marginRight: '30px' }} to="/restaurants">Luk Menukort</NavLink>
+                        {/* <NavLink activeClassName="active" to="/logout" onClick="">Logout</NavLink> */}
+                        <NavLink exact style={{ backgroundColor: 'transparent' }} to="/restaurants" >Marker som favorit</NavLink>
+                        <Switch>
+                            <Route exact path="/menu" render={(props) => <Menu {...props} id={row.id} />} />
+                            <Route exact path="/restaurants" render={(props) => <AddFavoriteRestaurant username={username} restId={row.id} />} />
+                        </Switch>
+
+                    </div>
+                </Router>
+            </div>
+        )
+    })
+};
+
+/* const expandRowCustomer = {
     renderer: (row) => (
         <div>
             <Router>
@@ -62,17 +92,18 @@ const expandRowCustomer = {
 
                     <NavLink exact style={{ backgroundColor: 'transparent', marginRight: '30px' }} to="/menu">Menukort</NavLink>
                     <NavLink exact style={{ backgroundColor: 'transparent', marginRight: '30px' }} to="/restaurants">Luk Menukort</NavLink>
+                     <NavLink activeClassName="active" to="/logout" onClick="">Logout</NavLink> 
                     <NavLink exact style={{ backgroundColor: 'transparent' }} to="/restaurants" >Marker som favorit</NavLink>
                     <Switch>
                         <Route exact path="/menu" render={(props) => <Menu {...props} id={row.id} />} />
-                        <Route exact path="/restaurants" render={(props) => <AddFavoriteRestaurant {...props} restId={row.id}  />} />
+                        <Route exact path="/restaurants" render={(props) => <AddFavoriteRestaurant {...props} restId={row.id} />} />
                     </Switch>
 
                 </div>
             </Router>
         </div>
     )
-};
+}; */
 
 const columns = [{
     dataField: 'restName',
@@ -109,6 +140,16 @@ export default class Restaurants extends Component {
         this.setState({ restaurantList });
     }
 
+    addFavoriteRestaurant = () => {
+        console.log(this.props);
+        console.log(this.props.username);
+        console.log(this.props.restId);
+        facade.addFavRest({
+            restId: this.props.rowId,
+            username: this.props.username
+        });
+    }
+
     render() {
         console.log(this.props.username);
         let role = "";
@@ -120,8 +161,10 @@ export default class Restaurants extends Component {
             role = decodedJwtData.roles
         }
         if (role === 'customer') {
+
             return <div>
                 <BootstrapTable
+                    {...this.props}
                     hover
                     bootstrap4
                     keyField='id'
@@ -129,7 +172,7 @@ export default class Restaurants extends Component {
                     columns={columns}
                     filter={filterFactory()}
                     pagination={paginationFactory()}
-                    expandRow={expandRowCustomer}
+                    expandRow={expandRowCustomer({ ...this.props })}
                 />
             </div>
         } else {
@@ -164,7 +207,7 @@ class AddFavoriteRestaurant extends Component {
         console.log(this.props.username);
         console.log(this.props.restId);
         facade.addFavRest({
-            restId: this.props.rowId,
+            restId: this.props.restId,
             username: this.props.username
         });
     }

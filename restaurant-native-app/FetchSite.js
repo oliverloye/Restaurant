@@ -1,13 +1,24 @@
 import React from 'react';
 import { StyleSheet, Text, ScrollView, Alert } from 'react-native';
+import { Table, Row, Rows } from 'react-native-table-component';
 
-//const URL = "http://ba98380c.ngrok.io/CA3-2/api/info/swapi";
-const URL = "http://2e2fb80d.ngrok.io/Restaurant/api/info/getlist";
+//const URL = "http://4f0fbf03.ngrok.io/Restaurant/api/info/getlist";
+const URL = "https://oloye.dk/api/info/getlist";
 
 export default class FetchSite extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { restaurant: "" };
+        this.state = {
+            /* restaurant: "", */
+            tableHead: ['Navn', 'Madtype', 'Zip', 'By'],
+            tableData: [
+                ['1', '2', '3', '4'],
+                ['a', 'b', 'c', 'd'],
+                ['1', '2', '3', '4'],
+                ['a', 'b', 'c', 'd']
+            ],
+            restaurant: [[""]]
+        }
     }
 
     async componentDidMount() {
@@ -22,35 +33,49 @@ export default class FetchSite extends React.Component {
     }
 
     render() {
-        const restaurant = this.state.restaurant;
+        const state = this.state;
+    
         return (
+            
+            /*
             <ScrollView style={styles.white}>
                 <Text> </Text>
                 <Text style={styles.table}>{restaurant.restName}</Text>
                 <Text style={styles.table}>{
                     'Madtype: ' + restaurant.foodType
                 }</Text>
+            </ScrollView> */
+
+
+            <ScrollView style={styles.container}>
+                <Table borderStyle={{ borderWidth: 1, borderColor: 'black' }}>
+                    <Row data={state.tableHead} style={styles.head} textStyle={styles.text} />
+                    <Rows data={state.tableData} textStyle={styles.text} />
+                </Table>
             </ScrollView>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        paddingTop: 60,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-
-    table: {
-        fontSize: 20,
-        flex: 1,
-        textAlign: 'left',
-        backgroundColor: '#fff',
-        margin: 20
-    },
-
+    
     white: {
         backgroundColor: 'white'
+    },
+
+    container: { 
+        flex: 1, 
+        padding: 5, 
+        paddingTop: 5, 
+        backgroundColor: 'white' 
+    },
+  
+    head: { 
+        height: 40, 
+        backgroundColor: 'white' 
+    },
+
+    text: { 
+        margin: 6 
     }
 });

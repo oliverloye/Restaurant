@@ -65,7 +65,7 @@ const expandRowCustomer = {
                     <NavLink exact style={{ backgroundColor: 'transparent' }} to="/restaurants" >Marker som favorit</NavLink>
                     <Switch>
                         <Route exact path="/menu" render={(props) => <Menu {...props} id={row.id} />} />
-                        <Route exact path="/restaurants" render={(props) => <AddFavoriteRestaurant {...props} restId={row.id} />} />
+                        <Route exact path="/restaurants" render={(props) => <AddFavoriteRestaurant {...props} restId={row.id}  />} />
                     </Switch>
 
                 </div>
@@ -160,6 +160,7 @@ class AddFavoriteRestaurant extends Component {
     }
 
     addFavoriteRestaurant = () => {
+        console.log(this.props);
         console.log(this.props.username);
         console.log(this.props.restId);
         facade.addFavRest({

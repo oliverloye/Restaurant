@@ -175,7 +175,7 @@ public class RestaurantAPI {
         Integer restID = jo.get("restId").getAsInt();
         System.out.println("u: " + userName + "r: " + restID);
         facade.addFavRestaurant(restID, userName);
-        return Response.ok().build();
+        return Response.ok(json).build();
     }
 
     @GET

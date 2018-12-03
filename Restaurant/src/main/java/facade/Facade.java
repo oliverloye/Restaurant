@@ -5,6 +5,7 @@ import dto.MenuItemDTO;
 import dto.RestaurantDTO;
 import entity.CityInfo;
 import entity.FavRest;
+import entity.MenuItem;
 import entity.Restaurant;
 import entity.Role;
 import entity.User;
@@ -115,7 +116,7 @@ public class Facade {
         }
     }
 
-    public RestaurantDTO getRestaurant(Integer id) {
+    public RestaurantDTO getRestaurantDTO(Integer id) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
@@ -127,6 +128,16 @@ public class Facade {
             } else {
                 return null;
             }
+        } finally {
+            em.close();
+        }
+    }
+
+    public Restaurant getRestaurant(Integer id) {
+        EntityManager em = getEntityManager();
+        try {
+            Restaurant rest = em.find(Restaurant.class, id);
+            return rest;
         } finally {
             em.close();
         }
@@ -164,6 +175,18 @@ public class Facade {
         }
     }
 
+    public void deleteMenuItem(Integer id) {
+        EntityManager em = getEntityManager();
+        try {
+            MenuItem mi = em.find(MenuItem.class, id);
+            em.getTransaction().begin();
+            em.remove(mi);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
+
     public Restaurant addRestaurant(Restaurant rest) throws InternalException {
         EntityManager em = getEntityManager();
         try {
@@ -176,6 +199,19 @@ public class Facade {
             em.close();
         }
         return rest;
+    }
+
+    public void addMenuItem(MenuItem mi) {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(mi);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
     }
 
     public User findUser(String username) {
@@ -201,7 +237,7 @@ public class Facade {
             em.close();
         }
     }
-    
+
     public CityInfo getCityFromZip(String zip) {
         EntityManager em = getEntityManager();
         try {

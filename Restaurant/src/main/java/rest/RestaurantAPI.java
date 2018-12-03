@@ -11,6 +11,7 @@ import dto.FavRestDTO;
 import dto.MenuItemDTO;
 import dto.RestaurantDTO;
 import entity.CityInfo;
+import entity.MenuItem;
 import entity.Restaurant;
 import entity.User;
 import exceptions.NotFoundException;
@@ -105,8 +106,11 @@ public class RestaurantAPI {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getmenu")
-    public Response getMenuItems(@QueryParam("id") int id) {
+    public Response getMenuItems(@QueryParam("id") int id) throws NotFoundException {
         List<MenuItemDTO> menuItems = facade.getMenuItems(id);
+        if (menuItems.isEmpty()) {
+            throw new NotFoundException("No menu items are registered for this restaurant.");
+        }
         return Response.ok(gson.toJson(menuItems)).build();
     }
 
@@ -125,7 +129,7 @@ public class RestaurantAPI {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getrestaurant")
     public Response getRestaurant(@QueryParam("id") Integer id) {
-        RestaurantDTO myRest = facade.getRestaurant(id);
+        RestaurantDTO myRest = facade.getRestaurantDTO(id);
         return Response.ok(gson.toJson(myRest)).build();
     }
 
@@ -160,7 +164,6 @@ public class RestaurantAPI {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("addfavrest")
     public Response addFavoriteRestaurants(String json) throws NotFoundException {
-        System.out.println("Test");
         JsonObject jo = parser.parse(json).getAsJsonObject();
         String userName = jo.get("userName").getAsString();
         Integer restID = jo.get("restID").getAsInt();
@@ -175,14 +178,6 @@ public class RestaurantAPI {
     public Response getFavRests(@QueryParam("userName") String userName) {
         List<FavRestDTO> myRest = facade.getFavRestaurants(userName);
         return Response.ok(gson.toJson(myRest)).build();
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("swapi")
-    public String getSwapi() throws IOException {
-        String swapitest = facade.getSwapiData();
-        return swapitest;
     }
 
     @PUT
@@ -213,25 +208,68 @@ public class RestaurantAPI {
         //return Response.ok().build();
     }
 
+    @DELETE
+    @Path("deletemenuitem")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String deleteMenuItem(@QueryParam("id") Integer id) {
+        facade.deleteMenuItem(id);
+        String answer = "Menu item deleted.";
+        return "\"" + answer + "\"";
+        //return Response.ok().build();
+    }
+
     @POST
     @Path("addrest")
     @RolesAllowed("rest_owner")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addRestaurant(String json) throws NotFoundException {
-        JsonObject jo = parser.parse(json).getAsJsonObject();
-        Restaurant rest = new Restaurant();
-        CityInfo cityInfo = facade.getCityFromZip(jo.get("zip").getAsString());
-        rest.setCityInfo(cityInfo);
-        User owner = facade.findUser(jo.get("owner").getAsString());
-        rest.setOwner(owner);
-        rest.setRestname(jo.get("restName").getAsString());
-        rest.setPhone(jo.get("phone").getAsString());
-        rest.setStreet(jo.get("street").getAsString());
-        rest.setWebsite(jo.get("website").getAsString());
-        rest.setFoodType(jo.get("foodType").getAsString());
-        facade.addRestaurant(rest);
+        try {
+            JsonObject jo = parser.parse(json).getAsJsonObject();
+            Restaurant rest = new Restaurant();
+            CityInfo cityInfo = facade.getCityFromZip(jo.get("zip").getAsString());
+            rest.setCityInfo(cityInfo);
+            User owner = facade.findUser(jo.get("owner").getAsString());
+            rest.setOwner(owner);
+            rest.setRestname(jo.get("restName").getAsString());
+            rest.setPhone(jo.get("phone").getAsString());
+            rest.setStreet(jo.get("street").getAsString());
+            rest.setWebsite(jo.get("website").getAsString());
+            rest.setFoodType(jo.get("foodType").getAsString());
+            facade.addRestaurant(rest);
+        } catch (Exception e) {
+            // TODO
+        }
+
         return Response.ok(json).build();
+    }
+
+    @POST
+    @Path("addmenuitem")
+    //@RolesAllowed("rest_owner")
+    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON)
+    public String addMenuItem(String json) throws NotFoundException {
+        JsonObject jo = parser.parse(json).getAsJsonObject();
+        MenuItem mi = new MenuItem();
+        mi.setItemName(jo.get("itemName").getAsString());
+        mi.setDescription(jo.get("description").getAsString());
+        mi.setPrice(jo.get("price").getAsInt());
+        Integer restID = jo.get("restID").getAsInt();
+        Restaurant rest = facade.getRestaurant(restID);
+        mi.setRestaurant(rest);
+        facade.addMenuItem(mi);
+        String answer = "Menu item added.";
+        return "\"" + answer + "\"";
+        //return Response.ok().build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("swapi")
+    public String getSwapi() throws IOException {
+        String swapitest = facade.getSwapiData();
+        return swapitest;
     }
 
 //    // bruges ikke pt

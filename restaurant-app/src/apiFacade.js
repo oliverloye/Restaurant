@@ -83,17 +83,27 @@ class ApiFacade {
 
     addRestaurant = (restaurant) => {
         const options = this.makeOptions("POST", true, restaurant);
-        return fetch(URL + "/api/info/addrest", options)
+        return fetch(URL + "/api/info/addrest", options).then(handleHttpErrors);
     }
 
     editRestaurant = (restaurant) => {
         const options = this.makeOptions("PUT", true, restaurant);
-        return fetch(URL + "/api/info/editrest", options)
+        return fetch(URL + "/api/info/editrest", options).then(handleHttpErrors);
     }
 
     deleteRestaurant = (id) => {
         const options = this.makeOptions("DELETE", true);
         return fetch(URL + "/api/info?id=" + id, options).then(handleHttpErrors);
+    }
+
+    deleteMenuItem = (id) => {
+        const options = this.makeOptions("DELETE", true);
+        return fetch(URL + "/api/info/deletemenuitem?id=" + id, options).then(handleHttpErrors);
+    }
+
+    addMenuItem = (menuItem) => {
+        const options = this.makeOptions("POST", true, menuItem);
+        return fetch(URL + "/api/info/addmenuitem", options).then(handleHttpErrors);
     }
 
     getSingleRestaurant = (id) => {

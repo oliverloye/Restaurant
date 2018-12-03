@@ -15,7 +15,6 @@ public class MenuItem implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-//    @ManyToOne
     @ManyToOne
     private Restaurant restaurant;
     private String itemName;

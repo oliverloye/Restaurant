@@ -24,6 +24,7 @@ let zipOptions = {
     4000: '4000'
 }
 
+
 const expandRow = {
     renderer: (row) => (
         <div>
@@ -47,28 +48,34 @@ const expandRow = {
     )
 };
 
-const expandRowCustomer = {
-    renderer: (row) => (
-        <div>
-            <Router>
-                <div>
-                    <p><b>Kontakt information: </b></p>
-                    <p><b>Navn: </b> {row.restName} <br /> </p>
-                    <p><b>Adresse: </b> {row.street}, {row.cityInfo.zip} {row.cityInfo.city}<br /> </p>
-                    <p><b>Website: </b> {row.website}</p>
-                    <p><b>Telefon: </b> {row.phone}</p>
+function expandRowCustomer(props) {
+    console.log(props);
+    const username = props.username;
+    console.log(username);
+    return ({
+        renderer: (row) => (
+            <div>
+                <Router>
+                    <div>
+                        <p><b>Kontakt information: </b></p>
+                        <p><b>Navn: </b> {row.restName} <br /> </p>
+                        <p><b>Adresse: </b> {row.street}, {row.cityInfo.zip} {row.cityInfo.city}<br /> </p>
+                        <p><b>Website: </b> {row.website}</p>
+                        <p><b>Telefon: </b> {row.phone}</p>
 
-                    <NavLink exact style={{ backgroundColor: 'transparent', marginRight: '30px' }} to="/menu">Menukort</NavLink>
-                    <NavLink exact style={{ backgroundColor: 'transparent', marginRight: '30px' }} to="/restaurants">Luk Menukort</NavLink>
-                    <NavLink exact style={{ backgroundColor: 'transparent' }} to="/restaurants">Marker som favorit</NavLink>
-                    <Switch>
-                        <Route exact path="/menu" render={(props) => <Menu {...props} id={row.id} />} />
-                    </Switch>
+                        <NavLink exact style={{ backgroundColor: 'transparent', marginRight: '30px' }} to="/menu">Menukort</NavLink>
+                        <NavLink exact style={{ backgroundColor: 'transparent', marginRight: '30px' }} to="/restaurants">Luk Menukort</NavLink>
+                        <NavLink exact style={{ backgroundColor: 'transparent' }} to="/customer" >Marker som favorit</NavLink>
+                        <Switch>
+                            <Route exact path="/menu" render={(props) => <Menu {...props} id={row.id} />} />
+                            <Route exact path="/customer" render={(props) => <AddFavoriteRestaurant username={username} restId={row.id} />} />
+                        </Switch>
 
-                </div>
-            </Router>
-        </div>
-    )
+                    </div>
+                </Router>
+            </div>
+        )
+    })
 };
 
 const columns = [{
@@ -106,9 +113,18 @@ export default class Restaurants extends Component {
         this.setState({ restaurantList });
     }
 
+    addFavoriteRestaurant = () => {
+        console.log(this.props);
+        console.log(this.props.username);
+        console.log(this.props.restId);
+        facade.addFavRest({
+            restId: this.props.rowId,
+            username: this.props.username
+        });
+    }
 
     render() {
-
+        console.log(this.props.username);
         let role = "";
         if (localStorage.jwtToken) {
             let jwt = localStorage.jwtToken;
@@ -118,8 +134,10 @@ export default class Restaurants extends Component {
             role = decodedJwtData.roles
         }
         if (role === 'customer') {
+
             return <div>
                 <BootstrapTable
+                    //{...this.props}
                     hover
                     bootstrap4
                     keyField='id'
@@ -127,7 +145,7 @@ export default class Restaurants extends Component {
                     columns={columns}
                     filter={filterFactory()}
                     pagination={paginationFactory()}
-                    expandRow={expandRowCustomer}
+                    expandRow={expandRowCustomer({ ...this.props })}
                 />
             </div>
         } else {
@@ -147,4 +165,28 @@ export default class Restaurants extends Component {
     }
 }
 
+class AddFavoriteRestaurant extends Component {
+
+    componentDidMount() {
+        this.addFavoriteRestaurant()
+    }
+
+    addFavoriteRestaurant = () => {
+        console.log(this.props);
+        console.log(this.props.username);
+        console.log(this.props.restId);
+        facade.addFavRest({
+            restId: this.props.restId,
+            username: this.props.username
+        });
+    }
+
+    render() {
+        return (
+            <div>
+
+            </div>
+        )
+    }
+}
 

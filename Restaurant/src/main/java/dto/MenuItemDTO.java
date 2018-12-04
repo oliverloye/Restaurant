@@ -18,4 +18,11 @@ public class MenuItemDTO {
         this.restID = menuItem.getRestaurant().getId();
     }
 
+    public MenuItemDTO(String itemName, String description, int price, int restID) {
+        this.itemName = itemName;
+        this.description = description;
+        this.price = price;
+        this.restID = restID;
+    }
+
 }

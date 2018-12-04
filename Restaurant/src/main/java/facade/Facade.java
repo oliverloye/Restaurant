@@ -5,6 +5,7 @@ import dto.MenuItemDTO;
 import dto.RestaurantDTO;
 import entity.CityInfo;
 import entity.FavRest;
+import entity.MenuItem;
 import entity.Restaurant;
 import entity.Role;
 import entity.User;
@@ -115,7 +116,7 @@ public class Facade {
         }
     }
 
-    public RestaurantDTO getRestaurant(Integer id) {
+    public RestaurantDTO getRestaurantDTO(Integer id) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
@@ -127,6 +128,16 @@ public class Facade {
             } else {
                 return null;
             }
+        } finally {
+            em.close();
+        }
+    }
+
+    public Restaurant getRestaurant(Integer id) {
+        EntityManager em = getEntityManager();
+        try {
+            Restaurant rest = em.find(Restaurant.class, id);
+            return rest;
         } finally {
             em.close();
         }
@@ -152,12 +163,40 @@ public class Facade {
         }
     }
 
+    public MenuItem editMenuItem(MenuItem mi, Integer id) {
+        EntityManager em = getEntityManager();
+        try {
+            MenuItem item = em.find(MenuItem.class, id);
+            item.setItemName(mi.getItemName());
+            item.setDescription(mi.getDescription());
+            item.setPrice(mi.getPrice());
+            em.getTransaction().begin();
+            em.merge(item);
+            em.getTransaction().commit();
+            return item;
+        } finally {
+            em.close();
+        }
+    }
+
     public void deleteRestaurant(Integer id) {
         EntityManager em = getEntityManager();
         try {
             Restaurant rest = em.find(Restaurant.class, id);
             em.getTransaction().begin();
             em.remove(rest);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
+
+    public void deleteMenuItem(Integer id) {
+        EntityManager em = getEntityManager();
+        try {
+            MenuItem mi = em.find(MenuItem.class, id);
+            em.getTransaction().begin();
+            em.remove(mi);
             em.getTransaction().commit();
         } finally {
             em.close();
@@ -176,6 +215,36 @@ public class Facade {
             em.close();
         }
         return rest;
+    }
+
+    public void addMenuItem(MenuItem mi) {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(mi);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
+    public MenuItemDTO getMenuItemDTO(Integer id) {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            MenuItem mi = em.find(MenuItem.class, id);
+            em.getTransaction().commit();
+            if (mi != null) {
+                MenuItemDTO miDTO = new MenuItemDTO(mi);
+                return miDTO;
+            } else {
+                return null;
+            }
+        } finally {
+            em.close();
+        }
     }
 
     public User findUser(String username) {
@@ -201,7 +270,7 @@ public class Facade {
             em.close();
         }
     }
-    
+
     public CityInfo getCityFromZip(String zip) {
         EntityManager em = getEntityManager();
         try {
@@ -247,13 +316,15 @@ public class Facade {
             em.close();
         }
     }
+    
+    //"select distinct new dto.FavRestDTO(r, f) from Restaurant r, FavRest f where r.id in (select f.restID from FavRest f where f.userName=:userName)"
 
     public List<FavRestDTO> getFavRestaurants(String userName) {
         EntityManager em = getEntityManager();
         try {
             List<FavRestDTO> list;
             //Query q = em.createQuery("select new dto.FavRestDTO(r, f) from Restaurant r, FavRest f where f.userName=:userName");
-            Query q = em.createQuery("select new dto.FavRestDTO(r, f) from Restaurant r, FavRest f where r.id in (select f.restID from FavRest f where f.userName=:userName)");
+            Query q = em.createQuery("select new dto.FavRestDTO(r, f) from Restaurant r, FavRest f where f.userName=:userName and f.restID=r.id" );
             q.setParameter("userName", userName);
             list = q.getResultList();
             return list;

@@ -83,17 +83,37 @@ class ApiFacade {
 
     addRestaurant = (restaurant) => {
         const options = this.makeOptions("POST", true, restaurant);
-        return fetch(URL + "/api/info/addrest", options)
+        return fetch(URL + "/api/info/addrest", options).then(handleHttpErrors);
     }
 
     editRestaurant = (restaurant) => {
         const options = this.makeOptions("PUT", true, restaurant);
-        return fetch(URL + "/api/info/editrest", options)
+        return fetch(URL + "/api/info/editrest", options).then(handleHttpErrors);
+    }
+
+    editMenuItem = (menuItem) => {
+        const options = this.makeOptions("PUT", true, menuItem);
+        return fetch(URL + "/api/info/editmenuitem", options).then(handleHttpErrors);
     }
 
     deleteRestaurant = (id) => {
         const options = this.makeOptions("DELETE", true);
         return fetch(URL + "/api/info?id=" + id, options).then(handleHttpErrors);
+    }
+
+    deleteMenuItem = (id) => {
+        const options = this.makeOptions("DELETE", true);
+        return fetch(URL + "/api/info/deletemenuitem?id=" + id, options).then(handleHttpErrors);
+    }
+
+    addMenuItem = (menuItem) => {
+        const options = this.makeOptions("POST", true, menuItem);
+        return fetch(URL + "/api/info/addmenuitem", options).then(handleHttpErrors);
+    }
+
+    getSingleMenuItem = (id) => {
+        const options = this.makeOptions("GET", true);
+        return fetch(URL + "/api/info/getmenuitem?id=" + id, options).then(handleHttpErrors);
     }
 
     getSingleRestaurant = (id) => {
@@ -109,6 +129,11 @@ class ApiFacade {
     getZipCodes = () => {
         const options = this.makeOptions("GET", true);
         return fetch(URL + "/api/info/getzipcodes", options).then(handleHttpErrors);
+    }
+
+    addFavRest = (favRest) => {
+        const options = this.makeOptions("PUT", true, favRest);
+        return fetch(URL + "/api/info/addfavrest", options).then(handleHttpErrors);
     }
 
     getFavRestaurants = (userName) => {

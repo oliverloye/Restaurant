@@ -1,8 +1,8 @@
 
 import React from 'react';
-import { Text, View, Platform, TouchableOpacity, StyleSheet, Button, WebView, ScrollView } from 'react-native';
+import { Text, View, Platform, TouchableOpacity, StyleSheet, Button, WebView, ScrollView, Image } from 'react-native';
 import { Constants, WebBrowser } from "expo";
-import { createStackNavigator  } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import FetchSite from './FetchSite.js';
 
 const Touchable = (props) => (
@@ -17,15 +17,19 @@ class HomeScreen extends React.Component {
     return (
       <ScrollView style={styles.white}>
       <Text></Text>
+      <Text style={styles.text}>Welcome to</Text>
       <Text></Text>
       <Text></Text>
-        <Text style={styles.text}>Welcome to our app!</Text>
+      <Text></Text>
+      <Text></Text>
+      <Text></Text>
+      <Image 
+        style={{width: 360, height: 150, marginLeft: 10, marginRight: 10}} 
+        source={require('./img/new_logo.png')} 
+      />
+        <Touchable onPress={() => navigate('fetchsite')} title="Find restaurants" />
         <Text></Text>
         <Text></Text>
-        <Text></Text>
-        <Text></Text>
-        <Text></Text>
-        <Touchable onPress={() => navigate('fetchsite')} title="FetchSite" />
       </ScrollView>
     )
   }
@@ -48,7 +52,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     marginTop: 100,
     alignItems: 'center',
-    backgroundColor: 'pink',
+    backgroundColor: 'black',
     borderRadius: 50,
     marginHorizontal: 40
   },
@@ -65,7 +69,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
     textAlign: "center", 
     fontSize: 23, 
-    backgroundColor: 'white'
+    fontWeight: 'bold'
   }
   
 });

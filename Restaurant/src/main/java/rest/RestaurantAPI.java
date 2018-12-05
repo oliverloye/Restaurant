@@ -10,7 +10,9 @@ import dto.CityInfoDTO;
 import dto.FavRestDTO;
 import dto.MenuItemDTO;
 import dto.RestaurantDTO;
+import dto.UserDTO;
 import entity.CityInfo;
+import entity.FavRest;
 import entity.MenuItem;
 import entity.Restaurant;
 import entity.User;
@@ -37,24 +39,24 @@ import javax.ws.rs.core.SecurityContext;
 
 @Path("info")
 public class RestaurantAPI {
-
+    
     private Facade facade = new Facade(Persistence.createEntityManagerFactory("pu"));
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private JsonParser parser = new JsonParser();
-
+    
     @Context
     private UriInfo context;
-
+    
     @Context
     SecurityContext securityContext;
-
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getlists")
     public Response getAllRestaurants() {
         List<RestaurantDTO> restaurants = facade.getAllRestaurants();
         int nextID = restaurants.get(restaurants.size() - 1).id + 1;
-
+        
         String remote = facade.getRemoteRestaurants();
         if (!remote.contains("Error")) {
             JsonArray jo = parser.parse(remote).getAsJsonArray();
@@ -80,10 +82,10 @@ public class RestaurantAPI {
             }
             restaurants.addAll(list);
         }
-
+        
         return Response.ok(gson.toJson(restaurants)).build();
     }
-
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getlist")
@@ -91,7 +93,7 @@ public class RestaurantAPI {
         List<RestaurantDTO> restaurants = facade.getAllRestaurants();
         return Response.ok(gson.toJson(restaurants)).build();
     }
-
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getname")
@@ -100,7 +102,7 @@ public class RestaurantAPI {
         String user = securityContext.getUserPrincipal().getName();
         return "\"" + user + "\"";
     }
-
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getmenu")
@@ -111,7 +113,7 @@ public class RestaurantAPI {
         }
         return Response.ok(gson.toJson(menuItems)).build();
     }
-
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getmyrestaurants")
@@ -122,7 +124,7 @@ public class RestaurantAPI {
         }
         return Response.ok(gson.toJson(myRest)).build();
     }
-
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getrestaurant")
@@ -130,7 +132,7 @@ public class RestaurantAPI {
         RestaurantDTO myRest = facade.getRestaurantDTO(id);
         return Response.ok(gson.toJson(myRest)).build();
     }
-
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getmenuitem")
@@ -138,7 +140,7 @@ public class RestaurantAPI {
         MenuItemDTO mi = facade.getMenuItemDTO(id);
         return Response.ok(gson.toJson(mi)).build();
     }
-
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getusers")
@@ -149,7 +151,7 @@ public class RestaurantAPI {
 //        }
         return Response.ok(gson.toJson(users)).build();
     }
-
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getfoodtypes")
@@ -157,7 +159,7 @@ public class RestaurantAPI {
         List<String> foodTypes = facade.getFoodTypes();
         return Response.ok(gson.toJson(foodTypes)).build();
     }
-
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getzipcodes")
@@ -165,7 +167,7 @@ public class RestaurantAPI {
         List<String> zipCodes = facade.getZipCodes();
         return Response.ok(gson.toJson(zipCodes)).build();
     }
-
+    
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("addfavrest")
@@ -177,7 +179,7 @@ public class RestaurantAPI {
         facade.addFavRestaurant(restID, userName);
         return Response.ok(json).build();
     }
-
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getfavrests")
@@ -185,7 +187,16 @@ public class RestaurantAPI {
         List<FavRestDTO> myRest = facade.getFavRestaurants(userName);
         return Response.ok(gson.toJson(myRest)).build();
     }
-
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("getsinglefavrest")
+    public Response getSingleFavRest(@QueryParam("userName") String userName, @QueryParam("restID") String restID) {
+        Integer restid = Integer.parseInt(restID);
+        FavRestDTO myFav = facade.getSingleFavRest(userName, restid);
+        return Response.ok(gson.toJson(myFav)).build();
+    }
+    
     @PUT
     @Path("editmenuitem")
     //@RolesAllowed("rest_owner")
@@ -196,11 +207,29 @@ public class RestaurantAPI {
         Restaurant rest = facade.getRestaurant(jo.get("restID").getAsInt());
         MenuItem mi = new MenuItem(rest, jo.get("itemName").getAsString(),
                 jo.get("description").getAsString(), jo.get("price").getAsInt());
-
+        
         facade.editMenuItem(mi, jo.get("editID").getAsInt());
         return Response.ok(json).build();
     }
-
+    
+    @PUT
+    @Path("editfavrest")
+    //@RolesAllowed("rest_owner")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response editFavRest(String json) throws NotFoundException {
+        JsonObject jo = parser.parse(json).getAsJsonObject();
+        
+        Integer restID = jo.get("restID").getAsInt();
+        String comment = jo.get("comment").getAsString();
+        String rating = jo.get("rating").getAsString();
+        String userName = jo.get("userName").getAsString();
+        FavRest favrest = new FavRest(restID, userName, comment, rating);
+        //TODO complete
+        facade.editFavRest(favrest, restID, userName);
+        return Response.ok(json).build();
+    }
+    
     @PUT
     @Path("editrest")
     //@RolesAllowed("rest_owner")
@@ -219,7 +248,7 @@ public class RestaurantAPI {
         facade.editRestaurant(rest, jo.get("id").getAsInt());
         return Response.ok(json).build();
     }
-
+    
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     public String deleteRestaurant(@QueryParam("id") Integer id) {
@@ -228,7 +257,7 @@ public class RestaurantAPI {
         return "\"" + answer + "\"";
         //return Response.ok().build();
     }
-
+    
     @DELETE
     @Path("deletemenuitem")
     @Produces(MediaType.APPLICATION_JSON)
@@ -238,7 +267,7 @@ public class RestaurantAPI {
         return "\"" + answer + "\"";
         //return Response.ok().build();
     }
-
+    
     @POST
     @Path("addrest")
     @RolesAllowed("rest_owner")
@@ -261,10 +290,10 @@ public class RestaurantAPI {
         } catch (Exception e) {
             // TODO
         }
-
+        
         return Response.ok(json).build();
     }
-
+    
     @POST
     @Path("addmenuitem")
     //@RolesAllowed("rest_owner")
@@ -284,7 +313,7 @@ public class RestaurantAPI {
         return "\"" + answer + "\"";
         //return Response.ok().build();
     }
-
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("swapi")
@@ -340,4 +369,14 @@ public class RestaurantAPI {
 //        facade.addRestaurant(rest);
 //        return Response.ok(json).build();
 //    }
+    @DELETE
+    @Path("deleteuser")
+    @RolesAllowed("admin")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteUser(String json) {
+        UserDTO user = gson.fromJson(json, UserDTO.class);
+        facade.deleteUser(user.userName);
+        return Response.ok(user).build();
+    }
+    
 }

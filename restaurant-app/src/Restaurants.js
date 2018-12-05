@@ -109,8 +109,16 @@ export default class Restaurants extends Component {
     }
 
     async componentDidMount() {
-        const restaurantList = await facade.getAllRestaurants();
-        this.setState({ restaurantList });
+        try {
+            this.mounted = true;
+            const restaurantList = await facade.getAllRestaurants();
+            if (this.mounted) {
+                this.setState({ restaurantList });
+            }
+        }
+        catch{
+
+        }
     }
 
     addFavoriteRestaurant = () => {
@@ -121,6 +129,10 @@ export default class Restaurants extends Component {
             restId: this.props.rowId,
             username: this.props.username
         });
+    }
+
+    componentWillUnmount() {
+        this.mounted = false;
     }
 
     render() {

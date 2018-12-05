@@ -168,13 +168,17 @@ class DeleteUser extends Component {
 
     async componentDidMount() {
         const userList = await facade.getAllUsers();
-        console.log(this.state.userList);
         this.setState({ userList });
+        console.log(this.state.userList);
     }
 
-    handleClick = (userName) => {
-        console.log('success' + userName);
+    handleClick = async (userName) => {
+        console.log('success: ' + userName);
         //this.setState({ edit: true, editID: id })
+        await facade.deleteUser(userName);
+        const userList = await facade.getAllUsers();
+        this.setState({ userList });
+
     }
 
     render() {

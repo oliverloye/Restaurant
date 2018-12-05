@@ -10,6 +10,7 @@ import dto.CityInfoDTO;
 import dto.FavRestDTO;
 import dto.MenuItemDTO;
 import dto.RestaurantDTO;
+import dto.UserDTO;
 import entity.CityInfo;
 import entity.FavRest;
 import entity.MenuItem;
@@ -368,4 +369,14 @@ public class RestaurantAPI {
 //        facade.addRestaurant(rest);
 //        return Response.ok(json).build();
 //    }
+    @DELETE
+    @Path("deleteuser")
+    @RolesAllowed("admin")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteUser(String json) {
+        UserDTO user = gson.fromJson(json, UserDTO.class);
+        facade.deleteUser(user.userName);
+        return Response.ok(user).build();
+    }
+    
 }

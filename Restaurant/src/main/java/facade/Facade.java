@@ -257,6 +257,23 @@ public class Facade {
         }
     }
 
+    public void deleteUser(String username) {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            User user = em.find(User.class, username);
+            List<RestaurantDTO> restaurants = getMyRestaurants(username);
+            for (int i = 0; i < restaurants.size(); i++) {
+                deleteRestaurant(restaurants.get(i).id);
+            }
+            em.remove(user);
+            em.getTransaction().commit();
+
+        } finally {
+            em.close();
+        }
+    }
+
     public List<String> getUsers() {
         EntityManager em = getEntityManager();
         try {

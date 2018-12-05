@@ -3,7 +3,9 @@ import React from 'react';
 import { Text, View, Platform, TouchableOpacity, StyleSheet, Button, WebView, ScrollView, Image } from 'react-native';
 import { Constants, WebBrowser } from "expo";
 import { createStackNavigator } from 'react-navigation';
-import FetchSite from './FetchSite.js';
+//import FetchSite from './FetchSite.js';
+//import TableData from './TableData.js';
+import ListViewData from './ListViewData.js';
 
 const Touchable = (props) => (
   <TouchableOpacity style={styles.button} onPress={props.onPress}>
@@ -11,23 +13,17 @@ const Touchable = (props) => (
   </TouchableOpacity>)
  
 class HomeScreen extends React.Component {
-  static navigationOptions = { title: 'Welcome page' };
+  static navigationOptions = { title: ' ' };
   render() {
     const { navigate } = this.props.navigation;
     return (
       <ScrollView style={styles.white}>
-      <Text></Text>
-      <Text style={styles.text}>Welcome to</Text>
-      <Text></Text>
-      <Text></Text>
-      <Text></Text>
-      <Text></Text>
-      <Text></Text>
       <Image 
-        style={{width: 360, height: 150, marginLeft: 10, marginRight: 10}} 
+        style={styles.image} 
         source={require('./img/new_logo.png')} 
       />
-        <Touchable onPress={() => navigate('fetchsite')} title="Find restaurants" />
+         {/* <Touchable onPress={() => navigate('tableData')} title="Find restaurants" />  */}
+         <Touchable onPress={() => navigate('listViewData')} title="Find restaurants" /> 
         <Text></Text>
         <Text></Text>
       </ScrollView>
@@ -39,7 +35,9 @@ export default App = () => <RouteStack style={{ marginTop: Platform.OS === 'ios'
 
 const RouteStack = createStackNavigator({
   Home: { screen: HomeScreen },
-  fetchsite: { screen: FetchSite },
+  //fetchsite: { screen: FetchSite },
+  //tableData: {screen: TableData },
+  listViewData: {screen: ListViewData },
 });
 
 const styles = StyleSheet.create({
@@ -49,18 +47,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   button: {
-    marginBottom: 30,
-    marginTop: 100,
+    marginTop: 150,
     alignItems: 'center',
     backgroundColor: 'black',
-    borderRadius: 50,
+    borderRadius: 70,
+    paddingTop: 20,
+    paddingBottom: 20,
     marginHorizontal: 40
   },
   buttonText: {
-    padding: 20,
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 20
+    fontSize: 20,
+    
   },
   white: {
     backgroundColor: 'white'
@@ -69,7 +68,14 @@ const styles = StyleSheet.create({
     marginTop: 50,
     textAlign: "center", 
     fontSize: 23, 
-    fontWeight: 'bold'
+  },
+  image: {
+    width: 360, 
+    height: 150, 
+    marginLeft: 10, 
+    marginRight: 10, 
+    marginTop: 100, 
+    marginBottom: 0
   }
   
 });

@@ -257,6 +257,23 @@ public class Facade {
         }
     }
 
+    public void deleteUser(String username) {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            User user = em.find(User.class, username);
+            List<RestaurantDTO> restaurants = getMyRestaurants(username);
+            for (int i = 0; i < restaurants.size(); i++) {
+                deleteRestaurant(restaurants.get(i).id);
+            }
+            em.remove(user);
+            em.getTransaction().commit();
+
+        } finally {
+            em.close();
+        }
+    }
+
     public List<String> getUsers() {
         EntityManager em = getEntityManager();
         try {
@@ -316,15 +333,14 @@ public class Facade {
             em.close();
         }
     }
-    
-    //"select distinct new dto.FavRestDTO(r, f) from Restaurant r, FavRest f where r.id in (select f.restID from FavRest f where f.userName=:userName)"
 
+    //"select distinct new dto.FavRestDTO(r, f) from Restaurant r, FavRest f where r.id in (select f.restID from FavRest f where f.userName=:userName)"
     public List<FavRestDTO> getFavRestaurants(String userName) {
         EntityManager em = getEntityManager();
         try {
             List<FavRestDTO> list;
             //Query q = em.createQuery("select new dto.FavRestDTO(r, f) from Restaurant r, FavRest f where f.userName=:userName");
-            Query q = em.createQuery("select new dto.FavRestDTO(r, f) from Restaurant r, FavRest f where f.userName=:userName and f.restID=r.id" );
+            Query q = em.createQuery("select new dto.FavRestDTO(r, f) from Restaurant r, FavRest f where f.userName=:userName and f.restID=r.id");
             q.setParameter("userName", userName);
             list = q.getResultList();
             return list;

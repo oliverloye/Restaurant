@@ -43,7 +43,6 @@ class ApiFacade {
         const options = this.makeOptions("POST", true, { username: user, password: pass });
         return fetch(URL + "/api/adduser", options, true)
             .then(handleHttpErrors)
-            .then(res => { this.setToken(res.token) })
     }
 
     getNumberOfUsers = () => {
@@ -139,6 +138,11 @@ class ApiFacade {
     getFavRestaurants = (userName) => {
         const options = this.makeOptions("GET", true);
         return fetch(URL + "/api/info/getfavrests?userName=" + userName, options).then(handleHttpErrors);
+    }
+
+    deleteUser = (userName) => {
+        const options = this.makeOptions("DELETE", true, { userName: userName });
+        return fetch(URL + "/api/info/deleteuser", options).then(handleHttpErrors);
     }
 
     makeOptions(method, addToken, body) {

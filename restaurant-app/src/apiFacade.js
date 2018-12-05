@@ -141,6 +141,15 @@ class ApiFacade {
         return fetch(URL + "/api/info/getfavrests?userName=" + userName, options).then(handleHttpErrors);
     }
 
+    getSingleFavRest = (userName, restID) => {
+        const options = this.makeOptions("GET", true);
+        return fetch(URL + "/api/info/getsinglefavrest?userName=" + userName + "&restID=" + restID, options).then(handleHttpErrors);
+    }
+    
+    editFavRest = (favRest) => {
+        const options = this.makeOptions("PUT", true, favRest);
+        return fetch(URL + "/api/info/editfavrest", options).then(handleHttpErrors);
+    }
     makeOptions(method, addToken, body) {
         var opts = {
             method: method,
